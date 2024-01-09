@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '@/app/globals.css';
-import Header from '@/components/pages/main/Header/Header';
+import '../globals.css';
+import Header from '@/components/common/Header/Header';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  weight: ['300', '400','500','600', '700'],
+})
 
 export const metadata: Metadata = {
   title: 'Adventurer',
-  description: 'Twój przewodnik i doradca w podróżowaniu. Znajdź dopasowany do Ciebie, ooryginalny pomysł na podróż.',
-  keywords: "podróż, przewodnik, pomysły, wakacje, wskazówki"
+  description: 'Twój przewodnik i doradca w podróżowaniu. Znajdź dopasowany do Ciebie, oryginalny pomysł na podróż w dowolnym celu.',
+  keywords: "podróż, przewodnik, pomysły, wakacje, praca za granicą, emigracja, wskazówki"
 }
 
 export default function RootLayout({
@@ -17,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="pl">
+      <body className={`${inter.className} bg-emerald-400 h-screen`}>
         <Header />
         {children}
       </body>
