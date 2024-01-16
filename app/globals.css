@@ -21,7 +21,8 @@ body {
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      #d1fae5
     )
-    rgb(var(--background-start-rgb));
+    #ecfdf5;
+    @apply bg-emerald-300 h-full min-h-screen;
 }

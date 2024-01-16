@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from './Button';
 
  interface TagProps {
    data: string;
@@ -17,14 +18,13 @@ import React from 'react';
        {data}
      </span>
      {handleDelete && (
-       <button
-         className="ml-2 text-white cursor-pointer"
+       <Button
          onClick={() => {
            handleDelete(data);
          }}
        >
          &#x2715;
-       </button>
+       </Button>
      )}
    </div>
  );
