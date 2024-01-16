@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { InputTags } from '@/components/common/inputTags/InputTags';
-import { urls } from 'app/utils/urls';
+import { useRouter } from 'next/navigation';
+
+import { InputTags } from '@/components/common/inputTags/InputTags'
 import { useUrlParams } from 'app/customHook.ts/useUrlParams';
+import { useParamsObject } from 'app/customHook.ts/useParamsObject';
+import { Button } from '@/components/ui/Button';
 // import useSWR from 'swr';
 // import { useSession } from 'next-auth/react';
 
@@ -16,10 +18,8 @@ interface CriteriaFormFields{
 
 const CriteriaForm = () => {
   const userId = 1;
-  const {rootPath} = urls();
   const router = useRouter();
-  const searchParams = useSearchParams(); 
-
+  const paramsObject = useParamsObject();
   const [formData, setFormData] = useState<CriteriaFormFields>({
     disliked: [],
     favourite: [],
@@ -27,31 +27,31 @@ const CriteriaForm = () => {
     tags: []   
  }); 
 
- const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
   const {disliked, favourite, tags, isCreative} = formData;
+  const paramsValues = {
+    favourite: favourite.join(","),
+    disliked: disliked.join(","),
+    isCreative: isCreative.toString(),
+    tags: tags.join(","),  
+  };
+  const currentParams = useUrlParams(paramsValues);
+  console.log({paramsObject});
 
-  if(disliked.length && favourite.length){
-    const params = {
-      disliked: disliked.join(","),
-      favourite: favourite.join(","),
-      isCreative: isCreative.toString(),
-      tags: tags.join(","),  
-    };
-    const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
-    
-    Object.entries(params).forEach( ([key, value]) => {
-      currentParams.set(key, value);
-    });
-    
-    return currentParams.toString();
-    
-  //  router.push(`/results?${urlWithParams}`);
+  useEffect(() => {
+    window.history.pushState(
+      {}, 
+      '', 
+      `?${currentParams.toString()}`
+    );  
+  }, [currentParams]);
 
-  }
-};
+ const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
+    if(favourite.length){ 
+      router.push(`/destinations?${currentParams.toString()}`);
+    }
+  };
 
   const handleInputChange = (key: string, v: string[] | boolean) =>{
     setFormData(prev => ({
@@ -63,7 +63,6 @@ const CriteriaForm = () => {
   return (
     <form onSubmit={handleFormSubmit} className="w-full flex flex-col items-center">
       <div className="w-full mb-8">
-
         <InputTags 
           id="favourite"
           label='Ulubione miejsca'
@@ -73,7 +72,6 @@ const CriteriaForm = () => {
       </div>
 
       <div className="w-full mb-8">
-
         <InputTags 
           id="disliked"
           label='Nielubiane miejsca / miejsca w których Ci się nie podobało'
@@ -83,7 +81,6 @@ const CriteriaForm = () => {
       </div>
 
       <div className="w-full mb-8">
-
         <InputTags
             id="tags"
             label='Tagi / Cechy charakterystyczne (np. zabytki, nigtlife, tanio, rodzinnie, city break)'
@@ -112,13 +109,13 @@ const CriteriaForm = () => {
               Zaloguj się w celu korzystania
             </div>
           )}
-          <button
+          <Button
             type="submit"
-            className={`bg-blue-500 text-white py-2 px-4 rounded ${!userId && 'cursor-not-allowed'}`}
+            variant="primary"
             disabled={!userId}
           >
             START
-          </button>
+          </Button>
         </div>
       </div>
     </form>

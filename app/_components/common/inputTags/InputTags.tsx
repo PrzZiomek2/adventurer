@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { Tag } from "@/components/ui/Tag";
 import { FC, useRef } from "react";
 
@@ -9,7 +11,7 @@ interface InputTagsProps {
 }
 
 export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
-  const tagRef = useRef<HTMLInputElement>();
+  const tagRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = (value: string) => {
     const newTags = tags.filter((val) => val !== value);
@@ -31,17 +33,16 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
           {label || 'Dodawanie tagów'}
         </label>
-        <input
+        <Input
           ref={tagRef}
           type="text"
           id={id}
           name={id}
-          className="mt-1 p-2 border rounded-md w-full"
           placeholder="Wpisz tutaj"
         />
       </div>
-      <button
-        className="mt-4 p-2 text-blue-500 border border-blue-500 rounded cursor-pointer"
+      <Button
+        type="button"
         onClick={() => {
           if (!tagRef.current) return;
           setTags([...tags, tagRef.current!.value]);
@@ -49,7 +50,7 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
         }}
       >
         Dodaj
-      </button>
+      </Button>
     </div>
   );
 };

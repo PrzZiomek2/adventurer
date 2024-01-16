@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 
 import { provideDestination } from '../../../openAiCommands';
 import { getOpenaiCompletion } from 'app/lib/openai';
+import { inferenceQuery } from 'app/lib/huggingface';
+import { HfInference } from '@huggingface/inference';
 
 export async function POST(req: Request) {
    const body = await req.json(); 
-   const {tags, disliked, favourite, temperature} = body as DestinationCriteria; console.log({body});
+   const {tags, disliked, favourite, temperature} = body as DestinationCriteria; 
 
    const content = provideDestination({
       tags, 
@@ -13,11 +15,5 @@ export async function POST(req: Request) {
       favourite
    });
 
-   const completion = await getOpenaiCompletion({
-      content,
-      temperature
-   })
-   .catch(err => console.log(err)); 
-
-   return NextResponse.json({ completion });
+   return NextResponse.json({ completion: {} });
 };

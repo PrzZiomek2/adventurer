@@ -4,3 +4,14 @@ interface DestinationCriteria{
    favourite: string[];
    temperature
 }
+
+interface LoginFormValues {
+   email: string;
+   password: string;
+ }
+
+ interface RegisterFormValues {
+   name: string;
+   email: string;
+   password: string;
+ }
