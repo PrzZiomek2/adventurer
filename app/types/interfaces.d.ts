@@ -15,3 +15,8 @@ interface LoginFormValues {
    email: string;
    password: string;
  }
+
+ interface NextResponseBasic {
+  message: string;
+  status: number;
+ }
