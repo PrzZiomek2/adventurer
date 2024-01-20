@@ -1,17 +1,20 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { LoginForm } from "@/components/pages/login/LoginForm";
 
-import { LoginForm } from "@/components/pages/signin/LoginForm";
 type FormValues = {
    email: string;
    password: string;
 };
 
 export default function SignIn() {
+   const router = useRouter();
+
    const schema = yup.object().shape({
       email: yup
          .string()
@@ -24,12 +27,9 @@ export default function SignIn() {
       control,
       handleSubmit,
       formState: { errors, isSubmitting },
+      reset,
    } = useForm({
       resolver: yupResolver(schema),
-   });
-
-   const onSubmitHandler = handleSubmit((data: LoginFormValues) => {
-      onSubmit(data);
    });
 
    const onSubmit = async (data: FormValues) => {
@@ -38,8 +38,17 @@ export default function SignIn() {
          email: data.email,
          password: data.password,
          callbackUrl: "/",
-      });
+      }).catch((err) => console.log(err));
+
+      if (res?.status === 201) {
+         reset();
+         router.push("/");
+      }
    };
+
+   const onSubmitHandler = handleSubmit((data: LoginFormValues) => {
+      onSubmit(data);
+   });
 
    return (
       <div>

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { SlLogin } from "react-icons/sl";
-import { MainMenu } from "./MainMenu";
+import { MainMenu } from "@/components/common/Header/parts/MainMenu";
 
 const Header: React.FC = () => {
    return (
@@ -12,7 +12,7 @@ const Header: React.FC = () => {
             <Link href="/">Adventurer</Link>
          </h1>
          <div>
-            <Link href="/auth/signin">
+            <Link href="/signin">
                <SlLogin className="text-xl cursor-pointer" />
             </Link>
          </div>

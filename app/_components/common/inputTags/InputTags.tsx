@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 import { Tag } from "@/components/ui/Tag";
 import { FC, useRef } from "react";
 
@@ -26,12 +27,7 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
             ))}
          </div>
          <div className="mt-6">
-            <label
-               htmlFor={id}
-               className="block text-sm font-medium text-gray-700"
-            >
-               {label || "Dodawanie tagów"}
-            </label>
+            <Label htmlFor={id}>{label || "Dodawanie tagów"}</Label>
             <Input
                ref={tagRef}
                type="text"
