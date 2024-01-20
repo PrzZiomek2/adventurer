@@ -2,6 +2,8 @@ import React from "react";
 import { useForm, Controller, Control, FieldErrors } from "react-hook-form";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
+import { Form } from "@/components/ui/Form";
 
 interface RegisterFormProps {
    onSubmitHandler: (
@@ -20,14 +22,9 @@ export const RegisterForm = ({
 }: RegisterFormProps) => {
    return (
       <div className="max-w-2xl mx-auto mt-10">
-         <form onSubmit={onSubmitHandler}>
+         <Form onSubmit={onSubmitHandler}>
             <div className="mb-4">
-               <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Imię
-               </label>
+               <Label htmlFor="name">Imię</Label>
                <Controller
                   name="name"
                   control={control}
@@ -49,12 +46,7 @@ export const RegisterForm = ({
                )}
             </div>
             <div className="mb-4">
-               <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Email
-               </label>
+               <Label htmlFor="email">Email</Label>
                <Controller
                   name="email"
                   control={control}
@@ -76,12 +68,7 @@ export const RegisterForm = ({
                )}
             </div>
             <div className="mb-4">
-               <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Hasło
-               </label>
+               <Label htmlFor="password">Hasło</Label>
                <Controller
                   name="password"
                   control={control}
@@ -105,7 +92,7 @@ export const RegisterForm = ({
             <Button type="submit" isSubmitting={isSubmitting}>
                Zapisz
             </Button>
-         </form>
+         </Form>
       </div>
    );
 };

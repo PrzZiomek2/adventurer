@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { SubmitHandler } from "react-hook-form";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { urls } from "app/utils/urls";
 import { RegisterForm } from "@/components/pages/register/RegisterForm";
 import { postServerData } from "app/utils/handlersApi";
 
@@ -48,7 +46,7 @@ export default function Register() {
 
       if (res?.status === 201) {
          reset();
-         router.push("/auth/signin");
+         router.push("/login");
       }
    };
 

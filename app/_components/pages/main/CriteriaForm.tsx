@@ -6,6 +6,9 @@ import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/customHook.ts/useUrlParams";
 import { useParamsObject } from "app/customHook.ts/useParamsObject";
 import { Button } from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
+import { Form } from "@/components/ui/Form";
+import { Checkbox } from "@/components/ui/Checkbox";
 // import useSWR from 'swr';
 // import { useSession } from 'next-auth/react';
 
@@ -56,12 +59,11 @@ const CriteriaForm = () => {
       }));
    };
 
+   const inputWrapClasses = "w-full mb-8";
+
    return (
-      <form
-         onSubmit={handleFormSubmit}
-         className="w-full flex flex-col items-center"
-      >
-         <div className="w-full mb-8">
+      <Form onSubmit={handleFormSubmit}>
+         <div className={inputWrapClasses}>
             <InputTags
                id="favourite"
                label="Ulubione miejsca"
@@ -70,7 +72,7 @@ const CriteriaForm = () => {
             />
          </div>
 
-         <div className="w-full mb-8">
+         <div className={inputWrapClasses}>
             <InputTags
                id="disliked"
                label="Nielubiane miejsca / miejsca w których Ci się nie podobało"
@@ -79,7 +81,7 @@ const CriteriaForm = () => {
             />
          </div>
 
-         <div className="w-full mb-8">
+         <div className={inputWrapClasses}>
             <InputTags
                id="tags"
                label="Tagi / Cechy charakterystyczne (np. zabytki, nigtlife, tanio, rodzinnie, city break)"
@@ -88,22 +90,19 @@ const CriteriaForm = () => {
             />
          </div>
 
-         <div className="w-full mb-8">
-            <label htmlFor="isCreative" className="mb-2">
+         <div className={inputWrapClasses}>
+            <Label htmlFor="isCreative" className="mb-2">
                Losowo
-            </label>
-            <input
-               type="checkbox"
+            </Label>
+            <Checkbox
                id="isCreative"
                name="isCreative"
                checked={formData.isCreative}
-               onChange={(e) =>
-                  handleInputChange("isCreative", e.currentTarget.checked)
-               }
+               onChange={(checked) => handleInputChange("isCreative", checked)}
             />
          </div>
 
-         <div className="w-full mb-8">
+         <div className={inputWrapClasses}>
             <div className="relative">
                {!userId && (
                   <div className="absolute bg-black text-white p-2 rounded">
@@ -115,7 +114,7 @@ const CriteriaForm = () => {
                </Button>
             </div>
          </div>
-      </form>
+      </Form>
    );
 };
 

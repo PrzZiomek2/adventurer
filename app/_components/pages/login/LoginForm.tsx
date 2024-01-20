@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Control, Controller, FieldErrors } from "react-hook-form";
+import { Label } from "@/components/ui/Label";
+import { Form } from "@/components/ui/Form";
 
 interface LoginFormProps {
    onSubmitHandler: (
@@ -21,14 +23,9 @@ export const LoginForm = ({
 }: LoginFormProps) => {
    return (
       <div className="max-w-[600px] mx-auto mt-12">
-         <form onSubmit={onSubmitHandler} className="max-w-md mx-auto mt-10">
+         <Form onSubmit={onSubmitHandler}>
             <div className="mb-4">
-               <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Login
-               </label>
+               <Label htmlFor="email">Login</Label>
                <Controller
                   name="email"
                   control={control}
@@ -50,12 +47,7 @@ export const LoginForm = ({
                )}
             </div>
             <div className="mb-4">
-               <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Hasło
-               </label>
+               <Label htmlFor="password">Hasło</Label>
                <Controller
                   name="password"
                   control={control}
@@ -85,7 +77,7 @@ export const LoginForm = ({
                   Zarejestruj się
                </Link>
             </p>
-         </form>
+         </Form>
       </div>
    );
 };

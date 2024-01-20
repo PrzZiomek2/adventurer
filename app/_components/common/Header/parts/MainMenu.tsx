@@ -1,10 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+
 import { SlMenu } from "react-icons/sl";
 import { AiOutlineClose } from "react-icons/ai";
 
 export const MainMenu: React.FC = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
+   const session = useSession();
+   console.log({ session });
 
    const toggleMenu = () => {
       setMenuOpen(!isMenuOpen);
