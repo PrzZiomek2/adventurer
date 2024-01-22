@@ -11,17 +11,19 @@ const authSetup = {
             email: { label: "Username", type: "text" },
             password: { label: "Password", type: "password" },
          },
-         async authorize(credentials, req) {
+         async authorize(credentials) {
             if (!credentials?.email || !credentials?.password) return null;
             try {
-               const res = await postServerData("signin", {
+               const res = await postServerData("login", {
                   email: credentials.email,
                   password: credentials.password,
                });
+               console.log({ resuuu: res });
 
                if (res.status === 200) {
-                  return res.result;
+                  return res.user;
                } else {
+                  console.log(res.message);
                   return null;
                }
             } catch (error) {
@@ -31,9 +33,25 @@ const authSetup = {
          },
       }),
    ],
+   callbacks: {
+      async jwt({ user, token }) {
+         const res = { ...token };
+         if (user) {
+            res.user = user;
+         }
+         return res;
+      },
+      async session({ session, token }) {
+         const { user, ...tokenOnly } = token;
+         session.token = tokenOnly;
+         session.user = user;
+         return session;
+      },
+   },
    pages: {
       signIn: "/login",
    },
+   secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authSetup);

@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-   variant?: string;
+   variant?: "primary" | "secondary" | "icon";
    isSubmitting?: boolean;
    children: string | React.ReactNode;
    onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -19,6 +19,7 @@ export const Button = ({
       primary: "p-2 rounded-md bg-emerald-700 text-white py-2 px-4 w-full",
       secondary:
          "p-2 rounded-md bg-transparent text-emerald-900 py-2 px-4 w-full border-emerald-900 border",
+      icon: "p-0",
    };
 
    return (
@@ -26,7 +27,7 @@ export const Button = ({
          {...props}
          className={`
             ${classes[variant]} 
-            ${isSubmitting && "opacity-50 cursor-not-allowed"}
+            ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
             ${className || ""}
          `}
       >

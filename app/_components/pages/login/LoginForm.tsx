@@ -71,12 +71,6 @@ export const LoginForm = ({
             <Button type="submit" isSubmitting={isSubmitting}>
                Zaloguj się
             </Button>
-            <p className="mt-3 mb-0 text-xs font-bold">
-               Nie masz jeszcze konta?{" "}
-               <Link href="/register" className="text-danger">
-                  Zarejestruj się
-               </Link>
-            </p>
          </Form>
       </div>
    );
