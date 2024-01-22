@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LoginForm } from "@/components/pages/login/LoginForm";
+import Link from "next/link";
 
 type FormValues = {
    email: string;
@@ -59,6 +60,10 @@ export default function SignIn() {
             errors={errors}
             isSubmitting={isSubmitting}
          />
+         <p className="mt-3 mb-0 text-xs font-bold">
+            Nie masz jeszcze konta?{" "}
+            <Link href="/register">Zarejestruj się</Link>
+         </p>
       </div>
    );
 }

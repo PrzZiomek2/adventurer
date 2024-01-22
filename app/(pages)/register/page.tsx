@@ -7,6 +7,7 @@ import * as yup from "yup";
 
 import { RegisterForm } from "@/components/pages/register/RegisterForm";
 import { postServerData } from "app/utils/handlersApi";
+import Link from "next/link";
 
 export default function Register() {
    const router = useRouter();
@@ -63,6 +64,9 @@ export default function Register() {
             errors={errors}
             isSubmitting={isSubmitting}
          />
+         <p>
+            Jeśli posadasz konto <Link href="/login">Zaloguj się</Link>
+         </p>
       </div>
    );
 }
