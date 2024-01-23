@@ -9,7 +9,7 @@ export async function POST(req: Request) {
    try {
       const body = await req.json();
       const { name, password, email } = body as RegisterFormValues;
-      console.log({ body });
+
       const headersList = headers();
       const hashedPassword = await bcrypt.hash(password, 10);
       const params: PutCommandInput = {
@@ -20,7 +20,6 @@ export async function POST(req: Request) {
             email,
             createdAt: new Date().toLocaleDateString(),
             id: crypto.randomUUID(),
-            userIP: headersList.get("x-forwarded-for"),
             tokens: 5000,
          },
       };

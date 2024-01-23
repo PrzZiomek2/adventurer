@@ -1,16 +1,19 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { RegisterForm } from "@/components/pages/register/RegisterForm";
 import { postServerData } from "app/utils/handlersApi";
-import Link from "next/link";
+import { useToastReducer } from "app/customHook.ts/useToastReducer";
+import Toast from "@/components/common/Toast/Toast";
 
 export default function Register() {
    const router = useRouter();
+   const [toastState, dispatchState] = useToastReducer();
 
    const schema = yup.object().shape({
       name: yup
@@ -37,17 +40,23 @@ export default function Register() {
    });
 
    const createAccount = async (data: RegisterFormValues) => {
-      const res = await postServerData("register", {
-         name: data.name,
-         email: data.email,
-         password: data.password,
-      }).catch((err) => console.log(err));
+      try {
+         const res = await postServerData("register", {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+         });
 
-      console.log({ res });
-
-      if (res?.status === 201) {
-         reset();
-         router.push("/login");
+         if (res?.status === 201) {
+            reset();
+            router.push("/login");
+         }
+      } catch (err) {
+         console.error(err);
+         dispatchState({
+            type: "OPEN_TOAST",
+            message: "Bład serwera",
+         });
       }
    };
 
@@ -58,6 +67,11 @@ export default function Register() {
    return (
       <div>
          <h2>Dołącz do nas</h2>
+         <Toast
+            message={toastState.message}
+            open={toastState.open}
+            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+         />
          <RegisterForm
             onSubmitHandler={onSubmitHandler}
             control={control}

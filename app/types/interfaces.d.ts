@@ -29,25 +29,21 @@ interface User {
    tokens: number;
 }
 
-interface Session {
-   data: {
-      expires: string;
-      token: {
-         email: string;
-         exp: number;
-         iat: number;
-         jti: string;
-         name: string;
-         sub: string;
-      };
-      user: {
-         createdAt: string;
-         email: string;
-         id: string;
-         name: string;
-         tokens: number;
-      };
-   };
-   status: string;
-   update: Function;
+interface SessionToken {
+   email: string;
+   exp: number;
+   iat: number;
+   jti: string;
+   name: string;
+   sub: string;
 }
+
+// interface Session {
+//    data: {
+//       expires: string;
+//       token: SessionToken;
+//       user: User
+//    };
+//    status: string;
+//    update: Function;
+// }

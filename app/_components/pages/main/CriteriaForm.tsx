@@ -38,13 +38,12 @@ const CriteriaForm = () => {
       tags: tags.join(","),
    };
    const currentParams = useUrlParams(paramsValues);
-   console.log({ paramsObject });
 
    useEffect(() => {
       window.history.pushState({}, "", `?${currentParams.toString()}`);
    }, [currentParams]);
 
-   const handleFormSubmit = async (e: React.FormEvent) => {
+   const handleFormSubmit = (e: React.FormEvent) => {
       e.preventDefault();
 
       if (favourite.length) {
