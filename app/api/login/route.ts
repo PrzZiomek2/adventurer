@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       }
    } catch (error) {
       return NextResponse.json({
-         message: `Bład serwera podczas logowania: ${error}`,
+         message: `Bład podczas logowania: ${error}`,
          status: 500,
       });
    }

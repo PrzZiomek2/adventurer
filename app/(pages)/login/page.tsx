@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LoginForm } from "@/components/pages/login/LoginForm";
 import Link from "next/link";
+import Toast from "@/components/common/Toast/Toast";
+import { useToastReducer } from "app/customHook.ts/useToastReducer";
 
 type FormValues = {
    email: string;
@@ -15,13 +17,17 @@ type FormValues = {
 
 export default function SignIn() {
    const router = useRouter();
+   const [toastState, dispatchState] = useToastReducer();
 
    const schema = yup.object().shape({
       email: yup
          .string()
-         .email("Email nieprawidłowy")
+         .email("Nieprawidłowa forma adresu email")
          .required("Pole email nie może być puste"),
-      password: yup.string().required("Pole hasło nie może byc puste"),
+      password: yup
+         .string()
+         .min(2, "Hasło musi mieć co najmniej 6 znaków")
+         .required("Pole hasło nie może byc puste"),
    });
 
    const {
@@ -29,21 +35,35 @@ export default function SignIn() {
       handleSubmit,
       formState: { errors, isSubmitting },
       reset,
+      setValue,
    } = useForm({
       resolver: yupResolver(schema),
    });
 
    const onSubmit = async (data: FormValues) => {
-      const res = await signIn("credentials", {
-         redirect: true,
-         email: data.email,
-         password: data.password,
-         callbackUrl: "/",
-      }).catch((err) => console.log(err));
+      try {
+         const res = await signIn("credentials", {
+            redirect: false,
+            email: data.email,
+            password: data.password,
+         });
 
-      if (res?.status === 201) {
+         if (!res?.ok) {
+            setValue("password", "");
+            dispatchState({
+               type: "OPEN_TOAST",
+               message: "Nieprawidłowy email lub hasło",
+            });
+            return;
+         }
+
          reset();
          router.push("/");
+      } catch (err) {
+         dispatchState({
+            type: "OPEN_TOAST",
+            message: "Bład serwera",
+         });
       }
    };
 
@@ -54,6 +74,11 @@ export default function SignIn() {
    return (
       <div>
          <h2>Zaloguj się</h2>
+         <Toast
+            message={toastState.message}
+            open={toastState.open}
+            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+         />
          <LoginForm
             onSubmitHandler={onSubmitHandler}
             control={control}
