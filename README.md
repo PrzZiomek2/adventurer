@@ -4,7 +4,7 @@ A travel guidance portal that provides inspiration and ideas for everyone to tra
 
 ### Tech stack
 
-TypeScript, Next.js, React.js, AWS, Tailwind
+TypeScript, Next.js, React.js, AWS, Tailwind, Cypress
 
 ## Getting Started
 
