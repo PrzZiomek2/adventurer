@@ -11,7 +11,9 @@ interface InputTagsProps {
    label?: string;
 }
 
-export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
+export const InputTags: FC<InputTagsProps> = ({ 
+   tags, setTags, id, label 
+}) => {
    const tagRef = useRef<HTMLInputElement>(null);
 
    const handleDelete = (value: string) => {
@@ -23,7 +25,12 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
       <div className="flex-grow mt-6">
          <div className="flex flex-wrap">
             {tags.map((data, index) => (
-               <Tag data={data} handleDelete={handleDelete} key={index} />
+               <Tag
+                  data={data}
+                  handleDelete={handleDelete}
+                  key={index}
+                  data-cy="tag-test"
+               />
             ))}
          </div>
          <div className="mt-6">

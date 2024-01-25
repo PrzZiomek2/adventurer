@@ -74,7 +74,7 @@ const CriteriaForm = () => {
          <div className={inputWrapClasses}>
             <InputTags
                id="disliked"
-               label="Nielubiane miejsca / miejsca w których Ci się nie podobało"
+               label="Nielubiane miejsca  "
                setTags={(dis) => handleInputChange("disliked", dis)}
                tags={formData.disliked}
             />

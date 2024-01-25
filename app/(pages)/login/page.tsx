@@ -9,6 +9,8 @@ import { LoginForm } from "@/components/pages/login/LoginForm";
 import Link from "next/link";
 import Toast from "@/components/common/Toast/Toast";
 import { useToastReducer } from "app/customHook.ts/useToastReducer";
+import { Heading } from "@/components/ui/Heading";
+import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
 
 type FormValues = {
    email: string;
@@ -18,6 +20,8 @@ type FormValues = {
 export default function SignIn() {
    const router = useRouter();
    const [toastState, dispatchState] = useToastReducer();
+
+   useRedirectAuthenticated();
 
    const schema = yup.object().shape({
       email: yup
@@ -73,7 +77,7 @@ export default function SignIn() {
 
    return (
       <div>
-         <h2>Zaloguj się</h2>
+         <Heading variant="h2">Zaloguj się</Heading>
          <Toast
             message={toastState.message}
             open={toastState.open}
