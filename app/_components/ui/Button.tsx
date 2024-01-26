@@ -3,7 +3,7 @@ import React, { MouseEventHandler, ButtonHTMLAttributes } from "react";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    variant?: "primary" | "secondary" | "icon";
    isSubmitting?: boolean;
-   children: string | React.ReactNode;
+   children: React.ReactNode;
    onClick?: MouseEventHandler<HTMLButtonElement>;
    className?: string;
 }
@@ -16,9 +16,9 @@ export const Button = ({
    ...props
 }: ButtonProps) => {
    const classes: { [key: string]: string } = {
-      primary: "p-2 rounded-md bg-emerald-700 text-white py-2 px-4 w-full",
+      primary: "rounded-md bg-emerald-700 text-white ",
       secondary:
-         "p-2 rounded-md bg-transparent text-emerald-900 py-2 px-4 w-full border-emerald-900 border",
+         " bg-transparent text-emerald-900 border-emerald-900 border",
       icon: "p-0",
    };
 
@@ -27,6 +27,7 @@ export const Button = ({
          {...props}
          className={`
             ${classes[variant]} 
+            py-2 px-4 p-2 rounded-md w-full m-4
             ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
             ${className || ""}
          `}

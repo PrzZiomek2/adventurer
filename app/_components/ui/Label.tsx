@@ -1,5 +1,5 @@
 interface LabelProps {
-   children: React.ReactNode | string;
+   children: React.ReactNode;
    htmlFor: string;
    className?: string;
 }

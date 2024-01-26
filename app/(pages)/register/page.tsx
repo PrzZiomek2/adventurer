@@ -10,10 +10,14 @@ import { RegisterForm } from "@/components/pages/register/RegisterForm";
 import { postServerData } from "app/utils/handlersApi";
 import { useToastReducer } from "app/customHook.ts/useToastReducer";
 import Toast from "@/components/common/Toast/Toast";
+import { Heading } from "@/components/ui/Heading";
+import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
 
 export default function Register() {
    const router = useRouter();
    const [toastState, dispatchState] = useToastReducer();
+   
+   useRedirectAuthenticated();
 
    const schema = yup.object().shape({
       name: yup
@@ -66,7 +70,7 @@ export default function Register() {
 
    return (
       <div>
-         <h2>Dołącz do nas</h2>
+         <Heading variant="h2">Dołącz do nas</Heading>
          <Toast
             message={toastState.message}
             open={toastState.open}

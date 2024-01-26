@@ -1,4 +1,5 @@
 "use client";
+import { Heading } from "@/components/ui/Heading";
 import { useEffect } from "react";
 
 export default function Error({
@@ -14,7 +15,7 @@ export default function Error({
 
    return (
       <div>
-         <h2>Przepraszamy, wystapil blad serwera. </h2>
+         <Heading variant="h2">Przepraszamy, wystapil blad serwera. </Heading>
          <button onClick={() => reset()}>Ponów</button>
       </div>
    );

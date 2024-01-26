@@ -21,3 +21,23 @@ body {
    background: linear-gradient(to bottom, transparent, #d1fae5) #ecfdf5;
    @apply bg-emerald-300 h-full min-h-screen;
 }
+
+h1{
+   @apply text-3xl font-medium;
+}
+
+h2{
+   @apply text-2xl font-medium;
+}
+
+h3{
+   @apply text-xl font-medium;
+}
+
+h4{
+   @apply text-lg font-medium;
+}
+
+h5{
+   @apply text-base font-medium;
+}

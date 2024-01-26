@@ -3,14 +3,17 @@ import Link from "next/link";
 
 import { MainMenu } from "@/components/common/Header/parts/MainMenu";
 import { UserMenu } from "./parts/UserMenu";
+import { Heading } from "@/components/ui/Heading";
 
 const Header: React.FC = () => {
    return (
-      <header className="bg-emerald-700 text-white p-4 flex justify-between items-center">
+      <header 
+         className="bg-emerald-700 text-white p-4 flex justify-between items-center"
+      >
          <MainMenu />
-         <h1 className="text-2xl tracking-wide">
+         <Heading variant="h1" className="text-2xl">
             <Link href="/">Adventurer</Link>
-         </h1>
+         </Heading>
          <UserMenu />
       </header>
    );
