@@ -21,16 +21,19 @@ export const MainMenu: React.FC = () => {
    };
 
    return (
-      <div className="relative">
+      <div className="relative flex">
          <Button
             variant="icon"
             onClick={toggleMenu}
          >
-            <SlMenu className="text-xl" />
+            <SlMenu
+               title="Menu"
+               className="text-xl"
+            />
          </Button>
          {isMenuOpen && (
             <div
-               className="fixed z-10 inset-0 bg-black bg-opacity-50"
+               className="fixed z-10 inset-0 bg-black bg-opacity-75"
                onClick={closeMenu}
                role="presentation"
             />
@@ -39,23 +42,26 @@ export const MainMenu: React.FC = () => {
             className={`
               fixed z-20 p-4 inset-y-0 left-0 
               transform ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
-              bg-emerald-700 text-white w-64 
+              bg-dark text-white w-64 
               transition-transform ease-in-out duration-300`}
          >
             <div className="flex justify-between items-center mb-4">
                <Button
                   variant="icon"
+                  title="zamknij menu"
                   onClick={closeMenu}
                >
                   <AiOutlineClose className="text-xl" />
                </Button>
-               <Heading
-                  variant="h2"
-                  data-cy="main-menu-title"
-                  className="text-2xl font-bold"
-               >
-                  Witaj, {userName}
-               </Heading>
+               {userName && (
+                  <Heading
+                     variant="h3"
+                     data-cy="main-menu-title"
+                     className="text-2xl font-bold text-white"
+                  >
+                     Witaj, {userName}
+                  </Heading>
+               )}
             </div>
             <ul>
                <li className="mb-2">Oferta</li>

@@ -11,9 +11,7 @@ interface InputTagsProps {
    label?: string;
 }
 
-export const InputTags: FC<InputTagsProps> = ({ 
-   tags, setTags, id, label 
-}) => {
+export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
    const tagRef = useRef<HTMLInputElement>(null);
 
    const handleDelete = (value: string) => {
@@ -22,7 +20,7 @@ export const InputTags: FC<InputTagsProps> = ({
    };
 
    return (
-      <div className="flex-grow mt-6">
+      <div className="flex-grow w-full mb-2">
          <div className="flex flex-wrap">
             {tags.map((data, index) => (
                <Tag
@@ -33,7 +31,7 @@ export const InputTags: FC<InputTagsProps> = ({
                />
             ))}
          </div>
-         <div className="mt-6">
+         <div className="mt-4">
             <Label htmlFor={id}>{label || "Dodawanie tagów"}</Label>
             <Input
                ref={tagRef}
@@ -45,8 +43,9 @@ export const InputTags: FC<InputTagsProps> = ({
          </div>
          <Button
             type="button"
+            variant="tertiary"
             onClick={() => {
-               if (!tagRef.current) return;
+               if (!tagRef.current?.value) return;
                setTags([...tags, tagRef.current!.value]);
                tagRef.current.value = "";
             }}
