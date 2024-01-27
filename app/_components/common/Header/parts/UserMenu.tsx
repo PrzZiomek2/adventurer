@@ -55,6 +55,7 @@ export const UserMenu: React.FC = () => {
          <Button
             onClick={toggleMenu}
             variant="icon"
+            title="login / rejestracja"
          >
             {isUser ? (
                <FaCircleUser className="text-2xl" />
@@ -73,7 +74,7 @@ export const UserMenu: React.FC = () => {
             className={`
                fixed p-4 inset-y-0 right-0 
                transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} 
-               bg-emerald-700 text-white w-40 
+               bg-dark text-white w-40 
                transition-transform ease-in-out duration-300`}
          >
             <Button
@@ -81,7 +82,10 @@ export const UserMenu: React.FC = () => {
                onClick={closeMenu}
                className="absolute top-4 right-4"
             >
-               <AiOutlineClose className="text-xl" />
+               <AiOutlineClose
+                  title="zamknj menu"
+                  className="text-xl"
+               />
             </Button>
             <ul>{isMenuOpen && menuContent()}</ul>
          </div>

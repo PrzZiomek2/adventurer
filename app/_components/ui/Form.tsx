@@ -15,7 +15,12 @@ export const Form = ({
    <form
       {...props}
       onSubmit={onSubmit}
-      className={`w-full flex flex-col items-center max-w-md mx-auto mt-10 ${className || ""}`}
+      className={`
+         w-full flex flex-col mt-6
+         max-w-[600px] mx-auto
+         bg-medium shadow-xl rounded pt-4 pl-6 pr-6 pb-6
+         ${className || ""}
+      `}
    >
       {children}
    </form>

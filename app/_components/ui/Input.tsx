@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             className={` 
               p-2 rounded-md bg-emerald-50 border 
-              border-emerald-500 max-w-[500px] w-full 
+               w-full border-transparent
               ${error ? "border-red-500" : "border-gray-300"}
               ${className || ""}
             `}

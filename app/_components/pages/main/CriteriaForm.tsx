@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Heading } from "@/components/ui/Heading";
 // import useSWR from 'swr';
 // import { useSession } from 'next-auth/react';
 
@@ -58,62 +59,68 @@ const CriteriaForm = () => {
       }));
    };
 
-   const inputWrapClasses = "w-full mb-8";
-
    return (
-      <Form onSubmit={handleFormSubmit}>
-         <div className={inputWrapClasses}>
+      <>
+         <Form onSubmit={handleFormSubmit}>
+            <Heading
+               className="text-xl text-center"
+               variant="h2"
+            >
+               Twoje preferencje
+            </Heading>
             <InputTags
                id="favourite"
                label="Ulubione miejsca"
                setTags={(read) => handleInputChange("favourite", read)}
                tags={formData.favourite}
             />
-         </div>
 
-         <div className={inputWrapClasses}>
             <InputTags
                id="disliked"
-               label="Nielubiane miejsca  "
+               label="Nielubiane miejsca"
                setTags={(dis) => handleInputChange("disliked", dis)}
                tags={formData.disliked}
             />
-         </div>
 
-         <div className={inputWrapClasses}>
             <InputTags
                id="tags"
                label="Tagi / Cechy charakterystyczne (np. zabytki, nigtlife, tanio, rodzinnie, city break)"
                setTags={(tags) => handleInputChange("tags", tags)}
                tags={formData.tags}
             />
-         </div>
-
-         <div className={inputWrapClasses}>
-            <Label htmlFor="isCreative" className="mb-2">
-               Losowo
-            </Label>
-            <Checkbox
-               id="isCreative"
-               name="isCreative"
-               checked={formData.isCreative}
-               onChange={(checked) => handleInputChange("isCreative", checked)}
-            />
-         </div>
-
-         <div className={inputWrapClasses}>
-            <div className="relative">
+            <div className="flex gap-3 w-full mt-6">
+               <Checkbox
+                  id="isCreative"
+                  name="isCreative"
+                  checked={formData.isCreative}
+                  onChange={(checked) =>
+                     handleInputChange("isCreative", checked)
+                  }
+               />
+               <Label
+                  variant="right"
+                  htmlFor="isCreative"
+               >
+                  Losowo
+               </Label>
+            </div>
+            <div>
                {!userId && (
-                  <div className="absolute bg-black text-white p-2 rounded">
+                  <div className="absolute bg-black text-white p-2 rounded mb-8">
                      Zaloguj się w celu korzystania
                   </div>
                )}
-               <Button type="submit" variant="primary" disabled={!userId}>
-                  START
+               <Button
+                  type="submit"
+                  className="mt-12"
+                  variant="primary"
+                  disabled={!userId}
+               >
+                  Start
                </Button>
             </div>
-         </div>
-      </Form>
+         </Form>
+      </>
    );
 };
 

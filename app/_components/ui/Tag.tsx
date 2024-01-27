@@ -1,30 +1,30 @@
-import React from 'react';
-import { Button } from './Button';
+import React from "react";
+import { Button } from "./Button";
 
- interface TagProps {
+interface TagProps {
    data: string;
    handleDelete?: (value: string) => void;
    small?: boolean;
- }
- 
- export const Tag = ({ data, handleDelete, small }: TagProps) => (
+}
+
+export const Tag = ({ data, handleDelete, small }: TagProps) => (
    <div
-     className="bg-blue-500 flex items-center p-2 m-2 rounded text-white"
-     data-cy="tag"
+      className="bg-blue-500 flex items-center p-2 m-2 rounded text-white"
+      data-cy="tag"
    >
-     <span
-       className={`text-${small ? 'sm' : 'base'} font-semibold`}
-     >
-       {data}
-     </span>
-     {handleDelete && (
-       <Button
-         onClick={() => {
-           handleDelete(data);
-         }}
-       >
-         &#x2715;
-       </Button>
-     )}
+      <span className={`text-${small ? "sm" : "base"} font-semibold`}>
+         {data}
+      </span>
+      {handleDelete && (
+         <Button
+            variant="icon"
+            title="Usuń tag"
+            onClick={() => {
+               handleDelete(data);
+            }}
+         >
+            &#x2715;
+         </Button>
+      )}
    </div>
- );
+);

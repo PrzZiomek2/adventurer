@@ -41,7 +41,12 @@ const Toast: FC<ToastProps> = ({ message, setOpen, open }) => {
                <BsExclamationCircle className="mr-2" />
                <span>{message}</span>
             </div>
-            <Button onClick={handleClose} variant="icon" className="">
+            <Button
+               title="Zamknij komunikat"
+               onClick={handleClose}
+               variant="icon"
+               className=""
+            >
                <IoClose />
             </Button>
          </div>
