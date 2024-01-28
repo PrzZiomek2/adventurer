@@ -25,11 +25,11 @@ declare global {
             url: string;
             body: RequestBody;
          }) => Chainable<Response<T>>;
-      }   
+      }
    }
    interface UserResponse {
       message: string;
       user: RegisterFormValues;
       status: number;
-   }   
+   }
 }

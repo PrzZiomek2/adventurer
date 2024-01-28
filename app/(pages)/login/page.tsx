@@ -1,5 +1,5 @@
 "use client";
-import React, { useReducer, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,6 @@ import { LoginForm } from "@/components/pages/login/LoginForm";
 import Link from "next/link";
 import Toast from "@/components/common/Toast/Toast";
 import { useToastReducer } from "app/customHook.ts/useToastReducer";
-import { Heading } from "@/components/ui/Heading";
 import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
 
 type FormValues = {
@@ -77,7 +76,6 @@ export default function SignIn() {
 
    return (
       <div>
-         <Heading variant="h2">Zaloguj się</Heading>
          <Toast
             message={toastState.message}
             open={toastState.open}
@@ -89,9 +87,9 @@ export default function SignIn() {
             errors={errors}
             isSubmitting={isSubmitting}
          />
-         <p className="mt-3 mb-0 text-xs font-bold">
+         <p className="mt-6 mb-6 text-sm max-w-[480px] mx-auto px-4 md:px-0">
             Nie masz jeszcze konta?{" "}
-            <Link href="/register">Zarejestruj się</Link>
+            <Link className="underline underline-offset-2" href="/register">Zarejestruj się</Link>
          </p>
       </div>
    );

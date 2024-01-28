@@ -17,12 +17,12 @@ export async function POST(req: Request) {
       const body: RequestBody = await req.json();
       const { password, email } = body;
 
-      if(!password || !email) {
+      if (!password || !email) {
          return NextResponse.json({
-            message: "Uzupełnij wszystkie pola",   
+            message: "Uzupełnij wszystkie pola",
             status: 500,
-         })
-      };
+         });
+      }
 
       const command = new GetCommand({
          TableName: TableName.USERS,
@@ -49,14 +49,12 @@ export async function POST(req: Request) {
             status: 200,
             user: userNoPassword,
          });
-      } 
-      else {
+      } else {
          throw new Error(
             "Nie znaleziono uzytkownika z podanym hasłem lub email",
          );
       }
-   } 
-   catch (error) {
+   } catch (error) {
       return NextResponse.json({
          message: `Bład podczas logowania: ${error}`,
          status: 500,

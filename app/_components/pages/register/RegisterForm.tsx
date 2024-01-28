@@ -89,7 +89,10 @@ export const RegisterForm = ({
                   </p>
                )}
             </div>
-            <Button type="submit" isSubmitting={isSubmitting}>
+            <Button
+               type="submit"
+               isSubmitting={isSubmitting}
+            >
                Zapisz
             </Button>
          </Form>

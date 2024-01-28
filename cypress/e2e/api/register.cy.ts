@@ -1,4 +1,3 @@
-
 describe("test /api/register", () => {
    let credentials: RegisterFormValues;
 
@@ -14,8 +13,7 @@ describe("test /api/register", () => {
       cy.postAPI<UserResponse>({
          url: `/api/register`,
          body: credentials,
-      })
-      .then(({ body }) => {
+      }).then(({ body }) => {
          const { message, status } = body;
          expect(status).to.equal(201);
          expect(message).to.equal("Rejestracja się udała");
@@ -29,8 +27,7 @@ describe("test /api/register", () => {
             password: credentials.password,
             name: credentials.name,
          },
-      })
-      .then(({ body }) => {
+      }).then(({ body }) => {
          expect(body.status).to.equal(500);
          expect(body.message).to.contain("Uzupełnij wszystkie pola");
       });
@@ -39,11 +36,12 @@ describe("test /api/register", () => {
    it("should throw an error if user with that email already exists", () => {
       cy.postAPI<UserResponse>({
          url: `/api/register`,
-         body: credentials
-      })
-      .then(({ body }) => {
+         body: credentials,
+      }).then(({ body }) => {
          expect(body.status).to.equal(500);
-         expect(body.message).to.contain("Bład podczas rejestracji: ConditionalCheckFailedException");
+         expect(body.message).to.contain(
+            "Bład podczas rejestracji: ConditionalCheckFailedException",
+         );
       });
    });
 });

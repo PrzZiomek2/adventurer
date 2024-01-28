@@ -63,7 +63,7 @@ const CriteriaForm = () => {
       <>
          <Form onSubmit={handleFormSubmit}>
             <Heading
-               className="text-xl text-center"
+               className="text-xl text-center mb-2"
                variant="h2"
             >
                Twoje preferencje

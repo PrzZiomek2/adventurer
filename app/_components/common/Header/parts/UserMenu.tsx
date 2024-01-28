@@ -40,7 +40,7 @@ export const UserMenu: React.FC = () => {
 
       return (
          <>
-            <li className="mb-2">
+            <li className="mb-3">
                <Link href="/login">Zaloguj się</Link>
             </li>
             <li className="mb-2">
@@ -64,11 +64,13 @@ export const UserMenu: React.FC = () => {
             )}
          </Button>
          {isMenuOpen && (
-            <div
-               className="fixed inset-0 bg-black bg-opacity-50"
-               onClick={closeMenu}
-               role="presentation"
-            />
+            <div className="absolute">
+               <div
+                  className="fixed inset-0 bg-black opacity-35"
+                  onClick={closeMenu}
+                  role="presentation"
+               />
+            </div>
          )}
          <div
             className={`
@@ -80,7 +82,7 @@ export const UserMenu: React.FC = () => {
             <Button
                variant="icon"
                onClick={closeMenu}
-               className="absolute top-4 right-4"
+               className="absolute top-4 right-4 w-auto"
             >
                <AiOutlineClose
                   title="zamknj menu"

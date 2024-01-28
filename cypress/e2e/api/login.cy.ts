@@ -1,4 +1,3 @@
-
 describe("test /api/login", () => {
    let credentials: RegisterFormValues;
    const noUserFound = "Nie znaleziono uzytkownika z podanym hasłem lub email";
@@ -16,8 +15,7 @@ describe("test /api/login", () => {
             email: credentials.email,
             password: credentials.password,
          },
-      })
-      .then(({ status, body }) => {
+      }).then(({ status, body }) => {
          const { message, user } = body;
 
          expect(status).to.equal(200);
@@ -33,8 +31,7 @@ describe("test /api/login", () => {
          body: {
             password: credentials.password,
          },
-      })
-      .then(({ body }) => {
+      }).then(({ body }) => {
          expect(body.status).to.equal(500);
          expect(body.message).to.contain("Uzupełnij wszystkie pola");
       });
@@ -47,8 +44,7 @@ describe("test /api/login", () => {
             email: credentials.email,
             password: "xd",
          },
-      })
-      .then(({ body }) => {
+      }).then(({ body }) => {
          expect(body.status).to.equal(500);
          expect(body.message).to.contain(noUserFound);
       });
@@ -61,8 +57,7 @@ describe("test /api/login", () => {
             email: credentials.email + "xd",
             password: credentials.password,
          },
-      })
-      .then(({ body }) => {
+      }).then(({ body }) => {
          expect(body.status).to.equal(500);
          expect(body.message).to.contain(noUserFound);
       });

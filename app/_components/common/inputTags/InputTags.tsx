@@ -21,16 +21,6 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
 
    return (
       <div className="flex-grow w-full mb-2">
-         <div className="flex flex-wrap">
-            {tags.map((data, index) => (
-               <Tag
-                  data={data}
-                  handleDelete={handleDelete}
-                  key={index}
-                  data-cy="tag-test"
-               />
-            ))}
-         </div>
          <div className="mt-4">
             <Label htmlFor={id}>{label || "Dodawanie tagów"}</Label>
             <Input
@@ -40,6 +30,16 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
                name={id}
                placeholder="Wpisz tutaj"
             />
+         </div>
+         <div className="flex flex-wrap">
+            {tags.map((data, index) => (
+               <Tag
+                  data={data}
+                  handleDelete={handleDelete}
+                  key={index}
+                  data-cy="tag-test"
+               />
+            ))}
          </div>
          <Button
             type="button"

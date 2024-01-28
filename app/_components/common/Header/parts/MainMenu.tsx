@@ -21,7 +21,7 @@ export const MainMenu: React.FC = () => {
    };
 
    return (
-      <div className="relative flex">
+      <div className="relative flex max-w-screen-2xl overflow-hidden">
          <Button
             variant="icon"
             onClick={toggleMenu}
@@ -33,7 +33,7 @@ export const MainMenu: React.FC = () => {
          </Button>
          {isMenuOpen && (
             <div
-               className="fixed z-10 inset-0 bg-black bg-opacity-75"
+               className="fixed z-10 inset-0 bg-black bg-opacity-40"
                onClick={closeMenu}
                role="presentation"
             />
@@ -63,9 +63,6 @@ export const MainMenu: React.FC = () => {
                   </Heading>
                )}
             </div>
-            <ul>
-               <li className="mb-2">Oferta</li>
-            </ul>
          </div>
       </div>
    );
