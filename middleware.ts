@@ -13,12 +13,12 @@ import { NextResponse } from "next/server";
 //             token === null
 //          ) {
 //             return false;
-//          }; 
+//          };
 //          return true;
 //       },
 //    },
 // });
 
-export { default } from "next-auth/middleware"
+export { default } from "next-auth/middleware";
 
-export const config = { matcher: ["/destinations"] }
+export const config = { matcher: ["/destinations"] };

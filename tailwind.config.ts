@@ -19,12 +19,24 @@ const config: Config = {
             dark: "#047857",
             medium: "#34D399",
             light: "#6EE7B7",
+            lighted: "#A7F3D0",
          },
          borderRadius: {
             sm2: "0.2rem",
          },
          borderWidth: {
             3: "3px",
+         },
+         opacity: {
+            40: ".4",
+         },
+         brightness: {
+            75: ".75",
+            85: ".85",
+         },
+         textUnderlineOffset: {
+            9: "9px",
+            10: "10px",
          },
       },
       screens: {
@@ -34,6 +46,7 @@ const config: Config = {
          lg: "1024px",
          xl: "1280px",
          "2xl": "1536px",
+         wide: "1800px",
       },
    },
    plugins: [],

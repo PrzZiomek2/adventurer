@@ -16,7 +16,7 @@ import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthentic
 export default function Register() {
    const router = useRouter();
    const [toastState, dispatchState] = useToastReducer();
-   
+
    useRedirectAuthenticated();
 
    const schema = yup.object().shape({

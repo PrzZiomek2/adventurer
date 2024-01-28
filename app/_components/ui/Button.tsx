@@ -21,7 +21,7 @@ export const Button = ({
       secondary: `bg-transparent text-dim border-dim border-2 border
          hover:bg-emerald-500 hover:font-semibold`,
       tertiary: "pt-1 pl-0 pr-0 pb-1 mt-2 mb-2 text-dim hover:text-emerald-700",
-      icon: "p-0 m-0 border-none",
+      icon: "p-0 m-0 border-none hover:brightness-85 w-auto",
    };
 
    return (
@@ -29,7 +29,6 @@ export const Button = ({
          {...props}
          className={`
             ${classes[variant]} 
-             rounded-md w-full sm:w-auto
             ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
             ${className}
          `}
