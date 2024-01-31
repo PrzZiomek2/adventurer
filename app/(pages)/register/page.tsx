@@ -12,6 +12,8 @@ import { useToastReducer } from "app/customHook.ts/useToastReducer";
 import Toast from "@/components/common/Toast/Toast";
 import { Heading } from "@/components/ui/Heading";
 import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
+import Header from "@/components/common/Header/Header";
+import { Container } from "@/components/ui/Container";
 
 export default function Register() {
    const router = useRouter();
@@ -69,22 +71,20 @@ export default function Register() {
    });
 
    return (
-      <div>
-         <Heading variant="h2">Dołącz do nas</Heading>
-         <Toast
-            message={toastState.message}
-            open={toastState.open}
-            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
-         />
-         <RegisterForm
-            onSubmitHandler={onSubmitHandler}
-            control={control}
-            errors={errors}
-            isSubmitting={isSubmitting}
-         />
-         <p>
-            Jeśli posadasz konto <Link href="/login">Zaloguj się</Link>
-         </p>
-      </div>
+      <main>
+         <Container>
+            <Toast
+               message={toastState.message}
+               open={toastState.open}
+               setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+            />
+            <RegisterForm
+               onSubmitHandler={onSubmitHandler}
+               control={control}
+               errors={errors}
+               isSubmitting={isSubmitting}
+            />
+         </Container>
+      </main>
    );
 }

@@ -25,11 +25,11 @@ export const UserMenu: React.FC = () => {
       if (isUser) {
          return (
             <>
-               <li className="mb-2">
+               <li className="mb-4">
                   <Link href="/account">Konto</Link>
                </li>
                <li
-                  className="mb-2"
+                  className="mb-4"
                   onClick={() => signOut()}
                >
                   <Link href="#">Wyloguj się</Link>
@@ -40,10 +40,10 @@ export const UserMenu: React.FC = () => {
 
       return (
          <>
-            <li className="mb-3">
+            <li className="mb-4">
                <Link href="/login">Zaloguj się</Link>
             </li>
-            <li className="mb-2">
+            <li className="mb-4">
                <Link href="/register">Załóż konto</Link>
             </li>
          </>

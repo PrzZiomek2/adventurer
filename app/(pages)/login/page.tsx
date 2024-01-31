@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LoginForm } from "@/components/pages/login/LoginForm";
-import Link from "next/link";
 import Toast from "@/components/common/Toast/Toast";
 import { useToastReducer } from "app/customHook.ts/useToastReducer";
 import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
+import { Container } from "@/components/ui/Container";
 
 type FormValues = {
    email: string;
@@ -75,22 +75,20 @@ export default function SignIn() {
    });
 
    return (
-      <div>
-         <Toast
-            message={toastState.message}
-            open={toastState.open}
-            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
-         />
-         <LoginForm
-            onSubmitHandler={onSubmitHandler}
-            control={control}
-            errors={errors}
-            isSubmitting={isSubmitting}
-         />
-         <p className="mt-6 mb-6 text-sm max-w-[480px] mx-auto px-4 md:px-0">
-            Nie masz jeszcze konta?{" "}
-            <Link className="underline underline-offset-2" href="/register">Zarejestruj się</Link>
-         </p>
-      </div>
+      <main>
+         <Container>
+            <Toast
+               message={toastState.message}
+               open={toastState.open}
+               setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+            />
+            <LoginForm
+               onSubmitHandler={onSubmitHandler}
+               control={control}
+               errors={errors}
+               isSubmitting={isSubmitting}
+            />
+         </Container>
+      </main>
    );
 }

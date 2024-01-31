@@ -5,6 +5,7 @@ import { Control, Controller, FieldErrors } from "react-hook-form";
 import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Heading } from "@/components/ui/Heading";
+import Link from "next/link";
 
 interface LoginFormProps {
    onSubmitHandler: (
@@ -22,7 +23,11 @@ export const LoginForm = ({
    onSubmitHandler,
 }: LoginFormProps) => {
    return (
-      <Form onSubmit={onSubmitHandler} maxWidth={480}>
+      <Form
+         onSubmit={onSubmitHandler}
+         maxWidth={480}
+         className="mt-0 sm:mt-12 absolute sm:static"
+      >
          <Heading
             className="text-xl text-center mb-4"
             variant="h2"
@@ -75,11 +80,21 @@ export const LoginForm = ({
          </div>
          <Button
             type="submit"
-            className="mt-10"
+            variant="primary"
+            className="mt-6"
             isSubmitting={isSubmitting}
          >
             Zaloguj się
          </Button>
+         <p className="mt-8 mb-0 text-sm max-w-[480px] px-4 md:px-0">
+            Nie masz jeszcze konta?{" "}
+            <Link
+               className="underline underline-offset-2 hover:no-underline"
+               href="/register"
+            >
+               Zarejestruj się
+            </Link>
+         </p>
       </Form>
    );
 };

@@ -61,7 +61,11 @@ const CriteriaForm = () => {
 
    return (
       <>
-         <Form onSubmit={handleFormSubmit}>
+         <Form
+            onSubmit={handleFormSubmit}
+            className="mt-0 sm:mt-12 absolute sm:static"
+            maxWidth={700}
+         >
             <Heading
                className="text-xl text-center mb-2"
                variant="h2"
