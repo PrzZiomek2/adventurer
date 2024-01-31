@@ -18,9 +18,9 @@ export const Form = ({
       {...props}
       onSubmit={onSubmit}
       className={`
-         w-full flex flex-col mt-0 md:mt-6
+         w-full flex flex-col
          max-w-[${maxWidth}px] mx-auto
-         bg-medium shadow-xl rounded pt-8 pb-12 px-4 md:px-6 md:pt-4
+         bg-blend shadow-lg sm:rounded-md pt-6 mb-4 pb-6 px-4 md:px-6 md:pt-4
          ${className || ""}
       `}
    >
