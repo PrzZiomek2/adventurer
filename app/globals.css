@@ -54,7 +54,7 @@ button {
 }
 
 a {
-   @apply hover:underline hover:underline-offset-9;
+   @apply hover:underline hover:underline-offset-9 transition duration-300;
 }
 
 @media screen and (min-width: 576px) {
