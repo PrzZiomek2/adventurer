@@ -66,7 +66,7 @@ export const UserMenu: React.FC = () => {
          {isMenuOpen && (
             <div className="absolute">
                <div
-                  className="fixed inset-0 bg-black opacity-35"
+                  className="fixed inset-0 bg-black opacity-35 z-20"
                   onClick={closeMenu}
                   role="presentation"
                />
@@ -76,7 +76,7 @@ export const UserMenu: React.FC = () => {
             className={`
                fixed p-4 inset-y-0 right-0 
                transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} 
-               bg-dark text-white w-40 
+               bg-dark text-white w-40 z-20
                transition-transform ease-in-out duration-300`}
          >
             <Button
