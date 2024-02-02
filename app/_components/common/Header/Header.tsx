@@ -14,7 +14,7 @@ const Header: React.FC = () => {
                <MainMenu />
                <Heading
                   variant="h1"
-                  className="text-2xl text-white lg:text-3xl"
+                  className="text-2xl text-white lg:text-3xl desktop:order-1"
                >
                   <Link
                      className="hover:no-underline"

@@ -45,8 +45,8 @@ const config: Config = {
          md: "768px",
          "2md": "900px",
          lg: "1024px",
-         xl: "1280px",
-         "2xl": "1536px",
+         desktop: "1200px",
+         hd: "1536px",
          wide: "1800px",
       },
       fontSize: {

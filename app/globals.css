@@ -59,7 +59,7 @@ a {
 
 @media screen and (min-width: 576px) {
    body::before {
-      background-image: url("../public/background.jpg");
+      background-image: url("../public/background_small.webp");
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
@@ -72,5 +72,11 @@ a {
       bottom: 0;
       opacity: 0.4;
       z-index: -10;
+   }
+}
+
+@media screen and (min-width: 1280px) {
+   body::before {
+      background-image: url("../public/background.webp");
    }
 }
