@@ -1,18 +1,16 @@
 import Header from "@/components/common/Header/Header";
 import { Container } from "@/components/ui/Container";
-import React from "react";
+import Image from "next/image";
 
-async function Destinations({ params }) {
+export default function About() {
    return (
       <>
          <Header />
          <main>
             <Container>
-               <p>destinations</p>
+               <p>about</p>
             </Container>
          </main>
       </>
    );
 }
-
-export default Destinations;

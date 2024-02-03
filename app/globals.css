@@ -16,45 +16,61 @@
    }
 }
 
-body {
-   position: relative;
-   margin: 0;
-   min-height: 100lvh;
-   color: rgb(var(--foreground-rgb));
-   @apply h-full min-h-screen bg-emerald-500 font-medium;
+@layer base {
+   body {
+      position: relative;
+      margin: 0;
+      min-height: 100lvh;
+      color: rgb(var(--foreground-rgb));
+      @apply h-full min-h-screen bg-emerald-500 font-medium;
+   }
+
+   h1 {
+      @apply text-3xl font-medium text-dim;
+   }
+
+   h2 {
+      @apply text-2xl font-medium text-dim;
+   }
+
+   h3 {
+      @apply text-xl font-medium text-dim;
+   }
+
+   h4 {
+      @apply text-lg font-medium text-dim;
+   }
+
+   h5 {
+      @apply text-base font-medium text-dim;
+   }
+
+   button {
+      @apply mt-4 py-2 px-6 font-medium tracking-wide rounded-md w-full sm:w-auto;
+   }
+
+   input,
+   button {
+      @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-dark;
+   }
+
+   a {
+      @apply menu-item-hover;
+   }
 }
 
-h1 {
-   @apply text-3xl font-medium text-dim;
-}
+@layer utilities {
+   .menu-item-hover {
+      @apply hover:underline hover:underline-offset-9 transition duration-500;
+   }
 
-h2 {
-   @apply text-2xl font-medium text-dim;
-}
+   .disabled-link {
+      @apply text-gray-300 pointer-events-none;
+   }
 
-h3 {
-   @apply text-xl font-medium text-dim;
-}
-
-h4 {
-   @apply text-lg font-medium text-dim;
-}
-
-h5 {
-   @apply text-base font-medium text-dim;
-}
-
-button {
-   @apply mt-4 py-2 px-6 font-medium tracking-wide rounded-md w-full sm:w-auto;
-}
-
-input,
-button {
-   @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-dark;
-}
-
-a {
-   @apply hover:underline hover:underline-offset-9 transition duration-300;
+   .disabled-button {
+      @apply text-gray-400 border-gray-400 bg-emerald-200 pointer-events-none;
+   }
 }
 
 @media screen and (min-width: 576px) {

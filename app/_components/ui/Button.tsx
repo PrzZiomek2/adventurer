@@ -13,6 +13,7 @@ export const Button = ({
    isSubmitting,
    children,
    className,
+   disabled,
    ...props
 }: ButtonProps) => {
    const classes: { [key: string]: string } = {
@@ -29,10 +30,11 @@ export const Button = ({
    return (
       <button
          {...props}
+         disabled={disabled || isSubmitting}
          className={`
             ${classes[variant]} 
-            ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
             ${className}
+            ${disabled || isSubmitting ? "disabled-button" : ""}
          `}
       >
          {children}

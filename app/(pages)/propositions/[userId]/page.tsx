@@ -2,17 +2,23 @@ import Header from "@/components/common/Header/Header";
 import { Container } from "@/components/ui/Container";
 import React from "react";
 
-async function Destinations({ params }) {
+interface Params {
+   params: {
+      userId: string;
+   };
+}
+
+async function PropositionsUser({ params }: Params) {
    return (
       <>
          <Header />
          <main>
             <Container>
-               <p>destinations</p>
+               <p></p>
             </Container>
          </main>
       </>
    );
 }
 
-export default Destinations;
+export default PropositionsUser;

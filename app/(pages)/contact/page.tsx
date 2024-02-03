@@ -2,17 +2,17 @@ import Header from "@/components/common/Header/Header";
 import { Container } from "@/components/ui/Container";
 import React from "react";
 
-async function Destinations({ params }) {
+async function Contact() {
    return (
       <>
          <Header />
          <main>
             <Container>
-               <p>destinations</p>
+               <p>contact</p>
             </Container>
          </main>
       </>
    );
 }
 
-export default Destinations;
+export default Contact;
