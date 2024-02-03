@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Heading } from "@/components/ui/Heading";
+import { useSession } from "next-auth/react";
+import { Tooltip } from "@/components/ui/Tooltip";
 // import useSWR from 'swr';
 // import { useSession } from 'next-auth/react';
 
@@ -21,9 +23,10 @@ interface CriteriaFormFields {
 }
 
 const CriteriaForm = () => {
-   const userId = 1;
    const router = useRouter();
-   const paramsObject = useParamsObject();
+   const session = useSession();
+   const userId = session.data?.user.id;
+
    const [formData, setFormData] = useState<CriteriaFormFields>({
       disliked: [],
       favourite: [],
@@ -108,19 +111,19 @@ const CriteriaForm = () => {
                </Label>
             </div>
             <div>
-               {!userId && (
-                  <div className="absolute bg-black text-white p-2 rounded mb-8">
-                     Zaloguj się w celu korzystania
-                  </div>
-               )}
-               <Button
-                  type="submit"
-                  className="mt-12"
-                  variant="primary"
-                  disabled={!userId}
+               <Tooltip
+                  isActive={!userId}
+                  text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
                >
-                  Start
-               </Button>
+                  <Button
+                     type="submit"
+                     className="mt-12"
+                     variant="primary"
+                     disabled={!userId}
+                  >
+                     Start
+                  </Button>
+               </Tooltip>
             </div>
          </Form>
       </>

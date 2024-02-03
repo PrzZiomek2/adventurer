@@ -4,12 +4,12 @@ import { useSession } from "next-auth/react";
 
 import { SlMenu } from "react-icons/sl";
 import { AiOutlineClose } from "react-icons/ai";
-import { Heading } from "@/components/ui/Heading";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import Arrow from "@/components/ui/Arrow";
 import { useMatchMedia } from "app/customHook.ts/useMatchMedia";
 import { Breakpoint } from "app/types/enums";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export const MainMenu: React.FC = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
@@ -26,27 +26,48 @@ export const MainMenu: React.FC = () => {
       setMenuOpen(false);
    };
 
+   const closePropositions = () => {
+      setPropositionsOpen(!propositionsOpen);
+   };
+
    const menuList = (
       <>
          <li className="mb-4 desktop:mb-0 text-right">
-            <Link href="/about-project">O projekcie</Link>
+            <Link href="/about">O projekcie</Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right relative">
             <Button
                onClick={() => setPropositionsOpen(!propositionsOpen)}
                variant="custom"
-               className="m-0 p-0 flex gap-1 text-xl font-normal items-center"
+               className="m-0 p-0 flex gap-1 text-xl font-normal items-center menu-item-hover"
             >
                <span>Propozycje</span>
                <Arrow isUp={propositionsOpen} />
             </Button>
             {propositionsOpen && (
-               <ul className="pt-4 pr-7 text-xl font-normal desktop:w-full desktop:px-4 desktop:absolute bg-dark rounded-md">
-                  <li className="mb-4 desktop:text-center">
-                     <Link href="/propositions">Popularne</Link>
+               <ul
+                  className="
+                     flex flex-col gap-4
+                     py-4 pr-7 text-xl font-normal desktop:w-[105%] desktop:shadow-lg desktop:left-1/2 -translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[90%]
+                  "
+               >
+                  <li className="m-auto desktop:text-center">
+                     <Link href="/propositions/popular">Popularne</Link>
                   </li>
-                  <li className="mb-4 desktop:text-center">
-                     <Link href={`/propositions/${user?.id}`}>Dla Ciebie</Link>
+                  <li className="m-auto desktop:text-center">
+                     <Tooltip
+                        isActive={!user?.id}
+                        text="Dostępne po zalogowaniu"
+                        top="-top-[60px]"
+                        right="-right-[60px]"
+                     >
+                        <Link
+                           className={user?.id ? "" : "disabled-link"}
+                           href={`/propositions/${user?.id}`}
+                        >
+                           Dla Ciebie
+                        </Link>
+                     </Tooltip>
                   </li>
                </ul>
             )}
@@ -58,9 +79,18 @@ export const MainMenu: React.FC = () => {
    );
 
    return isDesktop ? (
-      <ul className="font-normal text-xl flex desktop:order-2 grow gap-6 ml-14">
-         {menuList}
-      </ul>
+      <>
+         {propositionsOpen && (
+            <div
+               className="fixed inset-0 bg-transparent"
+               onClick={closePropositions}
+               role="presentation"
+            />
+         )}
+         <ul className="font-normal text-xl flex desktop:order-2 grow gap-6 ml-14">
+            {menuList}
+         </ul>
+      </>
    ) : (
       <div className="relative flex max-w-screen-2xl text-xl overflow-hidden desktop:order-2">
          <Button
