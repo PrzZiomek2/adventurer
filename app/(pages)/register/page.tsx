@@ -72,7 +72,6 @@ export default function Register() {
 
    return (
       <main>
-         <Container>
             <Toast
                message={toastState.message}
                open={toastState.open}
@@ -83,8 +82,6 @@ export default function Register() {
                control={control}
                errors={errors}
                isSubmitting={isSubmitting}
-            />
-         </Container>
       </main>
    );
 }

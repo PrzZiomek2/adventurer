@@ -94,7 +94,7 @@ const CriteriaForm = () => {
                setTags={(tags) => handleInputChange("tags", tags)}
                tags={formData.tags}
             />
-            <div className="flex gap-3 w-full mt-6">
+            {/* <div className="flex gap-3 w-full mt-6">
                <Checkbox
                   id="isCreative"
                   name="isCreative"
@@ -109,7 +109,7 @@ const CriteriaForm = () => {
                >
                   Losowo
                </Label>
-            </div>
+            </div> */}
             <div>
                <Tooltip
                   isActive={!userId}

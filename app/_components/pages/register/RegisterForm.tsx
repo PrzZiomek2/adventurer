@@ -111,7 +111,7 @@ export const RegisterForm = ({
          <p className="mt-8 mb-0 text-sm max-w-[480px] px-4 md:px-0">
             Jeśli posiadasz już konto{" "}
             <Link
-               className="underline underline-offset-2 hover:no-underline"
+               className="link-basic"
                href="/login"
             >
                Zaloguj się

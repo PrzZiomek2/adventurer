@@ -4,14 +4,9 @@ import React from "react";
 
 async function Contact() {
    return (
-      <>
-         <Header />
-         <main>
-            <Container>
-               <p>contact</p>
-            </Container>
-         </main>
-      </>
+      <main>
+         <p>contact</p>
+      </main>
    );
 }
 

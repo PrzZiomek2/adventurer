@@ -23,6 +23,7 @@
       "@aws-sdk/lib-dynamodb": "^3.495.0",
       "@hookform/resolvers": "^3.3.4",
       "@huggingface/inference": "^2.6.4",
+      "@react-google-maps/api": "^2.19.2",
       "@types/jsonwebtoken": "^9.0.5",
       "bcrypt": "^5.1.1",
       "bcryptjs": "^2.4.3",

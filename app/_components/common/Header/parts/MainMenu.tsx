@@ -39,7 +39,11 @@ export const MainMenu: React.FC = () => {
             <Button
                onClick={() => setPropositionsOpen(!propositionsOpen)}
                variant="custom"
-               className="m-0 p-0 flex gap-1 text-xl font-normal items-center menu-item-hover"
+               className={`
+                  m-0 p-0 relative group flex gap-1 text-xl font-normal items-center
+                  hover:before:block before:hidden before:absolute before:w-full before:h-[2px] before:bg-white before:-bottom-[2px] before:left-0
+                  ${!isDesktop && "menu-item-hover"}
+               `}
             >
                <span>Propozycje</span>
                <Arrow isUp={propositionsOpen} />
@@ -48,24 +52,24 @@ export const MainMenu: React.FC = () => {
                <ul
                   className="
                      flex flex-col gap-4
-                     py-4 pr-7 text-xl font-normal desktop:w-[105%] desktop:shadow-lg desktop:left-1/2 -translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[90%]
+                     py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 -translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%]
                   "
                >
-                  <li className="m-auto desktop:text-center">
+                  <li>
                      <Link href="/propositions/popular">Popularne</Link>
                   </li>
-                  <li className="m-auto desktop:text-center">
+                  <li>
                      <Tooltip
                         isActive={!user?.id}
                         text="Dostępne po zalogowaniu"
                         top="-top-[60px]"
-                        right="-right-[60px]"
+                        right="-right-[80px]"
                      >
                         <Link
                            className={user?.id ? "" : "disabled-link"}
                            href={`/propositions/${user?.id}`}
                         >
-                           Dla Ciebie
+                           Twoje
                         </Link>
                      </Tooltip>
                   </li>
