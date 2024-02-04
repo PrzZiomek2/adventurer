@@ -4,13 +4,8 @@ import Image from "next/image";
 
 export default function About() {
    return (
-      <>
-         <Header />
-         <main>
-            <Container>
-               <p>about</p>
-            </Container>
-         </main>
-      </>
+      <main>
+         <p>about</p>
+      </main>
    );
 }

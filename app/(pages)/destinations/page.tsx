@@ -4,14 +4,9 @@ import React from "react";
 
 async function Destinations({ params }) {
    return (
-      <>
-         <Header />
-         <main>
-            <Container>
-               <p>destinations</p>
-            </Container>
-         </main>
-      </>
+      <main>
+         <p>destinations</p>
+      </main>
    );
 }
 

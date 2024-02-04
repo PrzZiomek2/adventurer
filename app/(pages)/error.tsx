@@ -16,16 +16,9 @@ export default function Error({
    }, [error]);
 
    return (
-      <>
-         <Header />
-         <main>
-            <Container>
-               <Heading variant="h2">
-                  Przepraszamy, wystapil blad serwera.{" "}
-               </Heading>
-               <button onClick={() => reset()}>Ponów</button>
-            </Container>
-         </main>
-      </>
+      <main>
+         <Heading variant="h2">Przepraszamy, wystapil blad serwera. </Heading>
+         <button onClick={() => reset()}>Ponów</button>
+      </main>
    );
 }

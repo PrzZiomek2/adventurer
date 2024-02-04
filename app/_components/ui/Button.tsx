@@ -22,7 +22,7 @@ export const Button = ({
       secondary: `text-[22px] bg-transparent text-dim border-dim border-2 border
          hover:bg-emerald-400 hover:font-semibold`,
       tertiary:
-         "py-0 py-2 px-2 sm:py-1 my-2 w-auto text-dim hover:text-emerald-700",
+         "py-0 py-2 px-2 sm:py-1 my-2 w-auto text-dim hover:text-emerald-600",
       icon: "p-0 m-0 border-none hover:brightness-85 w-auto",
       custom: "",
    };

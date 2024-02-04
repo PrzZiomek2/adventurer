@@ -10,14 +10,9 @@ interface Params {
 
 async function PropositionsUser({ params }: Params) {
    return (
-      <>
-         <Header />
-         <main>
-            <Container>
-               <p></p>
-            </Container>
-         </main>
-      </>
+      <main>
+         <p></p>
+      </main>
    );
 }
 

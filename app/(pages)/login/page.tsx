@@ -76,19 +76,17 @@ export default function SignIn() {
 
    return (
       <main>
-         <Container>
-            <Toast
-               message={toastState.message}
-               open={toastState.open}
-               setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
-            />
-            <LoginForm
-               onSubmitHandler={onSubmitHandler}
-               control={control}
-               errors={errors}
-               isSubmitting={isSubmitting}
-            />
-         </Container>
+         <Toast
+            message={toastState.message}
+            open={toastState.open}
+            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+         />
+         <LoginForm
+            onSubmitHandler={onSubmitHandler}
+            control={control}
+            errors={errors}
+            isSubmitting={isSubmitting}
+         />
       </main>
    );
 }
