@@ -1,29 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
-import Tabs from "@/components/common/Tabs/Tabs";
+import { PlacesNearby } from "@/components/pages/propositions/popular/PlacesNearby";
 
-async function PropositionsPopular() {
+function PropositionsPopular() {
    return (
-      <main>
-         <div className="card sm:mt-12 min-h-[700px]">
-            <Tabs
-               ariaLabel="profil użytkownika"
-               items={[
-                  {
-                     panel: <div>haaaaaaaaaaa</div>,
-                     tab: { label: "Niedaleko" },
-                  },
-                  {
-                     panel: <div>eeeeeeeeeee</div>,
-                     tab: { label: "Europa" },
-                  },
-                  {
-                     panel: <div>????????????</div>,
-                     tab: { label: "świat" },
-                  },
-               ]}
-            />
-         </div>
+      <main className="card sm:mt-12 min-h-[80vh] grid grid-cols-1 desktop:grid-cols-2 gap-4">
+         <PlacesNearby />
       </main>
    );
 }

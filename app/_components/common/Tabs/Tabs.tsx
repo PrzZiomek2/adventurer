@@ -23,7 +23,8 @@ export const Tabs: FC<TabsProps> = ({ items, ariaLabel, className }) => {
          variant="custom"
          key={i}
          onClick={() => handleTabClick(i)}
-         className={`cursor-pointer inline-block px-4 py-2 border-2 border-b-0 mx-[-10px]`}
+         className={`
+            cursor-pointer inline-block px-4 py-2 border-2 rounded-b-none rounded-xl border-dark border-b-0 bg-blend`}
       >
          {text}
       </Button>
@@ -43,13 +44,11 @@ export const Tabs: FC<TabsProps> = ({ items, ariaLabel, className }) => {
 
    return (
       <div>
-         <div>
-            <div
-               aria-label={ariaLabel}
-               className="flex overflow-hidden"
-            >
-               {items.map(({ tab }, i) => tabLabel(tab.label, i))}
-            </div>
+         <div
+            aria-label={ariaLabel}
+            className="flex overflow-hidden sm:mt-12"
+         >
+            {items.map(({ tab }, i) => tabLabel(tab.label, i))}
          </div>
          <div>{items.map(({ panel }, i) => tabPanel(panel, i))}</div>
       </div>
