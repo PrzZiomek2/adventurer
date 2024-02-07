@@ -7,8 +7,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import Arrow from "@/components/ui/Arrow";
-import { useMatchMedia } from "app/customHook.ts/useMatchMedia";
-import { Breakpoint } from "app/types/enums";
 import { Tooltip } from "@/components/ui/Tooltip";
 
 export const MainMenu: React.FC = () => {
@@ -16,7 +14,6 @@ export const MainMenu: React.FC = () => {
    const [propositionsOpen, setPropositionsOpen] = useState(false);
    const session = useSession();
    const user = session.data?.user;
-   const isDesktop = useMatchMedia(Breakpoint.DESKTOP);
 
    const toggleMenu = () => {
       setMenuOpen(!isMenuOpen);
@@ -42,7 +39,7 @@ export const MainMenu: React.FC = () => {
                className={`
                   m-0 p-0 relative group flex gap-1 text-xl font-normal items-center
                   hover:before:block before:hidden before:absolute before:w-full before:h-[2px] before:bg-white before:-bottom-[2px] before:left-0
-                  ${!isDesktop && "menu-item-hover"}
+                  desktop:menu-item-hover
                `}
             >
                <span>Propozycje</span>
@@ -82,21 +79,28 @@ export const MainMenu: React.FC = () => {
       </>
    );
 
-   return isDesktop ? (
+   const desktopMenu = (
       <>
          {propositionsOpen && (
             <div
-               className="fixed inset-0 bg-transparent"
+               className="hidden desktop:flex fixed inset-0 bg-transparent"
                onClick={closePropositions}
                role="presentation"
             />
          )}
-         <ul className="font-normal text-xl flex desktop:order-2 grow gap-6 ml-14">
+         <ul className="hidden desktop:flex font-normal text-xl desktop:order-2 grow gap-6 ml-14">
             {menuList}
          </ul>
       </>
-   ) : (
-      <div className="relative flex max-w-screen-2xl text-xl overflow-hidden desktop:order-2">
+   );
+
+   const mobileMenu = (
+      <div
+         className={`
+            flex desktop:hidden
+            relative max-w-screen-2xl text-xl overflow-hidden desktop:order-2
+       `}
+      >
          <Button
             variant="icon"
             onClick={toggleMenu}
@@ -114,11 +118,12 @@ export const MainMenu: React.FC = () => {
             />
          )}
          <div
-            className={`
-              fixed z-20 p-4 inset-y-0 left-0 flex flex-col items-end
-              transform ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
-              bg-dark text-white w-[13rem] 
-              transition-transform ease-in-out duration-300`}
+            className={` 
+               flex 
+               fixed z-20 p-4 inset-y-0 left-0 flex-col items-end
+               transform ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
+               bg-dark text-white w-[13rem] 
+               transition-transform ease-in-out duration-300`}
          >
             <div className="flex gap-5 self-start items-center mb-4 absolute mt-[7px]">
                <Button
@@ -132,5 +137,12 @@ export const MainMenu: React.FC = () => {
             <ul className="font-normal text-xl mr-[6px]">{menuList}</ul>
          </div>
       </div>
+   );
+
+   return (
+      <>
+         {mobileMenu}
+         {desktopMenu}
+      </>
    );
 };

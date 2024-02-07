@@ -1,8 +1,10 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import { GiPositionMarker } from "react-icons/gi";
 
 import { Loader } from "@/components/ui/Loader";
+import { renderToStaticMarkup } from "react-dom/server";
 
 interface MapProps {
    position?: {
@@ -32,7 +34,7 @@ export const Map: FC<MapProps> = ({
    }, [userLocalized]);
 
    const mapContainerStyle = {
-      maxWidth: "900px",
+      maxWidth: "800px",
       width: "100%",
       height: "100%",
       borderRadius: "0.5rem",
@@ -44,8 +46,12 @@ export const Map: FC<MapProps> = ({
       </div>
    );
 
+   const iconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
+      renderToStaticMarkup(<GiPositionMarker />),
+   )}`;
+
    return (
-      <div className="bg-emerald-200 w-full rounded-lg mt-3">
+      <div className="bg-emerald max-h-[600px] max-w-[600px] bg-200 w-full rounded-lg mt-3">
          <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!}
             loadingElement={loadingPlaceholder}
@@ -61,7 +67,12 @@ export const Map: FC<MapProps> = ({
                      : position
                }
                zoom={12}
-            />
+            >
+               <MarkerF
+                  position={position}
+                  icon={iconUrl}
+               />
+            </GoogleMap>
          </LoadScript>
       </div>
    );
