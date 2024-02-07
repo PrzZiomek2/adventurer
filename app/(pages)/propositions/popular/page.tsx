@@ -4,7 +4,7 @@ import { PlacesNearby } from "@/components/pages/propositions/popular/PlacesNear
 
 function PropositionsPopular() {
    return (
-      <main className="card sm:mt-12 min-h-[80vh] grid grid-cols-1 desktop:grid-cols-2 gap-4">
+      <main className="card sm:mt-12 min-h-[80vh] grid desktop:grid-cols-[auto_600px] grid-cols-1 gap-4">
          <PlacesNearby />
       </main>
    );

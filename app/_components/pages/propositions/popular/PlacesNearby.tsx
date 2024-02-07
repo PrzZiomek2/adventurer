@@ -4,12 +4,15 @@ import { Heading } from "@/components/ui/Heading";
 export const PlacesNearby = () => {
    return (
       <>
-         <Heading
-            className="col-span-full"
-            variant="h2"
-         >
-            W okolicy
-         </Heading>
+         <div className="flex gap-6">
+            <Heading
+               className="col-span-full"
+               variant="h2"
+            >
+               W okolicy
+            </Heading>
+            <div>PlacesNearby</div>
+         </div>
          <Map userLocalized />
       </>
    );
