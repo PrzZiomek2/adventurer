@@ -12,15 +12,18 @@ interface MapProps {
       lng: number;
    };
    userLocalized?: boolean;
+   places?: [];
 }
 
 export const Map: FC<MapProps> = ({
    position = { lat: 52.4, lng: 16.9 },
    userLocalized = false,
+   places,
 }) => {
    const [userPosition, setUserPosition] = useState<
       GeolocationPosition | undefined
    >();
+   console.log({ places });
 
    useEffect(() => {
       const getUserLocation = async () => {
@@ -47,11 +50,13 @@ export const Map: FC<MapProps> = ({
    );
 
    const iconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
-      renderToStaticMarkup(<GiPositionMarker />),
+      renderToStaticMarkup(<GiPositionMarker className="text-2xl" />),
    )}`;
 
    return (
-      <div className="bg-emerald max-h-[600px] max-w-[600px] bg-200 w-full rounded-lg mt-3">
+      <div
+         className={`bg-emerald max-h-[600px] max-w-[600px] bg-200 w-full rounded-lg mt-3`}
+      >
          <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!}
             loadingElement={loadingPlaceholder}
@@ -70,7 +75,7 @@ export const Map: FC<MapProps> = ({
             >
                <MarkerF
                   position={position}
-                  icon={iconUrl}
+                  title="map marker"
                />
             </GoogleMap>
          </LoadScript>
