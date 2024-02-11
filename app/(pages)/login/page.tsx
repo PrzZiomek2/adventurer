@@ -7,9 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LoginForm } from "@/components/pages/login/LoginForm";
 import Toast from "@/components/common/Toast/Toast";
-import { useToastReducer } from "app/customHook.ts/useToastReducer";
-import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
-import { Container } from "@/components/ui/Container";
+import { useToastReducer } from "app/_customHooks/useToastReducer";
+import { useRedirectAuthenticated } from "app/_customHooks/useRedirectAuthenticated";
 
 type FormValues = {
    email: string;

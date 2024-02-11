@@ -1,19 +1,15 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { RegisterForm } from "@/components/pages/register/RegisterForm";
-import { postServerData } from "app/utils/handlersApi";
-import { useToastReducer } from "app/customHook.ts/useToastReducer";
+import { postServerData } from "app/_utils/handlersApi";
+import { useToastReducer } from "app/_customHooks/useToastReducer";
 import Toast from "@/components/common/Toast/Toast";
-import { Heading } from "@/components/ui/Heading";
-import { useRedirectAuthenticated } from "app/customHook.ts/useRedirectAuthenticated";
-import Header from "@/components/common/Header/Header";
-import { Container } from "@/components/ui/Container";
+import { useRedirectAuthenticated } from "app/_customHooks/useRedirectAuthenticated";
 
 export default function Register() {
    const router = useRouter();
@@ -72,16 +68,17 @@ export default function Register() {
 
    return (
       <main>
-            <Toast
-               message={toastState.message}
-               open={toastState.open}
-               setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
-            />
-            <RegisterForm
-               onSubmitHandler={onSubmitHandler}
-               control={control}
-               errors={errors}
-               isSubmitting={isSubmitting}
+         <Toast
+            message={toastState.message}
+            open={toastState.open}
+            setOpen={() => dispatchState({ type: "CLOSE_TOAST" })}
+         />
+         <RegisterForm
+            onSubmitHandler={onSubmitHandler}
+            control={control}
+            errors={errors}
+            isSubmitting={isSubmitting}
+         />
       </main>
    );
 }

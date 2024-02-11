@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
-import { useUrlParams } from "app/customHook.ts/useUrlParams";
-import { useParamsObject } from "app/customHook.ts/useParamsObject";
+import { useUrlParams } from "app/_customHooks/useUrlParams";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
@@ -12,8 +11,6 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Heading } from "@/components/ui/Heading";
 import { useSession } from "next-auth/react";
 import { Tooltip } from "@/components/ui/Tooltip";
-// import useSWR from 'swr';
-// import { useSession } from 'next-auth/react';
 
 interface CriteriaFormFields {
    disliked: string[];
