@@ -4,8 +4,8 @@ import { serialize } from "cookie";
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbDocClient } from "config/ddbDocClient";
 import { NextResponse } from "next/server";
-import { signJwtToken } from "app/lib/jwt";
-import { TableName } from "app/types/enums";
+import { signJwtToken } from "app/_lib/jwt";
+import { TableName } from "app/_types/enums";
 
 interface RequestBody {
    email: string;

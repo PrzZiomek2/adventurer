@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { postServerData } from "app/utils/handlersApi";
+import { postServerData } from "app/_utils/handlersApi";
 import { Session, User } from "next-auth";
 
 const authSetup = {

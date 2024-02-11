@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import * as bcrypt from "bcrypt";
 import { headers } from "next/headers";
 import { ddbDocClient } from "config/ddbDocClient";
-import { TableName } from "app/types/enums";
+import { TableName } from "app/_types/enums";
 
 export async function POST(req: Request) {
    try {

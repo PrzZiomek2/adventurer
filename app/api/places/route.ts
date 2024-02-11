@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { urls } from "../../utils/urls";
+import { urls } from "app/_utils/urls";
 
 interface Params {
    category: string;

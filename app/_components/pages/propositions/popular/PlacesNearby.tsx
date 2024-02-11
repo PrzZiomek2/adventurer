@@ -1,7 +1,7 @@
 import { Map } from "@/components/common/Map/Map";
 import { Heading } from "@/components/ui/Heading";
-import { getServerData } from "app/utils/handlersApi";
-import { urls } from "app/utils/urls";
+import { getServerData } from "app/_utils/handlersApi";
+import { urls } from "app/_utils/urls";
 
 export const PlacesNearby = async () => {
    const { rootPath } = urls();
