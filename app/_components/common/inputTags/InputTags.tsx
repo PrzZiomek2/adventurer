@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Tag } from "@/components/ui/Tag";
-import { FC, useRef } from "react";
+import { FC, useState } from "react";
 
 interface InputTagsProps {
    tags: string[];
@@ -12,7 +12,7 @@ interface InputTagsProps {
 }
 
 export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
-   const tagRef = useRef<HTMLInputElement>(null);
+   const [tagValue, setTagValue] = useState("");
 
    const handleDelete = (value: string) => {
       const newTags = tags.filter((val) => val !== value);
@@ -24,11 +24,12 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
          <div className="mt-4">
             <Label htmlFor={id}>{label || "Dodawanie tagów"}</Label>
             <Input
-               ref={tagRef}
+               value={tagValue}
                type="text"
                id={id}
                name={id}
                placeholder="Wpisz tutaj"
+               onChange={(e) => setTagValue(e.target.value)}
             />
          </div>
          <div className="flex flex-wrap">
@@ -45,9 +46,9 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
             type="button"
             variant="tertiary"
             onClick={() => {
-               if (!tagRef.current?.value) return;
-               setTags([...tags, tagRef.current!.value]);
-               tagRef.current.value = "";
+               if (!tagValue) return;
+               setTags([...tags, tagValue]);
+               setTagValue("");
             }}
          >
             Dodaj

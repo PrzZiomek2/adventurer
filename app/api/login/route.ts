@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const { Item } = await ddbDocClient.send(command);
 
       if (Item && (await bcrypt.compare(password, Item.password))) {
-         const { password, userIP, ...userNoPassword } = Item;
+         const { password, userIP, email, ...userNoPassword } = Item;
          const accessToken = signJwtToken(userNoPassword);
          const tokenSerialized = serialize("jwt", accessToken || "", {
             httpOnly: true,
@@ -43,6 +43,7 @@ export async function POST(req: Request) {
             maxAge: 60 * 60 * 24 * 3,
             path: "/",
          });
+         console.log({ userNoPassword });
 
          return NextResponse.json({
             message: "Zalogowano",
