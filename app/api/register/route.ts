@@ -6,18 +6,15 @@ import { ddbDocClient } from "config/ddbDocClient";
 import { TableName } from "app/_types/enums";
 
 export async function POST(req: Request) {
-   try {
-      const body = await req.json();
-      const { name, password, email } = body as RegisterFormValues;
+   let resContent = {};
+   const body = await req.json();
+   const { name, password, email } = body as RegisterFormValues;
 
+   try {
       if (!name || !password || !email) {
-         return NextResponse.json({
-            message: "Uzupełnij wszystkie pola",
-            status: 500,
-         });
+         throw new Error("Uzupełnij wszystkie pola");
       }
 
-      const headersList = headers();
       const hashedPassword = await bcrypt.hash(password, 10);
       const params: PutCommandInput = {
          TableName: TableName.USERS,
@@ -34,14 +31,16 @@ export async function POST(req: Request) {
 
       await ddbDocClient.send(new PutCommand(params));
 
-      return NextResponse.json({
+      resContent = {
          message: "Rejestracja się udała",
          status: 201,
-      });
+      };
    } catch (error) {
-      return NextResponse.json({
+      resContent = {
          message: `Bład podczas rejestracji: ${error}`,
          status: 500,
-      });
+      };
+   } finally {
+      return NextResponse.json(resContent);
    }
 }

@@ -9,18 +9,18 @@ interface Params {
 }
 
 export async function GET(req: NextRequest) {
-   try {
-      const { searchParams } = req.nextUrl;
-      const category = searchParams.get("category");
-      const location = searchParams.get("location");
-      const radius = searchParams.get("radius");
-      const { googleMaps } = urls();
+   const { searchParams } = req.nextUrl;
+   const category = searchParams.get("category");
+   const location = searchParams.get("location");
+   const radius = searchParams.get("radius");
+   const { googleMaps } = urls();
+   let resContent = {};
 
+   try {
       if (!category || !location || !radius) {
-         return NextResponse.json({
-            message: "parameters: category or location or radius not provided",
-            status: 500,
-         });
+         throw new Error(
+            "parameters: category or location or radius not provided",
+         );
       }
 
       const response = await fetch(`
@@ -30,15 +30,17 @@ export async function GET(req: NextRequest) {
       const resData = await response.json();
 
       if (resData) {
-         return NextResponse.json({
+         resContent = {
             status: 200,
             data: resData.results,
-         });
+         };
       }
    } catch (error) {
-      return NextResponse.json({
+      resContent = {
          message: `error when connecting place API: ${error}`,
          status: 500,
-      });
+      };
+   } finally {
+      return NextResponse.json(resContent);
    }
 }
