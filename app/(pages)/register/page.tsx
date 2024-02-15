@@ -42,12 +42,18 @@ export default function Register() {
    });
 
    const createAccount = async (data: RegisterFormValues) => {
+      let message = "";
       try {
          const res = await postServerData("register", {
             name: data.name,
             email: data.email,
-            password: data.password,
+            password: "",
          });
+
+         if (!res?.ok) {
+            message = "Bład serwera";
+            return;
+         }
 
          if (res?.status === 201) {
             reset();
@@ -55,9 +61,10 @@ export default function Register() {
          }
       } catch (err) {
          console.error(err);
+      } finally {
          dispatchState({
             type: "OPEN_TOAST",
-            message: "Bład serwera",
+            message,
          });
       }
    };

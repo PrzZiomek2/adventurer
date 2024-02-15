@@ -1,5 +1,5 @@
 import * as bcrypt from "bcrypt";
-import { serialize } from "cookie";
+import { serialize, parse } from "cookie";
 
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbDocClient } from "config/ddbDocClient";
@@ -13,15 +13,13 @@ interface RequestBody {
 }
 
 export async function POST(req: Request) {
-   try {
-      const body: RequestBody = await req.json();
-      const { password, email } = body;
+   const body: RequestBody = await req.json();
+   const { password, email } = body;
+   let resContent = {};
 
+   try {
       if (!password || !email) {
-         return NextResponse.json({
-            message: "Uzupełnij wszystkie pola",
-            status: 500,
-         });
+         throw new Error("Uzupełnij wszystkie pola");
       }
 
       const command = new GetCommand({
@@ -36,29 +34,37 @@ export async function POST(req: Request) {
       if (Item && (await bcrypt.compare(password, Item.password))) {
          const { password, userIP, email, ...userNoPassword } = Item;
          const accessToken = signJwtToken(userNoPassword);
-         const tokenSerialized = serialize("jwt", accessToken || "", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 24 * 3,
-            path: "/",
-         });
-         console.log({ userNoPassword });
+         let tokenSerialized = "";
 
-         return NextResponse.json({
+         if (accessToken) {
+            tokenSerialized = serialize("jwt", accessToken || "", {
+               httpOnly: true,
+               secure: process.env.NODE_ENV === "production",
+               sameSite: "strict",
+               maxAge: 60 * 60 * 24 * 3,
+               path: "/",
+            });
+         }
+
+         resContent = {
             message: "Zalogowano",
             status: 200,
-            user: userNoPassword,
-         });
+            user: {
+               ...userNoPassword,
+               ...(tokenSerialized && { jwtToken: parse(tokenSerialized) }),
+            },
+         };
       } else {
          throw new Error(
             "Nie znaleziono uzytkownika z podanym hasłem lub email",
          );
       }
    } catch (error) {
-      return NextResponse.json({
+      resContent = {
          message: `Bład podczas logowania: ${error}`,
          status: 500,
-      });
+      };
+   } finally {
+      return NextResponse.json(resContent);
    }
 }

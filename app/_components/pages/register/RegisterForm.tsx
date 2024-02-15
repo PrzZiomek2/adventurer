@@ -34,7 +34,7 @@ export const RegisterForm = ({
          >
             Dołącz do nas
          </Heading>
-         <div className="mb-6">
+         <div className="mb-7">
             <Label htmlFor="name">Imię</Label>
             <Controller
                name="name"
@@ -51,12 +51,10 @@ export const RegisterForm = ({
                )}
             />
             {errors.name && (
-               <p className="text-xs text-red-500 mt-1">
-                  {errors.name.message}
-               </p>
+               <p className="input-error">{errors.name.message}</p>
             )}
          </div>
-         <div className="mb-6">
+         <div className="mb-7">
             <Label htmlFor="email">Email</Label>
             <Controller
                name="email"
@@ -73,12 +71,10 @@ export const RegisterForm = ({
                )}
             />
             {errors.email && (
-               <p className="text-xs text-red-500 mt-1">
-                  {errors.email.message}
-               </p>
+               <p className="input-error">{errors.email.message}</p>
             )}
          </div>
-         <div className="mb-6">
+         <div className="mb-7">
             <Label htmlFor="password">Hasło</Label>
             <Controller
                name="password"
@@ -95,9 +91,7 @@ export const RegisterForm = ({
                )}
             />
             {errors.password && (
-               <p className="text-xs text-red-500 mt-1">
-                  {errors.password.message}
-               </p>
+               <p className="input-error">{errors.password.message}</p>
             )}
          </div>
          <Button

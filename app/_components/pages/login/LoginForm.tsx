@@ -34,7 +34,7 @@ export const LoginForm = ({
          >
             Zaloguj się
          </Heading>
-         <div className="mb-6">
+         <div className="mb-7 relative">
             <Label htmlFor="email">Login</Label>
             <Controller
                name="email"
@@ -51,12 +51,10 @@ export const LoginForm = ({
                )}
             />
             {errors.email && (
-               <p className="text-xs text-red-500 mt-1">
-                  {errors.email.message}
-               </p>
+               <p className="input-error">{errors.email.message}</p>
             )}
          </div>
-         <div className="mb-6">
+         <div className="mb-7 relative">
             <Label htmlFor="password">Hasło</Label>
             <Controller
                name="password"
@@ -73,9 +71,7 @@ export const LoginForm = ({
                )}
             />
             {errors.password && (
-               <p className="text-xs text-red-500 mt-1">
-                  {errors.password.message}
-               </p>
+               <p className="input-error">{errors.password.message}</p>
             )}
          </div>
          <Button

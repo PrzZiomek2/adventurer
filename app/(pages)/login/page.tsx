@@ -43,6 +43,7 @@ export default function SignIn() {
    });
 
    const onSubmit = async (data: FormValues) => {
+      let message = "";
       try {
          const res = await signIn("credentials", {
             redirect: false,
@@ -52,19 +53,18 @@ export default function SignIn() {
 
          if (!res?.ok) {
             setValue("password", "");
-            dispatchState({
-               type: "OPEN_TOAST",
-               message: "Nieprawidłowy email lub hasło",
-            });
+            message = "Nieprawidłowy email lub hasło";
             return;
          }
 
          reset();
          router.push("/");
       } catch (err) {
+         message = "Bład serwera";
+      } finally {
          dispatchState({
             type: "OPEN_TOAST",
-            message: "Bład serwera",
+            message,
          });
       }
    };

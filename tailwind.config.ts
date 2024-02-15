@@ -21,6 +21,7 @@ const config: Config = {
             blend: "#5BE0AD",
             light: "#6EE7B7",
             lighted: "#A7F3D0",
+            alert: "#9b1717",
          },
          borderRadius: {
             sm2: "0.2rem",

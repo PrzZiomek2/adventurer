@@ -19,6 +19,7 @@ interface RegisterFormValues {
 interface NextResponseBasic {
    message: string;
    status: number;
+   ok?: boolean | string;
 }
 
 interface User {
