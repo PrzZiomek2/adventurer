@@ -1,84 +1,77 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
-import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { Loader } from "@googlemaps/js-api-loader";
 import { GiPositionMarker } from "react-icons/gi";
 
-import { Loader } from "@/components/ui/Loader";
+import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { renderToStaticMarkup } from "react-dom/server";
 
 interface MapProps {
-   position?: {
+   position: {
       lat: number;
       lng: number;
    };
    userLocalized?: boolean;
-   places?: [];
+   places?: MapPlace[];
 }
 
-export const Map: FC<MapProps> = ({
-   position = { lat: 52.4, lng: 16.9 },
-   userLocalized = false,
-   places,
-}) => {
-   const [userPosition, setUserPosition] = useState<
-      GeolocationPosition | undefined
-   >();
-   console.log({ places });
+export const Map: FC<MapProps> = ({ position, places }) => {
+   const mapRef = React.useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      const getUserLocation = async () => {
-         navigator.geolocation.getCurrentPosition((position) =>
-            setUserPosition(position),
-         );
-      };
-      if (userLocalized) {
-         getUserLocation();
-      }
-   }, [userLocalized]);
+      const initMap = async () => {
+         const loader = new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
+            version: "weekly",
+         });
 
-   const mapContainerStyle = {
-      maxWidth: "800px",
-      width: "100%",
-      height: "100%",
-      borderRadius: "0.5rem",
-   };
+         const { Map } = await loader.importLibrary("maps");
+         const { Marker } = await loader.importLibrary("marker");
+
+         const mapSettings = {
+            center: position,
+            zoom: 12,
+            mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
+         };
+
+         const map = new Map(mapRef.current as HTMLDivElement, mapSettings);
+
+         const iconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
+            renderToStaticMarkup(<GiPositionMarker />),
+         )}`;
+
+         new Marker({
+            map,
+            position,
+            icon: {
+               url: iconUrl,
+               scaledSize: new window.google.maps.Size(44, 44),
+            },
+         });
+      };
+
+      if (mapRef.current) {
+         initMap();
+      }
+   }, [mapRef, position]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col ">
-         <Loader label={"Wczytywanie mapy..."} />
+         <CircleLoader label={"Ładowanie mapy..."} />
       </div>
    );
-
-   const iconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
-      renderToStaticMarkup(<GiPositionMarker className="text-2xl" />),
-   )}`;
 
    return (
       <div
          className={`bg-emerald max-h-[600px] max-w-[600px] bg-200 w-full rounded-lg mt-3`}
       >
-         <LoadScript
-            googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!}
-            loadingElement={loadingPlaceholder}
-         >
-            <GoogleMap
-               mapContainerStyle={mapContainerStyle}
-               center={
-                  userPosition
-                     ? {
-                          lat: userPosition.coords.latitude,
-                          lng: userPosition.coords.longitude,
-                       }
-                     : position
-               }
-               zoom={12}
-            >
-               <MarkerF
-                  position={position}
-                  title="map marker"
-               />
-            </GoogleMap>
-         </LoadScript>
+         <div className="max-w-[800px] w-full h-full rounded-lg bg-emerald-200">
+            {!mapRef.current && loadingPlaceholder}
+            <div
+               className="h-full"
+               ref={mapRef}
+            />
+         </div>
       </div>
    );
 };

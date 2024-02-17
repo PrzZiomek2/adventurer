@@ -17,7 +17,9 @@ export const Tag = ({ data, handleDelete, small }: TagProps) => (
       `}
       data-cy="tag"
    >
-      <span className={`text-sm font-semibold tracking-wide mr-2`}>{data}</span>
+      <span className={`text-sm font-semibold tracking-wider mr-2`}>
+         {data}
+      </span>
       {handleDelete && (
          <Button
             variant="icon"
