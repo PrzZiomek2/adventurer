@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { SlMenu } from "react-icons/sl";
@@ -8,12 +8,18 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import Arrow from "@/components/ui/Arrow";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { usePathname } from "next/navigation";
 
 export const MainMenu: React.FC = () => {
+   const pathname = usePathname();
    const [isMenuOpen, setMenuOpen] = useState(false);
    const [propositionsOpen, setPropositionsOpen] = useState(false);
    const session = useSession();
    const user = session.data?.user;
+
+   useEffect(() => {
+      setMenuOpen(false);
+   }, [pathname]);
 
    const toggleMenu = () => {
       setMenuOpen(!isMenuOpen);
@@ -30,7 +36,12 @@ export const MainMenu: React.FC = () => {
    const menuList = (
       <>
          <li className="mb-4 desktop:mb-0 text-right">
-            <Link href="/about">O projekcie</Link>
+            <Link
+               className="menu-item-hover"
+               href="/about"
+            >
+               O projekcie
+            </Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right relative">
             <Button
@@ -38,8 +49,7 @@ export const MainMenu: React.FC = () => {
                variant="custom"
                className={`
                   m-0 p-0 relative group flex gap-1 text-xl font-normal items-center
-                  hover:before:block before:hidden before:absolute before:w-full before:h-[2px] before:bg-white before:-bottom-[2px] before:left-0
-                  desktop:menu-item-hover
+                  menu-item-hover focus-visible:outline-white mr-[-7px]
                `}
             >
                <span>Propozycje</span>
@@ -49,11 +59,16 @@ export const MainMenu: React.FC = () => {
                <ul
                   className="
                      flex flex-col gap-4
-                     py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 -translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%]
+                     py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 desktop:-translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%]
                   "
                >
                   <li>
-                     <Link href="/propositions/popular">Popularne</Link>
+                     <Link
+                        className="menu-item-hover"
+                        href="/propositions/popular"
+                     >
+                        Popularne
+                     </Link>
                   </li>
                   <li>
                      <Tooltip
@@ -63,7 +78,9 @@ export const MainMenu: React.FC = () => {
                         right="-right-[80px]"
                      >
                         <Link
-                           className={user?.id ? "" : "disabled-link"}
+                           className={
+                              user?.id ? "menu-item-hover" : "disabled-link"
+                           }
                            href={`/propositions/${user?.id}`}
                         >
                            Twoje
@@ -74,7 +91,20 @@ export const MainMenu: React.FC = () => {
             )}
          </li>
          <li className="mb-4 desktop:mb-0 text-right">
-            <Link href="/contact">Kontakt</Link>
+            <Link
+               className="menu-item-hover"
+               href="#"
+            >
+               Relacje
+            </Link>
+         </li>
+         <li className="mb-4 desktop:mb-0 text-right">
+            <Link
+               className="menu-item-hover"
+               href="/contact"
+            >
+               Kontakt
+            </Link>
          </li>
       </>
    );

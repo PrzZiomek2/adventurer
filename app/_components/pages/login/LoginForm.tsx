@@ -26,7 +26,7 @@ export const LoginForm = ({
       <Form
          onSubmit={onSubmitHandler}
          maxWidth={480}
-         className="mt-0 absolute sm:top-1/2 sm:left-1/2 h-full sm:h-auto sm:-translate-y-1/2 sm:-translate-x-1/2"
+         className="mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2 lg:mt-8"
       >
          <Heading
             className="text-xl text-center mb-4"

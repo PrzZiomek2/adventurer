@@ -17,6 +17,8 @@ export const PlacesNearby = () => {
       : { lat: 52.4, lng: 16.9 };
 
    useEffect(() => {
+      // TODO: complete in second release
+      return;
       const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
       const getPlaces = async () => {
          const placesDataRes = await getServerData<{ data: MapPlace[] }>(
@@ -37,7 +39,7 @@ export const PlacesNearby = () => {
 
    return (
       <>
-         <div className="flex flex-col gap-6">
+         <div className="flex flex-col gap-6 order-2 lg:-order-1">
             <Heading
                className="col-span-full"
                variant="h2"
