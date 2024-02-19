@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -8,13 +8,19 @@ import { FaCircleUser } from "react-icons/fa6";
 import { Button } from "@/components/ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import { Heading } from "@/components/ui/Heading";
+import { usePathname } from "next/navigation";
 
 export const UserMenu: React.FC = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
    const session = useSession();
+   const pathname = usePathname();
    const isUserLoggedIn = session.status === "authenticated";
    const user = session.data?.user;
    const userName = user?.name;
+
+   useEffect(() => {
+      setMenuOpen(false);
+   }, [pathname]);
 
    const toggleMenu = () => {
       setMenuOpen(!isMenuOpen);
@@ -42,11 +48,12 @@ export const UserMenu: React.FC = () => {
       menuData.map(({ menuText, path, handler = () => {} }) => (
          <li
             key={menuText}
-            className="py-2"
+            className="py-2 menu-item-hover"
          >
             <Link
                href={path}
                onClick={handler}
+               className="hover:no-underline"
             >
                {menuText}
             </Link>
@@ -57,7 +64,7 @@ export const UserMenu: React.FC = () => {
       <>
          <ul
             className={`
-               hidden desktop:block
+               hidden desktop:block z-30
                desktop:px-4 text-xl font-normal pb-2 desktop:absolute bg-dark rounded-md top-full right-0 w-[180px] shadow-lg
                `}
          >
@@ -70,7 +77,7 @@ export const UserMenu: React.FC = () => {
       <div
          className={`
             block desktop:hidden 
-            fixed p-4 inset-y-0 right-0 
+            fixed p-4 inset-y-0 right-0 z-30
             transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} 
             bg-dark text-white z-20 w-[12rem] 
             transition-transform ease-in-out duration-300`}
@@ -78,14 +85,16 @@ export const UserMenu: React.FC = () => {
          <Button
             variant="icon"
             onClick={closeMenu}
-            className="absolute top-4 right-4 w-auto mt-[7px]"
+            className="absolute top-4 right-4 w-auto mt-[7px] z-30"
          >
             <AiOutlineClose
                title="zamknj menu"
                className="text-lg"
             />
          </Button>
-         <ul className="font-normal text-xl">{isMenuOpen && menuList()}</ul>
+         <ul className="font-normal text-xl -mt-2">
+            {isMenuOpen && menuList()}
+         </ul>
       </div>
    );
 
@@ -95,7 +104,9 @@ export const UserMenu: React.FC = () => {
             <Heading
                variant="h3"
                data-cy="main-menu-title"
-               className="text-xl font-medium text-white tracking-wide"
+               className={`
+                  absolute hidden 2md:block right-full w-max text-xl font-medium text-white tracking-wide mr-3 truncate max-w-60 top-[-3px]
+               `}
             >
                Witaj, {userName}
             </Heading>

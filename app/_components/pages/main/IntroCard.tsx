@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const IntroCard = () => {
    return (
-      <div className="card w-full w-max-[600px] sm:mt-12">
+      <div className="card w-full w-max-[600px] -mb-[1px] lg:mt-8">
          <Heading variant="h3">Jak to działa?</Heading>
          <p className="my-4">
             Jeśli szukasz inspiracji podróżniczych to trafiłeś w dobre miejsce

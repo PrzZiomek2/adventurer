@@ -63,10 +63,10 @@ const CriteriaForm = () => {
       <>
          <Form
             onSubmit={handleFormSubmit}
-            className="mt-0 sm:mt-12 absolute sm:static max-w-[700px]"
+            className="mt-0 lg:mt-8 sm:static max-w-[700px]"
          >
             <Heading
-               className="text-xl text-center mb-2"
+               className="text-xl mb-2"
                variant="h2"
             >
                Twoje preferencje
@@ -114,7 +114,7 @@ const CriteriaForm = () => {
                >
                   <Button
                      type="submit"
-                     className="mt-12"
+                     className="mt-8 md:mt-12"
                      variant="primary"
                      disabled={!userId}
                   >

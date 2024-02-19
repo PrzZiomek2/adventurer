@@ -74,7 +74,7 @@ export default function Register() {
    });
 
    return (
-      <main>
+      <main className="mt-0 sm:mt-6 2md:mt-2">
          <Toast
             message={toastState.message}
             open={toastState.open}

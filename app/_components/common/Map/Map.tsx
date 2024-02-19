@@ -56,16 +56,20 @@ export const Map: FC<MapProps> = ({ position, places }) => {
    }, [mapRef, position]);
 
    const loadingPlaceholder = (
-      <div className="h-full flex justify-center items-center flex-col ">
+      <div className="h-full flex justify-center items-center flex-col absolute w-full">
          <CircleLoader label={"Ładowanie mapy..."} />
       </div>
    );
+   console.log("e", mapRef.current);
 
    return (
       <div
-         className={`bg-emerald max-h-[600px] max-w-[600px] bg-200 w-full rounded-lg mt-3`}
+         className={`
+            bg-emerald min-h-[300px] sm:min-h-[400px] max-h-[600px] max-w-[600px]
+             bg-200 w-full rounded-lg mt-2 mx-auto 2md:ml-0 2md:mr-0
+         `}
       >
-         <div className="max-w-[800px] w-full h-full rounded-lg bg-emerald-200">
+         <div className="relative max-w-[800px] w-full h-full rounded-lg bg-emerald-200">
             {!mapRef.current && loadingPlaceholder}
             <div
                className="h-full"
