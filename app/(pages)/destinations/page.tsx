@@ -2,7 +2,7 @@ import Header from "@/components/common/Header/Header";
 import { Container } from "@/components/ui/Container";
 import React from "react";
 
-async function Destinations({ params }) {
+async function Destinations() {
    return (
       <main>
          <p>destinations</p>

@@ -99,7 +99,7 @@ export const RegisterForm = ({
          </div>
          <Tooltip
             id="register-btn"
-            text="Tymczasowo niedostępne"
+            text="Rejestracja niedostępna dla tego wydania"
          >
             {" "}
             <Button

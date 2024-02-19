@@ -6,13 +6,13 @@ import { getServerData } from "app/_utils/handlersApi";
 import { useContext, useEffect, useState } from "react";
 
 export const PlacesNearby = () => {
-   const userPosition = useContext(UserLocationContext);
+   const { coords } = useContext(UserLocationContext);
    const [placesData, setPlacesData] = useState<MapPlace[]>([]);
 
-   const centerPosition = userPosition
+   const centerPosition = coords
       ? {
-           lat: userPosition.latitude,
-           lng: userPosition.longitude,
+           lat: coords.latitude,
+           lng: coords.longitude,
         }
       : { lat: 52.4, lng: 16.9 };
 
@@ -34,8 +34,6 @@ export const PlacesNearby = () => {
          getPlaces();
       }
    }, [centerPosition.lat, centerPosition.lng]);
-
-   console.log({ placesData });
 
    return (
       <>
