@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Heading } from "@/components/ui/Heading";
 import Link from "next/link";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 interface RegisterFormProps {
    onSubmitHandler: (
@@ -25,8 +26,10 @@ export const RegisterForm = ({
    return (
       <Form
          onSubmit={onSubmitHandler}
-         maxWidth={480}
-         className="mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2 lg:mt-8"
+         className={`
+            absolute sm:left-1/2 sm:h-auto sm:-translate-x-1/2 lg:mt-8 h-[630px]
+            sm:max-w-[480px] 
+         `}
       >
          <Heading
             className="text-xl text-center mb-4"
@@ -74,7 +77,7 @@ export const RegisterForm = ({
                <p className="input-error">{errors.email.message}</p>
             )}
          </div>
-         <div className="mb-7">
+         <div className="mb-12">
             <Label htmlFor="password">Hasło</Label>
             <Controller
                name="password"
@@ -94,14 +97,21 @@ export const RegisterForm = ({
                <p className="input-error">{errors.password.message}</p>
             )}
          </div>
-         <Button
-            type="submit"
-            variant="primary"
-            className="mt-6"
-            isSubmitting={isSubmitting}
+         <Tooltip
+            id="register-btn"
+            text="Tymczasowo niedostępne"
          >
-            Zapisz
-         </Button>
+            {" "}
+            <Button
+               type="submit"
+               variant="primary"
+               className="w-full mt-0"
+               isSubmitting={isSubmitting}
+               disabled
+            >
+               Zapisz
+            </Button>
+         </Tooltip>
          <p className="mt-8 mb-0 text-sm max-w-[480px] px-4 md:px-0">
             Jeśli posiadasz już konto{" "}
             <Link

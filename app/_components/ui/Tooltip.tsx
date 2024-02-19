@@ -1,43 +1,39 @@
 import { useState } from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface TooltipProps {
    text: string;
    children: React.ReactNode;
-   isActive: boolean;
-   top?: string;
-   right?: string;
+   id: string;
+   hidden?: boolean;
 }
 
-export const Tooltip = ({
-   isActive,
-   top = "-top-[20%]",
-   right = "-right-[80%]",
-   children,
-   text,
-}: TooltipProps) => {
-   const [show, setShow] = useState(false);
-
-   if (!isActive) return <>{children}</>;
-
+export const Tooltip = ({ children, text, id, hidden }: TooltipProps) => {
    return (
-      <div className="w-max relative">
-         {show && (
-            <div
-               className={`
-                  ${top} ${right} 
-                  absolute bg-white text-dim p-3 font-medium rounded-2xl text-sm w-max h-auto max-w-64
-               `}
-            >
-               {text}
-               <span className="absolute top-[calc(100%-10px)] left-1/2 transform -translate-x-1/2 bg-white w-3 h-3 rotate-45" />
-            </div>
-         )}
-         <div
-            onMouseEnter={() => setShow(true)}
-            onMouseLeave={() => setShow(false)}
+      <>
+         <span
+            data-tip
+            data-tooltip-id={id}
          >
             {children}
-         </div>
-      </div>
+         </span>
+         <ReactTooltip
+            style={{
+               backgroundColor: "#043427",
+               color: "azure",
+               padding: "0.35rem 0.75rem",
+               fontWeight: 400,
+               borderRadius: "0.45rem",
+               fontSize: "0.875rem",
+               width: "max-content",
+               height: "auto",
+               maxWidth: "16rem",
+            }}
+            id={id}
+            hidden={hidden}
+         >
+            {text}
+         </ReactTooltip>
+      </>
    );
 };

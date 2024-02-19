@@ -35,7 +35,11 @@ const Toast: FC<ToastProps> = ({ message, setOpen, open }) => {
    }, [close, open]);
 
    return !close && message ? (
-      <div className="fixed bottom-0 right-0 mb-4 mr-4 p-4 bg-red-500 text-white rounded-md shadow-md">
+      <div
+         className={`
+         fixed right-1/2 p-4 bg-red-500 top-[20%] text-white rounded-md shadow-md z-50 translate-x-1/2
+      `}
+      >
          <div className="flex items-center justify-between">
             <div className="flex items-center">
                <BsExclamationCircle className="mr-2" />
@@ -45,7 +49,7 @@ const Toast: FC<ToastProps> = ({ message, setOpen, open }) => {
                title="Zamknij komunikat"
                onClick={handleClose}
                variant="icon"
-               className=""
+               className="pl-1"
             >
                <IoClose />
             </Button>
