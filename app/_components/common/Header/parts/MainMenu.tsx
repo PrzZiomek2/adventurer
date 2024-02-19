@@ -59,29 +59,30 @@ export const MainMenu: React.FC = () => {
                <ul
                   className="
                      flex flex-col gap-4
-                     py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 desktop:-translate-x-1/2 desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%]
+                     py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 desktop:-translate-x-1/2 
+                     desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%] z-30
                   "
                >
                   <li>
                      <Link
                         className="menu-item-hover"
                         href="/propositions/popular"
+                        onClick={() => setPropositionsOpen(false)}
                      >
                         Popularne
                      </Link>
                   </li>
                   <li>
                      <Tooltip
-                        isActive={!user?.id}
+                        id="propositions-user"
                         text="Dostępne po zalogowaniu"
-                        top="-top-[60px]"
-                        right="-right-[80px]"
                      >
                         <Link
                            className={
                               user?.id ? "menu-item-hover" : "disabled-link"
                            }
                            href={`/propositions/${user?.id}`}
+                           onClick={() => setPropositionsOpen(false)}
                         >
                            Twoje
                         </Link>

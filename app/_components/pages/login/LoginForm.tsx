@@ -25,8 +25,10 @@ export const LoginForm = ({
    return (
       <Form
          onSubmit={onSubmitHandler}
-         maxWidth={480}
-         className="mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2 lg:mt-8"
+         className={`
+            mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2 lg:mt-8
+            sm:max-w-[480px]
+         `}
       >
          <Heading
             className="text-xl text-center mb-4"
@@ -82,7 +84,7 @@ export const LoginForm = ({
          >
             Zaloguj się
          </Button>
-         <p className="mt-8 mb-0 text-sm max-w-[480px] px-4 md:px-0">
+         <p className="mt-8 mb-0 text-sm max-w-[480px] md:px-0">
             Nie masz jeszcze konta?{" "}
             <Link
                className="link-basic"

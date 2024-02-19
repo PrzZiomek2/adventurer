@@ -109,7 +109,7 @@ const CriteriaForm = () => {
             </div> */}
             <div>
                <Tooltip
-                  isActive={!userId}
+                  id="search-by-pref-btn"
                   text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
                >
                   <Button

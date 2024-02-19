@@ -46,7 +46,6 @@ export const PlacesNearby = () => {
             >
                W okolicy
             </Heading>
-            <div>PlacesNearby</div>
          </div>
          <Map
             userLocalized
