@@ -15,6 +15,10 @@ export async function POST(req: Request) {
          throw new Error("Uzupełnij wszystkie pola");
       }
 
+      if (process.env.NODE_ENV === "production") {
+         throw new Error("registration not working in this version");
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const params: PutCommandInput = {
          TableName: TableName.USERS,
