@@ -1,0 +1,37 @@
+name: Deploy
+
+on:
+   push:
+      branches:
+         - production-v-1
+
+jobs:
+   deploy:
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+
+         - name: Setup Node.js
+           uses: actions/setup-node@v3
+           with:
+              node-version: [18.x]
+
+         - name: Install dependencies
+           run: npm ci
+
+         - name: Deploy
+           env:
+              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+              HF_TOKEN: ${{ secrets.HF_TOKEN }}
+              JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+              NEXT_PUBLIC_GOOGLE_MAPS_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_KEY }}
+              GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+              NEXT_PUBLIC_GOOGLE_MAP_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_ID }}
+              NEXTAUTH_URL: "http://localhost:3000"
+              NEXT_PUBLIC_NEXTAUTH_URL: "http://localhost:3000"
+           run: |
+              npx sst deploy --stage prod
