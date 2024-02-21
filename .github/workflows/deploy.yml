@@ -3,7 +3,7 @@ name: Deploy
 on:
    push:
       branches:
-         - production-v-1
+         - "releases/**"
 
 jobs:
    deploy:
@@ -12,6 +12,12 @@ jobs:
       steps:
          - name: Checkout code
            uses: actions/checkout@v3
+
+         - name: Run tests
+           uses: cypress-io/github-action@v4
+           with:
+              command: npx cypress run
+              browser: chrome
 
          - name: Setup Node.js
            uses: actions/setup-node@v3
