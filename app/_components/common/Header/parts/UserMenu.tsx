@@ -65,7 +65,8 @@ export const UserMenu: React.FC = () => {
          <ul
             className={`
                hidden desktop:block z-30
-               desktop:px-4 text-xl font-normal pb-2 desktop:absolute bg-dark rounded-md top-full right-0 w-[180px] shadow-lg
+               desktop:px-4 text-xl font-normal pb-1 desktop:absolute bg-dark 
+               rounded-md top-full right-0 w-[152px] shadow-lg ml-[12px]
                `}
          >
             {isMenuOpen && menuList()}
@@ -79,7 +80,7 @@ export const UserMenu: React.FC = () => {
             block desktop:hidden 
             fixed p-4 inset-y-0 right-0 z-30
             transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} 
-            bg-dark text-white z-20 w-[10rem] 
+            bg-dark text-white z-20 w-[220px]
             transition-transform ease-in-out duration-300`}
       >
          <Button
@@ -92,7 +93,7 @@ export const UserMenu: React.FC = () => {
                className="text-lg"
             />
          </Button>
-         <ul className="font-normal text-xl -mt-2">
+         <ul className="font-normal text-xl -mt-2 ml-[12px]">
             {isMenuOpen && menuList()}
          </ul>
       </div>
@@ -105,7 +106,8 @@ export const UserMenu: React.FC = () => {
                variant="h3"
                data-cy="main-menu-title"
                className={`
-                  absolute hidden 2md:block right-full w-max text-xl font-medium text-white tracking-wide mr-3 truncate max-w-60 top-[-3px]
+                  absolute hidden 2md:block right-full w-max text-xl font-medium 
+                  text-white tracking-wide mr-3 truncate max-w-60 top-[-3px]
                `}
             >
                Witaj, {userName}

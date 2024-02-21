@@ -19,6 +19,7 @@ export const MainMenu: React.FC = () => {
 
    useEffect(() => {
       setMenuOpen(false);
+      setPropositionsOpen(false);
    }, [pathname]);
 
    const toggleMenu = () => {
@@ -67,7 +68,6 @@ export const MainMenu: React.FC = () => {
                      <Link
                         className="menu-item-hover"
                         href="/propositions/popular"
-                        onClick={() => setPropositionsOpen(false)}
                      >
                         Popularne
                      </Link>
@@ -82,7 +82,6 @@ export const MainMenu: React.FC = () => {
                               user?.id ? "menu-item-hover" : "disabled-link"
                            }
                            href={`/propositions/${user?.id}`}
-                           onClick={() => setPropositionsOpen(false)}
                         >
                            Twoje
                         </Link>
@@ -153,7 +152,7 @@ export const MainMenu: React.FC = () => {
                flex 
                fixed z-20 p-4 inset-y-0 left-0 flex-col items-end
                transform ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
-               bg-dark text-white w-[10rem] 
+               bg-dark text-white w-[220px]
                transition-transform ease-in-out duration-300`}
          >
             <div className="flex gap-5 self-start items-center mb-4 absolute mt-[7px]">
@@ -165,7 +164,7 @@ export const MainMenu: React.FC = () => {
                   <AiOutlineClose className="text-lg" />
                </Button>
             </div>
-            <ul className="font-normal text-xl mr-[6px]">{menuList}</ul>
+            <ul className="font-normal text-xl mr-[12px]">{menuList}</ul>
          </div>
       </div>
    );

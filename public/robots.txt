@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: http://localhost:3000
+Host: https://d3dde1giuv87xo.cloudfront.net/
 
 # Sitemaps
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://d3dde1giuv87xo.cloudfront.net/sitemap.xml
