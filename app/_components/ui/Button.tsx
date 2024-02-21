@@ -18,11 +18,11 @@ export const Button = ({
 }: ButtonProps) => {
    const classes: { [key: string]: string } = {
       primary:
-         "text-[22px] rounded-md bg-dark hover:bg-emerald-500 border-2 text-white border-dark focus-visible:outline-white",
-      secondary: `text-[22px] bg-transparent text-dim border-dim border-2 border
+         "text-lg rounded-md bg-dark hover:bg-emerald-500 border-2 text-white border-dark focus-visible:outline-white",
+      secondary: `text-lg bg-transparent text-dim border-dim border-2 border
          hover:bg-emerald-400 hover:font-semibold focus-visible:outline-white`,
       tertiary:
-         "py-0 py-2 px-2 sm:py-1 my-2 w-auto text-dim hover:text-emerald-600",
+         "py-0 py-2 px-0 sm:py-1 my-2 w-auto text-dim hover:text-emerald-600",
       icon: "p-0 m-0 border-none hover:brightness-85 w-auto focus-visible:outline-white",
       custom: "",
    };

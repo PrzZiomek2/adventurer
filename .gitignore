@@ -35,3 +35,9 @@ yarn-error.log*
 next-env.d.ts
 
 openAiCommands.ts
+
+# sst
+.sst
+
+# open-next
+.open-next

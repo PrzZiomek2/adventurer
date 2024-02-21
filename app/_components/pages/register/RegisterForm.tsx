@@ -27,7 +27,7 @@ export const RegisterForm = ({
       <Form
          onSubmit={onSubmitHandler}
          className={`
-            absolute sm:left-1/2 sm:h-auto sm:-translate-x-1/2 lg:mt-8 h-[630px]
+            absolute sm:left-1/2 sm:h-auto sm:-translate-x-1/2 h-[630px]
             sm:max-w-[480px] 
          `}
       >

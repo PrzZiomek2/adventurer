@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/_customHooks/useUrlParams";
@@ -15,32 +15,31 @@ import { Tooltip } from "@/components/ui/Tooltip";
 interface CriteriaFormFields {
    disliked: string[];
    favourite: string[];
-   isCreative: boolean;
    tags: string[];
 }
 
 const CriteriaForm = () => {
    const router = useRouter();
    const session = useSession();
+   const searchParams = useSearchParams();
    const userId = session.data?.user.id;
 
    const [formData, setFormData] = useState<CriteriaFormFields>({
       disliked: [],
       favourite: [],
-      isCreative: false,
       tags: [],
    });
 
-   const { disliked, favourite, tags, isCreative } = formData;
+   const { disliked, favourite, tags } = formData;
    const paramsValues = {
       favourite: favourite.join(","),
       disliked: disliked.join(","),
-      isCreative: isCreative.toString(),
       tags: tags.join(","),
    };
    const currentParams = useUrlParams(paramsValues);
 
    useEffect(() => {
+      if (!currentParams) return;
       window.history.pushState({}, "", `?${currentParams.toString()}`);
    }, [currentParams]);
 
@@ -63,7 +62,7 @@ const CriteriaForm = () => {
       <>
          <Form
             onSubmit={handleFormSubmit}
-            className="mt-0 lg:mt-8 sm:static max-w-[700px]"
+            className="mt-0 sm:static max-w-[700px]"
          >
             <Heading
                className="text-xl mb-2"
@@ -107,21 +106,20 @@ const CriteriaForm = () => {
                   Losowo
                </Label>
             </div> */}
-            <div>
-               <Tooltip
-                  id="search-by-pref-btn"
-                  text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
+            <Tooltip
+               id="search-by-pref-btn"
+               text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
+               wrapperClassName="mt-6 sm:max-w-max"
+            >
+               <Button
+                  type="submit"
+                  className="mt-0"
+                  variant="primary"
+                  disabled={!userId}
                >
-                  <Button
-                     type="submit"
-                     className="mt-8 md:mt-12"
-                     variant="primary"
-                     disabled={!userId}
-                  >
-                     Start
-                  </Button>
-               </Tooltip>
-            </div>
+                  Start
+               </Button>
+            </Tooltip>
          </Form>
       </>
    );

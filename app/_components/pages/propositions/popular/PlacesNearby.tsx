@@ -37,7 +37,7 @@ export const PlacesNearby = () => {
 
    return (
       <>
-         <div className="flex flex-col gap-6 order-2 lg:-order-1">
+         <div className="flex flex-col gap-6">
             <Heading
                className="col-span-full"
                variant="h2"

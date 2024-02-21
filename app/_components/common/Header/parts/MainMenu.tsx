@@ -153,7 +153,7 @@ export const MainMenu: React.FC = () => {
                flex 
                fixed z-20 p-4 inset-y-0 left-0 flex-col items-end
                transform ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
-               bg-dark text-white w-[13rem] 
+               bg-dark text-white w-[10rem] 
                transition-transform ease-in-out duration-300`}
          >
             <div className="flex gap-5 self-start items-center mb-4 absolute mt-[7px]">

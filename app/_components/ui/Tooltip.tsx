@@ -6,14 +6,22 @@ interface TooltipProps {
    children: React.ReactNode;
    id: string;
    hidden?: boolean;
+   wrapperClassName?: string;
 }
 
-export const Tooltip = ({ children, text, id, hidden }: TooltipProps) => {
+export const Tooltip = ({
+   children,
+   text,
+   id,
+   hidden,
+   wrapperClassName,
+}: TooltipProps) => {
    return (
       <>
          <span
             data-tip
             data-tooltip-id={id}
+            className={wrapperClassName || ""}
          >
             {children}
          </span>
@@ -24,8 +32,7 @@ export const Tooltip = ({ children, text, id, hidden }: TooltipProps) => {
                padding: "0.35rem 0.75rem",
                fontWeight: 400,
                borderRadius: "0.45rem",
-               fontSize: "0.875rem",
-               width: "max-content",
+               fontSize: "0.8rem",
                height: "auto",
                maxWidth: "16rem",
             }}
