@@ -79,7 +79,7 @@ export const UserMenu: React.FC = () => {
             block desktop:hidden 
             fixed p-4 inset-y-0 right-0 z-30
             transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} 
-            bg-dark text-white z-20 w-[12rem] 
+            bg-dark text-white z-20 w-[10rem] 
             transition-transform ease-in-out duration-300`}
       >
          <Button

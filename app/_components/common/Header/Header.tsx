@@ -8,9 +8,13 @@ import { Container } from "@/components/ui/Container";
 
 const Header: React.FC = () => {
    return (
-      <header className="bg-dark fixed 2md:static top-0 left-0 w-full text-white flex justify-between items-center">
+      <header
+         className={`
+         bg-dark sticky z-10 2md:static top-0 left-0 w-full text-white flex justify-between items-center
+      `}
+      >
          <Container>
-            <div className="flex justify-between items-center px-4 md:px-2 py-4">
+            <div className="flex justify-between items-center px-4 md:px-2 py-3">
                <MainMenu />
                <Heading
                   variant="h1"

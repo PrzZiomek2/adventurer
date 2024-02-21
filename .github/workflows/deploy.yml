@@ -31,7 +31,7 @@ jobs:
               NEXT_PUBLIC_GOOGLE_MAPS_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_KEY }}
               GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
               NEXT_PUBLIC_GOOGLE_MAP_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_ID }}
-              NEXTAUTH_URL: "http://localhost:3000"
-              NEXT_PUBLIC_NEXTAUTH_URL: "http://localhost:3000"
+              NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+              NEXT_PUBLIC_NEXTAUTH_URL: ${{ secrets.NEXT_PUBLIC_NEXTAUTH_URL }}
            run: |
               npx sst deploy --stage prod

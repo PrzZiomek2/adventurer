@@ -26,7 +26,7 @@ export const LoginForm = ({
       <Form
          onSubmit={onSubmitHandler}
          className={`
-            mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2 lg:mt-8
+            mt-0 absolute sm:left-1/2 h-full sm:h-auto sm:-translate-x-1/2
             sm:max-w-[480px]
          `}
       >
