@@ -4,6 +4,7 @@ import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { Heading } from "@/components/ui/Heading";
 import { getServerData } from "app/_utils/handlersApi";
 import { useContext, useEffect, useState } from "react";
+import { PlacesList } from "../parts/PlacesList";
 
 export const PlacesNearby = () => {
    const { coords } = useContext(UserLocationContext);
@@ -17,8 +18,6 @@ export const PlacesNearby = () => {
       : { lat: 52.4, lng: 16.9 };
 
    useEffect(() => {
-      // TODO: complete in second release
-      return;
       const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
       const getPlaces = async () => {
          const placesDataRes = await getServerData<{ data: MapPlace[] }>(
@@ -35,6 +34,14 @@ export const PlacesNearby = () => {
       }
    }, [centerPosition.lat, centerPosition.lng]);
 
+   const placesCoords =
+      placesData &&
+      placesData.map(({ geometry, place_id }) => ({
+         lat: geometry.location.lat,
+         lng: geometry.location.lng,
+         place_id,
+      }));
+
    return (
       <>
          <div className="flex flex-col gap-6">
@@ -44,6 +51,7 @@ export const PlacesNearby = () => {
             >
                W okolicy
             </Heading>
+            <PlacesList places={placesData} />
          </div>
          <Map
             userLocalized

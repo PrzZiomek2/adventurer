@@ -40,6 +40,18 @@ const nextConfig = {
          },
       ];
    },
+   images: {
+      remotePatterns: [
+         {
+            protocol: "https",
+            hostname: "res.cloudinary.com",
+         },
+         {
+            protocol: "https",
+            hostname: "maps.gstatic.com",
+         },
+      ],
+   },
 };
 
 module.exports = nextConfig;

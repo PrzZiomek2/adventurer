@@ -24,10 +24,14 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&location=${location}&radius=${radius}&key=${process.env.GOOGLE_MAPS_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&language=pl&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
       const resData = await response.json();
+
+      if (resData?.error_message) {
+         console.log(resData);
+      }
 
       if (resData) {
          resContent = {
