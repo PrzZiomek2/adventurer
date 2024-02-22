@@ -16,7 +16,7 @@ export default function Error({
    }, [error]);
 
    return (
-      <main>
+      <main className="flex flex-col items-center mt-12">
          <Heading variant="h2">Przepraszamy, wystapil blad serwera. </Heading>
          <button onClick={() => reset()}>Ponów</button>
       </main>

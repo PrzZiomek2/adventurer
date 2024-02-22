@@ -14,6 +14,9 @@ const config: Config = {
             "gradient-conic":
                "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
          },
+         boxShadow: {
+            item: "0 0 5px #047857",
+         },
          colors: {
             dim: "#043427",
             dark: "#047857",
