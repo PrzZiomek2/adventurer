@@ -50,6 +50,10 @@ const nextConfig = {
             protocol: "https",
             hostname: "maps.gstatic.com",
          },
+         {
+            protocol: "https",
+            hostname: "maps.googleapis.com",
+         },
       ],
    },
 };

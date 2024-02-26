@@ -19,7 +19,8 @@ const config: Config = {
          },
          colors: {
             dim: "#043427",
-            dark: "#047857",
+            darken: "#064e3b",
+            dark: "#065f46", // "#047857",
             medium: "#34D399",
             blend: "#64E4B2", // "#5BE0AD",
             light: "#6EE7B7",

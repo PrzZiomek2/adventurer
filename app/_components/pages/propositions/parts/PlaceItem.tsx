@@ -1,4 +1,5 @@
 import { Tag } from "@/components/ui/Tag";
+import { urls } from "app/_utils/urls";
 import Image from "next/image";
 import Link from "next/link";
 import { IoStarSharp } from "react-icons/io5";
@@ -8,6 +9,7 @@ interface PlaceItemProps {
 }
 
 export const PlaceItem = ({ place }: PlaceItemProps) => {
+   const { googleMaps } = urls();
    const {
       formatted_address,
       name,
@@ -23,24 +25,27 @@ export const PlaceItem = ({ place }: PlaceItemProps) => {
 
    return (
       <div className="flex flex-col md:flex-row border border-dark shadow-item rounded-lg overflow-hidden">
-         <div className="w-[250px] h-[200px]">
+         <div className="mb-2 mt-4">
             {photos?.length > 0 &&
-               false &&
-               photos.map((photo) => (
+               photos.map(({ photo_reference }) => (
                   <Image
                      alt="zdjęcie miejsca"
-                     key={photo.photo_reference}
-                     src={photo.photo_reference}
+                     key={photo_reference}
+                     className="w-[300px] h-[200px] m-auto mt-15px] rounded-lg object-cover bg-emerald-200"
+                     src={`
+                        ${googleMaps}/place/photo?maxheight=300&maxwidth=400&photoreference=${photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY}
+                     `}
                      width={250}
                      height={200}
+                     onError={() => "brak zdjęcia"}
                   />
                ))}
          </div>
          <div className="flex flex-col justify-between flex-grow p-4">
             <div className="flex flex-col space-y-2">
-               <div className="text-lg font-bold flex justify-between">
+               <div className="text-lg font-bold flex justify-between items-center">
                   <Link
-                     className="text-dark hover:underline"
+                     className="text-dark hover:underline text-[22px] decoration-4"
                      href={`#`}
                   >
                      {name}
@@ -49,8 +54,9 @@ export const PlaceItem = ({ place }: PlaceItemProps) => {
                      <Image
                         alt="ikona typu placówki"
                         src={icon}
-                        width={22}
-                        height={18}
+                        className="max-w-[20px] max-h-[25px]"
+                        width={20}
+                        height={25}
                      />
                   )}
                </div>
@@ -64,13 +70,13 @@ export const PlaceItem = ({ place }: PlaceItemProps) => {
                ) : null}
             </div>
             <div className="flex mt-2">
-               <div className="flex gap-2 items-center text-lg font-bold">
-                  <span>{rating}</span>
-                  <IoStarSharp className="text-xl text-yellow-100" />
+               <div className="flex gap-2 items-center text-xl font-bold mr-2">
+                  <span className="text-darken">{rating}</span>
+                  <IoStarSharp className="text-2xl text-yellow-50 mb-[6px]" />
                </div>
                <div className="text-lg">({user_ratings_total})</div>
                {price_level ? (
-                  <div className="text-lg font-bold text-right flex-grow">
+                  <div className="text-xl text-darken tracking-wider font-bold text-right flex-grow">
                      {Array.from({ length: price_level }, () => `$`).join("")}
                   </div>
                ) : null}
