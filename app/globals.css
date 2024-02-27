@@ -56,13 +56,13 @@
    }
 
    a {
-      @apply hover:underline hover:underline-offset-10;
+      @apply hover:underline hover:underline-offset-4;
    }
 }
 
 @layer components {
    .card {
-      @apply bg-blend text-dim shadow-lg sm:rounded-md pt-6 mb-0 sm:mb-4 pb-4 px-4 md:px-6 h-fit pt-4;
+      @apply bg-blend text-dim shadow-lg sm:rounded-md mb-0 sm:mb-4 pb-4 px-4 md:px-6 h-fit pt-4;
    }
 
    .input-error {

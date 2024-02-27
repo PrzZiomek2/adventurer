@@ -7,15 +7,15 @@ import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { renderToStaticMarkup } from "react-dom/server";
 
 interface MapProps {
-   position: {
+   mainPosition: {
       lat: number;
       lng: number;
-   };
+   } | null;
    userLocalized?: boolean;
    places?: MapPlace[];
 }
 
-export const Map: FC<MapProps> = ({ position, places }) => {
+export const Map: FC<MapProps> = ({ mainPosition, places }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
 
    useEffect(() => {
@@ -29,7 +29,7 @@ export const Map: FC<MapProps> = ({ position, places }) => {
          const { Marker } = await loader.importLibrary("marker");
 
          const mapSettings = {
-            center: position,
+            center: mainPosition || { lat: 52.4, lng: 16.9 },
             zoom: 12,
             mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
          };
@@ -40,20 +40,22 @@ export const Map: FC<MapProps> = ({ position, places }) => {
             renderToStaticMarkup(<GiPositionMarker />),
          )}`;
 
-         new Marker({
-            map,
-            position,
-            icon: {
-               url: iconUrl,
-               scaledSize: new window.google.maps.Size(44, 44),
-            },
-         });
+         if (mainPosition) {
+            new Marker({
+               map,
+               position: mainPosition,
+               icon: {
+                  url: iconUrl,
+                  scaledSize: new window.google.maps.Size(44, 44),
+               },
+            });
+         }
       };
 
       if (mapRef.current) {
          initMap();
       }
-   }, [mapRef, position]);
+   }, [mapRef, mainPosition]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">

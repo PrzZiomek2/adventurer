@@ -10,6 +10,13 @@ export const PlacesNearby = () => {
    const { coords } = useContext(UserLocationContext);
    const [placesData, setPlacesData] = useState<MapPlace[]>([]);
 
+   const userPosition = coords
+      ? {
+           lat: coords.latitude,
+           lng: coords.longitude,
+        }
+      : null;
+
    const centerPosition = coords
       ? {
            lat: coords.latitude,
@@ -53,10 +60,10 @@ export const PlacesNearby = () => {
             </Heading>
             <PlacesList places={placesData} />
          </div>
-         <Map
+         {/* <Map
             userLocalized
-            position={centerPosition}
-         />
+            mainPosition={userPosition}
+         /> */}
       </>
    );
 };

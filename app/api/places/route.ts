@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&language=pl&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&language=pl&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
       const resData = await response.json();
