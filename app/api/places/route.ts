@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&language=pl&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
       const resData = await response.json();
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       if (resData) {
          resContent = {
             status: 200,
-            data: resData.results,
+            data: resData.results.slice(0, 10),
          };
       }
    } catch (error) {

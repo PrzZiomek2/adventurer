@@ -1,5 +1,4 @@
 "use client";
-import { Map } from "@/components/common/Map/Map";
 import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { Heading } from "@/components/ui/Heading";
 import { getServerData } from "app/_utils/handlersApi";
@@ -9,6 +8,7 @@ import { PlacesList } from "../parts/PlacesList";
 export const PlacesNearby = () => {
    const { coords } = useContext(UserLocationContext);
    const [placesData, setPlacesData] = useState<MapPlace[]>([]);
+   const [loadingData, setLoadingData] = useState(false);
 
    const userPosition = coords
       ? {
@@ -27,12 +27,19 @@ export const PlacesNearby = () => {
    useEffect(() => {
       const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
       const getPlaces = async () => {
-         const placesDataRes = await getServerData<{ data: MapPlace[] }>(
-            `places?category=${categories.join("|")}&radius=1000&location=${centerPosition.lat},${centerPosition.lng}`,
-         );
+         try {
+            setLoadingData(true);
+            const placesDataRes = await getServerData<{ data: MapPlace[] }>(
+               `places?category=${categories.join("|")}&radius=1000&location=${centerPosition.lat},${centerPosition.lng}`,
+            );
 
-         if (placesDataRes) {
-            setPlacesData(placesDataRes?.data);
+            if (placesDataRes) {
+               setPlacesData(placesDataRes?.data);
+            }
+         } catch (e) {
+            console.log(e);
+         } finally {
+            setLoadingData(false);
          }
       };
 
@@ -58,7 +65,11 @@ export const PlacesNearby = () => {
             >
                W okolicy
             </Heading>
-            <PlacesList places={placesData} />
+
+            <PlacesList
+               loadingData={loadingData}
+               places={placesData}
+            />
          </div>
          {/* <Map
             userLocalized
