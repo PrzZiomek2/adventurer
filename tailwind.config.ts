@@ -51,6 +51,7 @@ const config: Config = {
          "2md": "900px",
          lg: "1024px",
          desktop: "1200px",
+         desktop2: "1300px",
          hd: "1536px",
          wide: "1800px",
       },

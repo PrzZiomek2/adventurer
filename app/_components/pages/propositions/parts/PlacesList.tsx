@@ -1,22 +1,27 @@
+import { WithLoader } from "@/components/ui/Loader/WithLoader";
 import { PlaceItem } from "./PlaceItem";
 
 interface PlacesListProps {
    places: MapPlace[];
+   loadingData: boolean;
 }
 
-export const PlacesList = ({ places }: PlacesListProps) => {
+export const PlacesList = ({ places, loadingData }: PlacesListProps) => {
    return (
-      <section
-         className={`
-         grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-h-[600px] overflow-auto
-      `}
-      >
-         {places.map((place) => (
-            <PlaceItem
-               key={place.place_id}
-               place={place}
-            />
-         ))}
-      </section>
+      <WithLoader loading={loadingData && !places.length}>
+         <section
+            className={`
+               grid grid-cols-1 gap-5 md:p-3
+               max-h-[600px] overflow-auto with-scroll
+            `}
+         >
+            {places.map((place) => (
+               <PlaceItem
+                  key={place.place_id}
+                  place={place}
+               />
+            ))}
+         </section>
+      </WithLoader>
    );
 };

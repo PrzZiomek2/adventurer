@@ -13,7 +13,7 @@ export const Tag = ({ data, handleDelete, small }: TagProps) => (
    <div
       className={`
          ${small ? "text-xs" : "text-sm"} 
-         bg-emerald-600 flex items-center p-2 mt-3 mr-2 pl-4 pr-3 rounded-full text-white
+         bg-emerald-600 flex items-center p-2 mt-3 mr-2 pl-4 rounded-full text-white
       `}
       data-cy="tag"
    >
