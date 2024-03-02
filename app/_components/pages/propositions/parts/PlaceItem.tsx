@@ -35,7 +35,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             flex flex-col md:flex-row border lg:max-desktop:flex-col
             md:max-w-fit md:gap-3 w-full max-w-[390px]
             border-dark rounded-lg 
-            ${highlight ? "shadow-[12px_13px_18px_#047857]" : "shadow-item"}
+            ${highlight ? "shadow-highlight" : "shadow-item-bolder"}
             md:min-w-[-webkit-fill-available] justify-self-center
          `}
       >
