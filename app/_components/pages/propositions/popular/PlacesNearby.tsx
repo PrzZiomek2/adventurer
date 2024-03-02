@@ -4,11 +4,13 @@ import { Heading } from "@/components/ui/Heading";
 import { getServerData } from "app/_utils/handlersApi";
 import { useContext, useEffect, useState } from "react";
 import { PlacesList } from "../parts/PlacesList";
+import { Map } from "@/components/common/Map/Map";
 
 export const PlacesNearby = () => {
    const { coords } = useContext(UserLocationContext);
    const [placesData, setPlacesData] = useState<MapPlace[]>([]);
    const [loadingData, setLoadingData] = useState(false);
+   const [clickedPlace, setClickedPlace] = useState("");
 
    const userPosition = coords
       ? {
@@ -26,18 +28,19 @@ export const PlacesNearby = () => {
 
    useEffect(() => {
       const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
+      const radius = 2000;
       const getPlaces = async () => {
          try {
             setLoadingData(true);
             const placesDataRes = await getServerData<{ data: MapPlace[] }>(
-               `places?category=${categories.join("|")}&radius=1000&location=${centerPosition.lat},${centerPosition.lng}`,
+               `places?category=${categories.join("|")}&radius=${radius}&location=${centerPosition.lat},${centerPosition.lng}`,
             );
 
             if (placesDataRes) {
                setPlacesData(placesDataRes?.data);
             }
-         } catch (e) {
-            console.log(e);
+         } catch (err) {
+            console.log(err);
          } finally {
             setLoadingData(false);
          }
@@ -50,15 +53,16 @@ export const PlacesNearby = () => {
 
    const placesCoords =
       placesData &&
-      placesData.map(({ geometry, place_id }) => ({
+      placesData.map(({ geometry, place_id, name }) => ({
          lat: geometry.location.lat,
          lng: geometry.location.lng,
+         name,
          place_id,
       }));
 
    return (
       <>
-         <div className="flex flex-col gap-6">
+         <div className="flex flex-col gap-3">
             <Heading
                className="col-span-full"
                variant="h2"
@@ -67,14 +71,17 @@ export const PlacesNearby = () => {
             </Heading>
 
             <PlacesList
+               clickedPlace={clickedPlace}
                loadingData={loadingData}
                places={placesData}
             />
          </div>
-         {/* <Map
+         <Map
             userLocalized
+            places={placesCoords}
+            setClickedPlace={setClickedPlace}
             mainPosition={userPosition}
-         /> */}
+         />
       </>
    );
 };

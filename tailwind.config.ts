@@ -22,7 +22,7 @@ const config: Config = {
             darken: "#064e3b",
             dark: "#065f46", // "#047857",
             medium: "#34D399",
-            blend: "#64E4B2", // "#5BE0AD",
+            blend: "#64E4B2",
             light: "#6EE7B7",
             lighted: "#A7F3D0",
             alert: "#9b1717",
