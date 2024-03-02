@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
       const resData = await response.json();
@@ -33,10 +33,14 @@ export async function GET(req: NextRequest) {
          console.log(resData);
       }
 
+      const sortedRes = (resData.results as MapPlace[])?.sort(
+         (a, b) => b.rating - a.rating,
+      );
+
       if (resData) {
          resContent = {
             status: 200,
-            data: resData.results.slice(0, 10),
+            data: sortedRes?.slice(0, 10),
          };
       }
    } catch (error) {
