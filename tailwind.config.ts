@@ -16,6 +16,8 @@ const config: Config = {
          },
          boxShadow: {
             item: "0 0 5px #047857",
+            "item-bolder": "1px 1px 7px #047857",
+            highlight: "12px 13px 18px #047857",
          },
          colors: {
             dim: "#043427",
