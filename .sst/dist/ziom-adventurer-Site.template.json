@@ -1,0 +1,2141 @@
+{
+ "Resources": {
+  "CustomResourceHandlerServiceRole41AEC181": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "CustomResourceHandlerE8FB56BA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "81cf75ce2b2f9b4a61b04fdea03adccc35215688d1f9b337c39fbef65e1de5f3.zip"
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerServiceRole41AEC181",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomResourceHandlerServiceRole41AEC181"
+   ]
+  },
+  "SiteS3Bucket43E5BB2F": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteS3BucketPolicy5FFCCBA0": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "SiteS3Bucket43E5BB2F"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteS3Bucket43E5BB2F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteS3Bucket43E5BB2F",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteS3Bucket43E5BB2F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteS3Bucket43E5BB2F",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "SiteDistributionOrigin3S3Origin97F7879E",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "SiteS3Bucket43E5BB2F",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "SiteS3BucketAutoDeleteObjectsCustomResource51C4527F": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "SiteS3Bucket43E5BB2F"
+    }
+   },
+   "DependsOn": [
+    "SiteS3BucketPolicy5FFCCBA0"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteCloudFrontFunctionF6976CC7": {
+   "Type": "AWS::CloudFront::Function",
+   "Properties": {
+    "AutoPublish": true,
+    "FunctionCode": "function handler(r){var e=r.request;return e.headers[\"x-forwarded-host\"]=e.headers.host,e.cookies.__prerender_bypass&&(e.headers[\"x-prerender-bypass\"]={value:\"true\"}),e}\n",
+    "FunctionConfig": {
+     "Comment": "eu-central-1ziomadventurerSiteCloudFrontFunction4613EF33",
+     "Runtime": "cloudfront-js-1.0"
+    },
+    "Name": "eu-central-1ziomadventurerSiteCloudFrontFunction4613EF33"
+   }
+  },
+  "SiteServerFunctionAssetReplacerPolicy00BAA986": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":s3:::cdk-hnb659fds-assets-044833949249-eu-central-1/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteServerFunctionAssetReplacerPolicy00BAA986",
+    "Roles": [
+     {
+      "Ref": "CustomResourceHandlerServiceRole41AEC181"
+     }
+    ]
+   }
+  },
+  "SiteServerFunctionAssetReplacer4798FE1F": {
+   "Type": "Custom::AssetReplacer",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerE8FB56BA",
+      "Arn"
+     ]
+    },
+    "bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+    "key": "ad2a81622b52823840a74a694c06040b2876f91077e5e3dfd31454fd4d38f97b.zip",
+    "replacements": [
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ NEXT_PUBLIC_NEXTAUTH_URL }}",
+      "replace": "http://localhost:3000"
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ NEXT_PUBLIC_GOOGLE_MAPS_KEY }}",
+      "replace": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI"
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ NEXT_PUBLIC_GOOGLE_PLACES_KEY }}",
+      "replace": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI"
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ NEXT_PUBLIC_GOOGLE_MAP_ID }}",
+      "replace": "my_map_super_id_1922"
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ CACHE_BUCKET_NAME }}",
+      "replace": {
+       "Ref": "SiteS3Bucket43E5BB2F"
+      }
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ CACHE_BUCKET_KEY_PREFIX }}",
+      "replace": "_cache"
+     },
+     {
+      "files": "**/*.@(*js|json|html)",
+      "search": "{{ CACHE_BUCKET_REGION }}",
+      "replace": "eu-central-1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacerPolicy00BAA986"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteServerFunctionServiceRole5E5374FA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F"
+   ]
+  },
+  "SiteServerFunctionServiceRoleDefaultPolicy9429B1C1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteS3Bucket43E5BB2F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteS3Bucket43E5BB2F",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SiteRevalidationQueue5ABA040F",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteRevalidationTable0402D75F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteRevalidationTable0402D75F",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteServerFunctionServiceRoleDefaultPolicy9429B1C1",
+    "Roles": [
+     {
+      "Ref": "SiteServerFunctionServiceRole5E5374FA"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F"
+   ]
+  },
+  "SiteServerFunction70E7C026": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "ad2a81622b52823840a74a694c06040b2876f91077e5e3dfd31454fd4d38f97b.zip"
+    },
+    "Description": "Next.js server",
+    "Environment": {
+     "Variables": {
+      "NEXT_PUBLIC_NEXTAUTH_URL": "http://localhost:3000",
+      "NEXT_PUBLIC_GOOGLE_MAPS_KEY": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI",
+      "NEXT_PUBLIC_GOOGLE_PLACES_KEY": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI",
+      "NEXT_PUBLIC_GOOGLE_MAP_ID": "my_map_super_id_1922",
+      "CACHE_BUCKET_NAME": {
+       "Ref": "SiteS3Bucket43E5BB2F"
+      },
+      "CACHE_BUCKET_KEY_PREFIX": "_cache",
+      "CACHE_BUCKET_REGION": "eu-central-1",
+      "SST_APP": "adventurer",
+      "SST_STAGE": "ziom",
+      "SST_SSM_PREFIX": "/sst/adventurer/ziom/",
+      "REVALIDATION_QUEUE_URL": {
+       "Ref": "SiteRevalidationQueue5ABA040F"
+      },
+      "REVALIDATION_QUEUE_REGION": "eu-central-1",
+      "CACHE_DYNAMO_TABLE": {
+       "Ref": "SiteRevalidationTable0402D75F"
+      }
+     }
+    },
+    "Handler": "server-index.handler",
+    "Layers": [
+     "arn:aws:lambda:eu-central-1:226609089145:layer:sst-extension-arm64:2"
+    ],
+    "MemorySize": 2024,
+    "Role": {
+     "Fn::GetAtt": [
+      "SiteServerFunctionServiceRole5E5374FA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F",
+    "SiteServerFunctionServiceRoleDefaultPolicy9429B1C1",
+    "SiteServerFunctionServiceRole5E5374FA"
+   ]
+  },
+  "SiteServerFunctionLogRetention82FC0336": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SiteServerFunction70E7C026"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 3
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F"
+   ]
+  },
+  "SiteServerFunctionFunctionUrlAE55D36C": {
+   "Type": "AWS::Lambda::Url",
+   "Properties": {
+    "AuthType": "NONE",
+    "InvokeMode": "BUFFERED",
+    "TargetFunctionArn": {
+     "Fn::GetAtt": [
+      "SiteServerFunction70E7C026",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F"
+   ]
+  },
+  "SiteServerFunctioninvokefunctionurl8902A688": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunctionUrl",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SiteServerFunction70E7C026",
+      "Arn"
+     ]
+    },
+    "FunctionUrlAuthType": "NONE",
+    "Principal": "*"
+   },
+   "DependsOn": [
+    "SiteServerFunctionAssetReplacer4798FE1F"
+   ]
+  },
+  "SiteImageFunctionServiceRoleCD42FEF3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "SiteImageFunctionServiceRoleDefaultPolicyEF8D2843": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "SiteS3Bucket43E5BB2F",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteImageFunctionServiceRoleDefaultPolicyEF8D2843",
+    "Roles": [
+     {
+      "Ref": "SiteImageFunctionServiceRoleCD42FEF3"
+     }
+    ]
+   }
+  },
+  "SiteImageFunction6C3177FC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "c45250ba2f8eab17f080d195241a041cdb9ad0faaaef4af58418342e1a259784.zip"
+    },
+    "Description": "Next.js image optimizer",
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "SiteS3Bucket43E5BB2F"
+      },
+      "BUCKET_KEY_PREFIX": "_assets"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1536,
+    "Role": {
+     "Fn::GetAtt": [
+      "SiteImageFunctionServiceRoleCD42FEF3",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 25
+   },
+   "DependsOn": [
+    "SiteImageFunctionServiceRoleDefaultPolicyEF8D2843",
+    "SiteImageFunctionServiceRoleCD42FEF3"
+   ]
+  },
+  "SiteImageFunctionLogRetention62D8F629": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SiteImageFunction6C3177FC"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 3
+   }
+  },
+  "SiteImageFunctionFunctionUrlBB588560": {
+   "Type": "AWS::Lambda::Url",
+   "Properties": {
+    "AuthType": "NONE",
+    "TargetFunctionArn": {
+     "Fn::GetAtt": [
+      "SiteImageFunction6C3177FC",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "SiteImageFunctioninvokefunctionurl5CA41C3F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunctionUrl",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SiteImageFunction6C3177FC",
+      "Arn"
+     ]
+    },
+    "FunctionUrlAuthType": "NONE",
+    "Principal": "*"
+   }
+  },
+  "SiteS3AssetUploaderPolicy748FF814": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "CustomResourceHandlerE8FB56BA",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:DeleteObject"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteS3Bucket43E5BB2F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteS3Bucket43E5BB2F",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":s3:::cdk-hnb659fds-assets-044833949249-eu-central-1/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteS3AssetUploaderPolicy748FF814",
+    "Roles": [
+     {
+      "Ref": "CustomResourceHandlerServiceRole41AEC181"
+     }
+    ]
+   }
+  },
+  "SiteS3AssetUploader75B75D7F": {
+   "Type": "Custom::S3Uploader",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerE8FB56BA",
+      "Arn"
+     ]
+    },
+    "sources": [
+     {
+      "bucketName": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+      "objectKey": "a2bd83971f29d3e14e1f2490f768f497e7b3fe4ba3d72e831039f6aacb532cc1.zip"
+     }
+    ],
+    "destinationBucketName": {
+     "Ref": "SiteS3Bucket43E5BB2F"
+    },
+    "textEncoding": "utf-8",
+    "fileOptions": [
+     {
+      "files": "**",
+      "ignore": "_assets/_next/**",
+      "cacheControl": "public,max-age=0,s-maxage=86400,stale-while-revalidate=8640"
+     },
+     {
+      "files": "_assets/_next/**",
+      "cacheControl": "public,max-age=31536000,immutable"
+     }
+    ],
+    "replaceValues": []
+   },
+   "DependsOn": [
+    "SiteS3AssetUploaderPolicy748FF814"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteServerCacheC3EA2799": {
+   "Type": "AWS::CloudFront::CachePolicy",
+   "Properties": {
+    "CachePolicyConfig": {
+     "Comment": "SST server response cache policy",
+     "DefaultTTL": 0,
+     "MaxTTL": 31536000,
+     "MinTTL": 0,
+     "Name": "ziomadventurerSiteServerCacheE5B212C6-eu-central-1",
+     "ParametersInCacheKeyAndForwardedToOrigin": {
+      "CookiesConfig": {
+       "CookieBehavior": "none"
+      },
+      "EnableAcceptEncodingBrotli": true,
+      "EnableAcceptEncodingGzip": true,
+      "HeadersConfig": {
+       "HeaderBehavior": "whitelist",
+       "Headers": [
+        "accept",
+        "rsc",
+        "next-router-prefetch",
+        "next-router-state-tree",
+        "next-url",
+        "x-prerender-bypass"
+       ]
+      },
+      "QueryStringsConfig": {
+       "QueryStringBehavior": "all"
+      }
+     }
+    }
+   }
+  },
+  "SiteDistributionOrigin3S3Origin97F7879E": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Identity for ziomadventurerSiteDistributionOrigin3C13BF8C3"
+    }
+   }
+  },
+  "SiteDistribution390DED28": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "Aliases": [],
+     "CacheBehaviors": [
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS",
+        "PUT",
+        "PATCH",
+        "POST",
+        "DELETE"
+       ],
+       "CachePolicyId": {
+        "Ref": "SiteServerCacheC3EA2799"
+       },
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "FunctionAssociations": [
+        {
+         "EventType": "viewer-request",
+         "FunctionARN": {
+          "Fn::GetAtt": [
+           "SiteCloudFrontFunctionF6976CC7",
+           "FunctionARN"
+          ]
+         }
+        }
+       ],
+       "LambdaFunctionAssociations": [],
+       "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+       "PathPattern": "api/*",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS",
+        "PUT",
+        "PATCH",
+        "POST",
+        "DELETE"
+       ],
+       "CachePolicyId": {
+        "Ref": "SiteServerCacheC3EA2799"
+       },
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "FunctionAssociations": [
+        {
+         "EventType": "viewer-request",
+         "FunctionARN": {
+          "Fn::GetAtt": [
+           "SiteCloudFrontFunctionF6976CC7",
+           "FunctionARN"
+          ]
+         }
+        }
+       ],
+       "LambdaFunctionAssociations": [],
+       "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+       "PathPattern": "_next/data/*",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS",
+        "PUT",
+        "PATCH",
+        "POST",
+        "DELETE"
+       ],
+       "CachePolicyId": {
+        "Ref": "SiteServerCacheC3EA2799"
+       },
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "FunctionAssociations": [
+        {
+         "EventType": "viewer-request",
+         "FunctionARN": {
+          "Fn::GetAtt": [
+           "SiteCloudFrontFunctionF6976CC7",
+           "FunctionARN"
+          ]
+         }
+        }
+       ],
+       "LambdaFunctionAssociations": [],
+       "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+       "PathPattern": "_next/image*",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin289F7AB9C",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "background.webp",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "background_small.webp",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "BUILD_ID",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "robots.txt",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "sitemap.xml",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "CachedMethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "Compress": true,
+       "PathPattern": "_next/*",
+       "TargetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "AllowedMethods": [
+       "GET",
+       "HEAD",
+       "OPTIONS",
+       "PUT",
+       "PATCH",
+       "POST",
+       "DELETE"
+      ],
+      "CachePolicyId": {
+       "Ref": "SiteServerCacheC3EA2799"
+      },
+      "CachedMethods": [
+       "GET",
+       "HEAD",
+       "OPTIONS"
+      ],
+      "Compress": true,
+      "FunctionAssociations": [
+       {
+        "EventType": "viewer-request",
+        "FunctionARN": {
+         "Fn::GetAtt": [
+          "SiteCloudFrontFunctionF6976CC7",
+          "FunctionARN"
+         ]
+        }
+       }
+      ],
+      "LambdaFunctionAssociations": [],
+      "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+      "TargetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "CustomOriginConfig": {
+        "OriginProtocolPolicy": "https-only",
+        "OriginReadTimeout": 30,
+        "OriginSSLProtocols": [
+         "TLSv1.2"
+        ]
+       },
+       "DomainName": {
+        "Fn::Select": [
+         0,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             1,
+             {
+              "Fn::Split": [
+               "//",
+               {
+                "Fn::GetAtt": [
+                 "SiteServerFunctionFunctionUrlAE55D36C",
+                 "FunctionUrl"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "Id": "ziomadventurerSiteDistributionOrigin107DF787C"
+      },
+      {
+       "CustomOriginConfig": {
+        "OriginProtocolPolicy": "https-only",
+        "OriginSSLProtocols": [
+         "TLSv1.2"
+        ]
+       },
+       "DomainName": {
+        "Fn::Select": [
+         0,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             1,
+             {
+              "Fn::Split": [
+               "//",
+               {
+                "Fn::GetAtt": [
+                 "SiteImageFunctionFunctionUrlBB588560",
+                 "FunctionUrl"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "Id": "ziomadventurerSiteDistributionOrigin289F7AB9C"
+      },
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "SiteS3Bucket43E5BB2F",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+       "OriginPath": "/_assets",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "SiteDistributionOrigin3S3Origin97F7879E"
+           }
+          ]
+         ]
+        }
+       }
+      }
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "SiteServerFunctionInvalidatorPolicy2A31909D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "cloudfront:CreateInvalidation",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":cloudfront::044833949249:distribution/",
+          {
+           "Ref": "SiteDistribution390DED28"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteServerFunctionInvalidatorPolicy2A31909D",
+    "Roles": [
+     {
+      "Ref": "SiteServerFunctionServiceRole5E5374FA"
+     }
+    ]
+   }
+  },
+  "SiteCloudFrontInvalidatorPolicy8E314A5F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "cloudfront:GetInvalidation",
+        "cloudfront:CreateInvalidation"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":cloudfront::044833949249:distribution/",
+          {
+           "Ref": "SiteDistribution390DED28"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteCloudFrontInvalidatorPolicy8E314A5F",
+    "Roles": [
+     {
+      "Ref": "CustomResourceHandlerServiceRole41AEC181"
+     }
+    ]
+   }
+  },
+  "SiteCloudFrontInvalidatorC49C53F3": {
+   "Type": "Custom::CloudFrontInvalidator",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerE8FB56BA",
+      "Arn"
+     ]
+    },
+    "version": "W1OVY_GLzXiLd8K92pJkc",
+    "distributionId": {
+     "Ref": "SiteDistribution390DED28"
+    },
+    "paths": [
+     "/*"
+    ],
+    "wait": false
+   },
+   "DependsOn": [
+    "SiteCloudFrontInvalidatorPolicy8E314A5F",
+    "SiteS3AssetUploader75B75D7F"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteRevalidationQueue5ABA040F": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "FifoQueue": true,
+    "ReceiveMessageWaitTimeSeconds": 20,
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteRevalidationFunctionServiceRoleFC63C731": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationFunctionServiceRoleDefaultPolicy6BBF493A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:ChangeMessageVisibility",
+        "sqs:GetQueueUrl",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SiteRevalidationQueue5ABA040F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteRevalidationFunctionServiceRoleDefaultPolicy6BBF493A",
+    "Roles": [
+     {
+      "Ref": "SiteRevalidationFunctionServiceRoleFC63C731"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationFunction8E21BEE4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "d39a43f2471dcb00ea54dbc94ebec59245fa511a637245ea575b67a0e11cc1f5.zip"
+    },
+    "Description": "Next.js revalidator",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "SiteRevalidationFunctionServiceRoleFC63C731",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "SiteRevalidationFunctionServiceRoleDefaultPolicy6BBF493A",
+    "SiteRevalidationFunctionServiceRoleFC63C731"
+   ]
+  },
+  "SiteRevalidationFunctionSqsEventSourceziomadventurerSiteRevalidationQueue247622EDC2FE08CC": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 5,
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "SiteRevalidationQueue5ABA040F",
+      "Arn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "SiteRevalidationFunction8E21BEE4"
+    }
+   }
+  },
+  "SiteRevalidationTable0402D75F": {
+   "Type": "AWS::DynamoDB::GlobalTable",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "tag",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "path",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "revalidatedAt",
+      "AttributeType": "N"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "revalidate",
+      "KeySchema": [
+       {
+        "AttributeName": "path",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "revalidatedAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "tag",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "path",
+      "KeyType": "RANGE"
+     }
+    ],
+    "Replicas": [
+     {
+      "GlobalSecondaryIndexes": [
+       {
+        "IndexName": "revalidate"
+       }
+      ],
+      "PointInTimeRecoverySpecification": {
+       "PointInTimeRecoveryEnabled": true
+      },
+      "Region": "eu-central-1"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteRevalidationInsertFunctionServiceRole93E210EB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationInsertFunctionServiceRoleDefaultPolicy6D8D3B4C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SiteRevalidationTable0402D75F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteRevalidationInsertFunctionServiceRoleDefaultPolicy6D8D3B4C",
+    "Roles": [
+     {
+      "Ref": "SiteRevalidationInsertFunctionServiceRole93E210EB"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationInsertFunctionC1776A31": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "f6415963996082c9a4355a15e9ebf2c6c15429cc643cbf8758b2be36d1f2d7f5.zip"
+    },
+    "Description": "Next.js revalidation data insert",
+    "Environment": {
+     "Variables": {
+      "CACHE_DYNAMO_TABLE": {
+       "Ref": "SiteRevalidationTable0402D75F"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "SiteRevalidationInsertFunctionServiceRole93E210EB",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "SiteRevalidationInsertFunctionServiceRoleDefaultPolicy6D8D3B4C",
+    "SiteRevalidationInsertFunctionServiceRole93E210EB"
+   ]
+  },
+  "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationProviderframeworkonEventServiceRoleDefaultPolicy37B0ED46": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SiteRevalidationInsertFunctionC1776A31",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SiteRevalidationInsertFunctionC1776A31",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SiteRevalidationProviderframeworkonEventServiceRoleDefaultPolicy37B0ED46",
+    "Roles": [
+     {
+      "Ref": "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4"
+     }
+    ]
+   }
+  },
+  "SiteRevalidationProviderframeworkonEventB5533CBD": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip"
+    },
+    "Description": "AWS CDK resource provider framework - onEvent (ziom-adventurer-Site/Site/RevalidationProvider)",
+    "Environment": {
+     "Variables": {
+      "USER_ON_EVENT_FUNCTION_ARN": {
+       "Fn::GetAtt": [
+        "SiteRevalidationInsertFunctionC1776A31",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "framework.onEvent",
+    "Role": {
+     "Fn::GetAtt": [
+      "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "SiteRevalidationProviderframeworkonEventServiceRoleDefaultPolicy37B0ED46",
+    "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4"
+   ]
+  },
+  "SiteRevalidationProviderframeworkonEventLogRetention5E4DFEF0": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SiteRevalidationProviderframeworkonEventB5533CBD"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 1
+   }
+  },
+  "SiteRevalidationResource5552076F": {
+   "Type": "AWS::CloudFormation::CustomResource",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SiteRevalidationProviderframeworkonEventB5533CBD",
+      "Arn"
+     ]
+    },
+    "version": "1709674819620"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SiteParameterurl4E8F14E2": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/sst/adventurer/ziom/NextjsSite/Site/url",
+    "Tags": {
+     "sst:app": "adventurer",
+     "sst:stage": "ziom"
+    },
+    "Type": "String",
+    "Value": {
+     "Fn::Join": [
+      "",
+      [
+       "https://",
+       {
+        "Fn::GetAtt": [
+         "SiteDistribution390DED28",
+         "DomainName"
+        ]
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "b7f33614a69548d6bafe224d751a7ef238cde19097415e553fe8b63a4c8fd8a6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "SiteS3Bucket43E5BB2F"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs18.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+     "S3Key": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "adventurer"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "ziom"
+     }
+    ]
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ]
+  }
+ },
+ "Outputs": {
+  "SiteUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "SiteDistribution390DED28",
+        "DomainName"
+       ]
+      }
+     ]
+    ]
+   }
+  },
+  "SSTMetadata": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "{\"app\":\"adventurer\",\"stage\":\"ziom\",\"version\":\"2.40.6\",\"metadata\":[{\"id\":\"Site\",\"addr\":\"c8134d892958770f300dde3bec513ec21829dd1533\",\"stack\":\"ziom-adventurer-Site\",\"data\":{\"mode\":\"deployed\",\"path\":\".\",\"runtime\":\"nodejs18.x\",\"url\":\"https://",
+      {
+       "Fn::GetAtt": [
+        "SiteDistribution390DED28",
+        "DomainName"
+       ]
+      },
+      "\",\"edge\":false,\"server\":\"",
+      {
+       "Fn::GetAtt": [
+        "SiteServerFunction70E7C026",
+        "Arn"
+       ]
+      },
+      "\",\"secrets\":[],\"routes\":{\"logGroupPrefix\":\"/sst/lambda/",
+      {
+       "Ref": "SiteServerFunction70E7C026"
+      },
+      "\",\"data\":[{\"route\":\"/\",\"logGroupPath\":\"/8a5edab2/\"},{\"route\":\"/_not-found\",\"logGroupPath\":\"/788bf135/_not-found\"},{\"route\":\"/[others]\",\"logGroupPath\":\"/4271b415/others\"},{\"route\":\"/about\",\"logGroupPath\":\"/979bddc4/about\"},{\"route\":\"/api/auth/[...nextauth]\",\"logGroupPath\":\"/ca542350/api/auth/...nextauth\"},{\"route\":\"/api/destinations\",\"logGroupPath\":\"/db8bcfdd/api/destinations\"},{\"route\":\"/api/login\",\"logGroupPath\":\"/306c3036/api/login\"},{\"route\":\"/api/places\",\"logGroupPath\":\"/f09af01d/api/places\"},{\"route\":\"/api/propositions/[userId]\",\"logGroupPath\":\"/0e65f450/api/propositions/userId\"},{\"route\":\"/api/register\",\"logGroupPath\":\"/82b6a807/api/register\"},{\"route\":\"/contact\",\"logGroupPath\":\"/4eb95063/contact\"},{\"route\":\"/destinations\",\"logGroupPath\":\"/4dda25ae/destinations\"},{\"route\":\"/login\",\"logGroupPath\":\"/7e93fba0/login\"},{\"route\":\"/propositions/[userId]\",\"logGroupPath\":\"/c40ad205/propositions/userId\"},{\"route\":\"/propositions/popular\",\"logGroupPath\":\"/596fd010/propositions/popular\"},{\"route\":\"/register\",\"logGroupPath\":\"/d4699c05/register\"}]}},\"type\":\"NextjsSite\"},{\"id\":\"ServerFunction\",\"addr\":\"c85959d63fa8494157c0d858b3da0bfb91c76af42f\",\"stack\":\"ziom-adventurer-Site\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "SiteServerFunction70E7C026",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"index.handler\",\"missingSourcemap\":true,\"localId\":\"c85959d63fa8494157c0d858b3da0bfb91c76af42f\",\"secrets\":[]}}]}"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

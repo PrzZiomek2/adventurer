@@ -30,6 +30,8 @@ jobs:
               JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
               NEXT_PUBLIC_GOOGLE_MAPS_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_KEY }}
               GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+              GOOGLE_PLACES_KEY: ${{ secrets.GOOGLE_PLACES_KEY }}
+              NEXT_PUBLIC_GOOGLE_PLACES_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_PLACES_KEY }}
               NEXT_PUBLIC_GOOGLE_MAP_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_ID }}
               NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
               NEXT_PUBLIC_NEXTAUTH_URL: ${{ secrets.NEXT_PUBLIC_NEXTAUTH_URL }}

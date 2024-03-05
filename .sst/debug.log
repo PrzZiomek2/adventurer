@@ -1,0 +1,15 @@
+2024-03-05T21:39:18.024Z  +1220ms [debug] Config loaded {"version":"2.40.6","cdkVersion":"2.124.0","constructsVersion":"10.3.0","config":{"name":"adventurer","region":"eu-central-1","stage":"ziom","ssmPrefix":"/sst/adventurer/ziom/"},"metafile":{"inputs":{"sst.config.ts":{"bytes":217,"imports":[{"path":"sst","kind":"import-statement","external":true},{"path":"sst/constructs","kind":"import-statement","external":true}],"format":"esm"}},"outputs":{".sst.config.1709674756825.mjs":{"imports":[],"exports":["default"],"entryPoint":"sst.config.ts","inputs":{"sst.config.ts":{"bytesInOutput":128}},"bytes":310}}},"paths":{"config":"C:\\Users\\janko\\OneDrive\\Documents\\adventurer\\sst.config.ts","root":"C:\\Users\\janko\\OneDrive\\Documents\\adventurer","out":"C:\\Users\\janko\\OneDrive\\Documents\\adventurer\\.sst","artifacts":"C:\\Users\\janko\\OneDrive\\Documents\\adventurer\\.sst\\artifacts"}}
+2024-03-05T21:39:21.949Z  +3925ms [debug] Synthesizing stacks...
+2024-03-05T21:39:21.960Z    +11ms [debug] Using AWS profile 
+2024-03-05T21:39:21.964Z     +4ms [debug] Created AWS client STSClient
+2024-03-05T21:39:22.165Z   +201ms [debug] Using identity Account: 044833949249 User: AIDAQU4CPYZAYQHBRXFPK
+2024-03-05T21:39:22.180Z    +15ms [debug] Generating types in C:\Users\janko\OneDrive\Documents\adventurer\.sst\types
+2024-03-05T21:39:22.436Z   +256ms [debug] Running "npx --yes open-next@2.3.5 build" script
+2024-03-05T21:40:19.622Z +57185ms [debug] Running 1 deferred tasks with concurrency: 7
+2024-03-05T21:40:23.735Z  +4114ms [debug] Initializing bootstrap context
+2024-03-05T21:40:23.737Z     +2ms [debug] Created AWS client CloudFormationClient
+2024-03-05T21:40:23.962Z   +225ms [debug] Loaded bootstrap status
+2024-03-05T21:40:23.962Z     +0ms [debug] Bootstrap context initialized {"status":"ready","version":"7.3","bucket":"sstbootstrap-eucentral134f82fae-n9cmtfsw3qlr"}
+2024-03-05T21:40:24.271Z   +309ms [debug] 
+2024-03-05T21:40:24.271Z     +0ms [debug] Loading v2 AWS SDK
+2024-03-05T21:40:24.271Z     +0ms [debug] Finished synthesizing

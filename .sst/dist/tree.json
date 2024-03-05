@@ -1,0 +1,2977 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "ziom-adventurer-Site": {
+        "id": "ziom-adventurer-Site",
+        "path": "ziom-adventurer-Site",
+        "children": {
+          "CustomResourceHandler": {
+            "id": "CustomResourceHandler",
+            "path": "ziom-adventurer-Site/CustomResourceHandler",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ziom-adventurer-Site/CustomResourceHandler/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "ziom-adventurer-Site/CustomResourceHandler/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/CustomResourceHandler/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.124.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ziom-adventurer-Site/CustomResourceHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ziom-adventurer-Site/CustomResourceHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ziom-adventurer-Site/CustomResourceHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.124.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ziom-adventurer-Site/CustomResourceHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                      "s3Key": "81cf75ce2b2f9b4a61b04fdea03adccc35215688d1f9b337c39fbef65e1de5f3.zip"
+                    },
+                    "handler": "index.handler",
+                    "memorySize": 1024,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomResourceHandlerServiceRole41AEC181",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x",
+                    "tags": [
+                      {
+                        "key": "sst:app",
+                        "value": "adventurer"
+                      },
+                      {
+                        "key": "sst:stage",
+                        "value": "ziom"
+                      }
+                    ],
+                    "timeout": 900
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.124.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.124.0"
+            }
+          },
+          "Site": {
+            "id": "Site",
+            "path": "ziom-adventurer-Site/Site",
+            "children": {
+              "S3Bucket": {
+                "id": "S3Bucket",
+                "path": "ziom-adventurer-Site/Site/S3Bucket",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/S3Bucket/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                      "aws:cdk:cloudformation:props": {
+                        "publicAccessBlockConfiguration": {
+                          "blockPublicAcls": true,
+                          "blockPublicPolicy": true,
+                          "ignorePublicAcls": true,
+                          "restrictPublicBuckets": true
+                        },
+                        "tags": [
+                          {
+                            "key": "aws-cdk:auto-delete-objects",
+                            "value": "true"
+                          },
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Policy": {
+                    "id": "Policy",
+                    "path": "ziom-adventurer-Site/Site/S3Bucket/Policy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/S3Bucket/Policy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                          "aws:cdk:cloudformation:props": {
+                            "bucket": {
+                              "Ref": "SiteS3Bucket43E5BB2F"
+                            },
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "s3:*",
+                                  "Condition": {
+                                    "Bool": {
+                                      "aws:SecureTransport": "false"
+                                    }
+                                  },
+                                  "Effect": "Deny",
+                                  "Principal": {
+                                    "AWS": "*"
+                                  },
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "SiteS3Bucket43E5BB2F",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "SiteS3Bucket43E5BB2F",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:PutBucketPolicy",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "AWS": {
+                                      "Fn::GetAtt": [
+                                        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                                        "Arn"
+                                      ]
+                                    }
+                                  },
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "SiteS3Bucket43E5BB2F",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "SiteS3Bucket43E5BB2F",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": "s3:GetObject",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "CanonicalUser": {
+                                      "Fn::GetAtt": [
+                                        "SiteDistributionOrigin3S3Origin97F7879E",
+                                        "S3CanonicalUserId"
+                                      ]
+                                    }
+                                  },
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "SiteS3Bucket43E5BB2F",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/*"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "AutoDeleteObjectsCustomResource": {
+                    "id": "AutoDeleteObjectsCustomResource",
+                    "path": "ziom-adventurer-Site/Site/S3Bucket/AutoDeleteObjectsCustomResource",
+                    "children": {
+                      "Default": {
+                        "id": "Default",
+                        "path": "ziom-adventurer-Site/Site/S3Bucket/AutoDeleteObjectsCustomResource/Default",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CustomResource",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                  "version": "2.124.0"
+                }
+              },
+              "SSTExtension": {
+                "id": "SSTExtension",
+                "path": "ziom-adventurer-Site/Site/SSTExtension",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.124.0"
+                }
+              },
+              "CloudFrontFunction": {
+                "id": "CloudFrontFunction",
+                "path": "ziom-adventurer-Site/Site/CloudFrontFunction",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/CloudFrontFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::CloudFront::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "autoPublish": true,
+                        "functionCode": "function handler(r){var e=r.request;return e.headers[\"x-forwarded-host\"]=e.headers.host,e.cookies.__prerender_bypass&&(e.headers[\"x-prerender-bypass\"]={value:\"true\"}),e}\n",
+                        "functionConfig": {
+                          "comment": "eu-central-1ziomadventurerSiteCloudFrontFunction4613EF33",
+                          "runtime": "cloudfront-js-1.0"
+                        },
+                        "name": "eu-central-1ziomadventurerSiteCloudFrontFunction4613EF33"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cloudfront.CfnFunction",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.Function",
+                  "version": "2.124.0"
+                }
+              },
+              "ServerFunction": {
+                "id": "ServerFunction",
+                "path": "ziom-adventurer-Site/Site/ServerFunction",
+                "children": {
+                  "AssetReplacerPolicy": {
+                    "id": "AssetReplacerPolicy",
+                    "path": "ziom-adventurer-Site/Site/ServerFunction/AssetReplacerPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/AssetReplacerPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject",
+                                    "s3:PutObject"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":s3:::placeholder/*"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "SiteServerFunctionAssetReplacerPolicy00BAA986",
+                            "roles": [
+                              {
+                                "Ref": "CustomResourceHandlerServiceRole41AEC181"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "AssetReplacer": {
+                    "id": "AssetReplacer",
+                    "path": "ziom-adventurer-Site/Site/ServerFunction/AssetReplacer",
+                    "children": {
+                      "Default": {
+                        "id": "Default",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/AssetReplacer/Default",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CustomResource",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "IServerFunctionBucket": {
+                    "id": "IServerFunctionBucket",
+                    "path": "ziom-adventurer-Site/Site/ServerFunction/IServerFunctionBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "ServerFunction": {
+                    "id": "ServerFunction",
+                    "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ],
+                                "tags": [
+                                  {
+                                    "key": "sst:app",
+                                    "value": "adventurer"
+                                  },
+                                  {
+                                    "key": "sst:stage",
+                                    "value": "ziom"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": [
+                                            "s3:GetObject*",
+                                            "s3:GetBucket*",
+                                            "s3:List*",
+                                            "s3:DeleteObject*",
+                                            "s3:PutObject",
+                                            "s3:PutObjectLegalHold",
+                                            "s3:PutObjectRetention",
+                                            "s3:PutObjectTagging",
+                                            "s3:PutObjectVersionTagging",
+                                            "s3:Abort*"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "SiteS3Bucket43E5BB2F",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "SiteS3Bucket43E5BB2F",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  "/*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Action": [
+                                            "sqs:SendMessage",
+                                            "sqs:GetQueueAttributes",
+                                            "sqs:GetQueueUrl"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": {
+                                            "Fn::GetAtt": [
+                                              "SiteRevalidationQueue5ABA040F",
+                                              "Arn"
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          "Action": [
+                                            "dynamodb:BatchGetItem",
+                                            "dynamodb:GetRecords",
+                                            "dynamodb:GetShardIterator",
+                                            "dynamodb:Query",
+                                            "dynamodb:GetItem",
+                                            "dynamodb:Scan",
+                                            "dynamodb:ConditionCheckItem",
+                                            "dynamodb:BatchWriteItem",
+                                            "dynamodb:PutItem",
+                                            "dynamodb:UpdateItem",
+                                            "dynamodb:DeleteItem",
+                                            "dynamodb:DescribeTable"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "SiteRevalidationTable0402D75F",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "SiteRevalidationTable0402D75F",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  "/index/*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "SiteServerFunctionServiceRoleDefaultPolicy9429B1C1",
+                                    "roles": [
+                                      {
+                                        "Ref": "SiteServerFunctionServiceRole5E5374FA"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.124.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "architectures": [
+                              "arm64"
+                            ],
+                            "code": {
+                              "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                              "s3Key": "ad2a81622b52823840a74a694c06040b2876f91077e5e3dfd31454fd4d38f97b.zip"
+                            },
+                            "description": "Next.js server",
+                            "environment": {
+                              "variables": {
+                                "NEXT_PUBLIC_NEXTAUTH_URL": "http://localhost:3000",
+                                "NEXT_PUBLIC_GOOGLE_MAPS_KEY": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI",
+                                "NEXT_PUBLIC_GOOGLE_PLACES_KEY": "AIzaSyAV1-wyGpmGA4eLC6HpLCT4PF174HionfI",
+                                "NEXT_PUBLIC_GOOGLE_MAP_ID": "my_map_super_id_1922",
+                                "CACHE_BUCKET_NAME": {
+                                  "Ref": "SiteS3Bucket43E5BB2F"
+                                },
+                                "CACHE_BUCKET_KEY_PREFIX": "_cache",
+                                "CACHE_BUCKET_REGION": "eu-central-1",
+                                "SST_APP": "adventurer",
+                                "SST_STAGE": "ziom",
+                                "SST_SSM_PREFIX": "/sst/adventurer/ziom/",
+                                "REVALIDATION_QUEUE_URL": {
+                                  "Ref": "SiteRevalidationQueue5ABA040F"
+                                },
+                                "REVALIDATION_QUEUE_REGION": "eu-central-1",
+                                "CACHE_DYNAMO_TABLE": {
+                                  "Ref": "SiteRevalidationTable0402D75F"
+                                }
+                              }
+                            },
+                            "handler": "server-index.handler",
+                            "layers": [
+                              "arn:aws:lambda:eu-central-1:226609089145:layer:sst-extension-arm64:2"
+                            ],
+                            "memorySize": 2024,
+                            "role": {
+                              "Fn::GetAtt": [
+                                "SiteServerFunctionServiceRole5E5374FA",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "adventurer"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "ziom"
+                              }
+                            ],
+                            "timeout": 30
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "FunctionUrl": {
+                        "id": "FunctionUrl",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/FunctionUrl",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/FunctionUrl/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
+                              "aws:cdk:cloudformation:props": {
+                                "authType": "NONE",
+                                "invokeMode": "BUFFERED",
+                                "targetFunctionArn": {
+                                  "Fn::GetAtt": [
+                                    "SiteServerFunction70E7C026",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnUrl",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.FunctionUrl",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "invoke-function-url": {
+                        "id": "invoke-function-url",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/invoke-function-url",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                          "aws:cdk:cloudformation:props": {
+                            "action": "lambda:InvokeFunctionUrl",
+                            "functionName": {
+                              "Fn::GetAtt": [
+                                "SiteServerFunction70E7C026",
+                                "Arn"
+                              ]
+                            },
+                            "functionUrlAuthType": "NONE",
+                            "principal": "*"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "ziom-adventurer-Site/Site/ServerFunction/ServerFunction/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "ImageFunction": {
+                "id": "ImageFunction",
+                "path": "ziom-adventurer-Site/Site/ImageFunction",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "adventurer"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "ziom"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/ImageFunction/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "s3:GetObject",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "SiteS3Bucket43E5BB2F",
+                                                "Arn"
+                                              ]
+                                            },
+                                            "/*"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "SiteImageFunctionServiceRoleDefaultPolicyEF8D2843",
+                                "roles": [
+                                  {
+                                    "Ref": "SiteImageFunctionServiceRoleCD42FEF3"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "arm64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                          "s3Key": "c45250ba2f8eab17f080d195241a041cdb9ad0faaaef4af58418342e1a259784.zip"
+                        },
+                        "description": "Next.js image optimizer",
+                        "environment": {
+                          "variables": {
+                            "BUCKET_NAME": {
+                              "Ref": "SiteS3Bucket43E5BB2F"
+                            },
+                            "BUCKET_KEY_PREFIX": "_assets"
+                          }
+                        },
+                        "handler": "index.handler",
+                        "memorySize": 1536,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "SiteImageFunctionServiceRoleCD42FEF3",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ],
+                        "timeout": 25
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "LogRetention": {
+                    "id": "LogRetention",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/LogRetention",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/LogRetention/Resource",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/LogGroup",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "FunctionUrl": {
+                    "id": "FunctionUrl",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/FunctionUrl",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/ImageFunction/FunctionUrl/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
+                          "aws:cdk:cloudformation:props": {
+                            "authType": "NONE",
+                            "targetFunctionArn": {
+                              "Fn::GetAtt": [
+                                "SiteImageFunction6C3177FC",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnUrl",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.FunctionUrl",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "invoke-function-url": {
+                    "id": "invoke-function-url",
+                    "path": "ziom-adventurer-Site/Site/ImageFunction/invoke-function-url",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunctionUrl",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "SiteImageFunction6C3177FC",
+                            "Arn"
+                          ]
+                        },
+                        "functionUrlAuthType": "NONE",
+                        "principal": "*"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.124.0"
+                }
+              },
+              "Asset0": {
+                "id": "Asset0",
+                "path": "ziom-adventurer-Site/Site/Asset0",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ziom-adventurer-Site/Site/Asset0/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ziom-adventurer-Site/Site/Asset0/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.124.0"
+                }
+              },
+              "S3AssetUploaderPolicy": {
+                "id": "S3AssetUploaderPolicy",
+                "path": "ziom-adventurer-Site/Site/S3AssetUploaderPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/S3AssetUploaderPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "lambda:InvokeFunction",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "CustomResourceHandlerE8FB56BA",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "s3:ListBucket",
+                                "s3:PutObject",
+                                "s3:DeleteObject"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "SiteS3Bucket43E5BB2F",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "SiteS3Bucket43E5BB2F",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":s3:::cdk-hnb659fds-assets-044833949249-eu-central-1/*"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "SiteS3AssetUploaderPolicy748FF814",
+                        "roles": [
+                          {
+                            "Ref": "CustomResourceHandlerServiceRole41AEC181"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.124.0"
+                }
+              },
+              "S3AssetUploader": {
+                "id": "S3AssetUploader",
+                "path": "ziom-adventurer-Site/Site/S3AssetUploader",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "ziom-adventurer-Site/Site/S3AssetUploader/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.124.0"
+                }
+              },
+              "ServerCache": {
+                "id": "ServerCache",
+                "path": "ziom-adventurer-Site/Site/ServerCache",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/ServerCache/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::CloudFront::CachePolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "cachePolicyConfig": {
+                          "name": "ziomadventurerSiteServerCacheE5B212C6-eu-central-1",
+                          "comment": "SST server response cache policy",
+                          "minTtl": 0,
+                          "maxTtl": 31536000,
+                          "defaultTtl": 0,
+                          "parametersInCacheKeyAndForwardedToOrigin": {
+                            "cookiesConfig": {
+                              "cookieBehavior": "none"
+                            },
+                            "headersConfig": {
+                              "headerBehavior": "whitelist",
+                              "headers": [
+                                "accept",
+                                "rsc",
+                                "next-router-prefetch",
+                                "next-router-state-tree",
+                                "next-url",
+                                "x-prerender-bypass"
+                              ]
+                            },
+                            "enableAcceptEncodingGzip": true,
+                            "enableAcceptEncodingBrotli": true,
+                            "queryStringsConfig": {
+                              "queryStringBehavior": "all"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cloudfront.CfnCachePolicy",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.CachePolicy",
+                  "version": "2.124.0"
+                }
+              },
+              "ServerOriginRequestPolicy": {
+                "id": "ServerOriginRequestPolicy",
+                "path": "ziom-adventurer-Site/Site/ServerOriginRequestPolicy",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.124.0"
+                }
+              },
+              "CDN": {
+                "id": "CDN",
+                "path": "ziom-adventurer-Site/Site/CDN",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "Distribution": {
+                "id": "Distribution",
+                "path": "ziom-adventurer-Site/Site/Distribution",
+                "children": {
+                  "Origin1": {
+                    "id": "Origin1",
+                    "path": "ziom-adventurer-Site/Site/Distribution/Origin1",
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "Origin2": {
+                    "id": "Origin2",
+                    "path": "ziom-adventurer-Site/Site/Distribution/Origin2",
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "Origin3": {
+                    "id": "Origin3",
+                    "path": "ziom-adventurer-Site/Site/Distribution/Origin3",
+                    "children": {
+                      "S3Origin": {
+                        "id": "S3Origin",
+                        "path": "ziom-adventurer-Site/Site/Distribution/Origin3/S3Origin",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/Distribution/Origin3/S3Origin/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+                              "aws:cdk:cloudformation:props": {
+                                "cloudFrontOriginAccessIdentityConfig": {
+                                  "comment": "Identity for ziomadventurerSiteDistributionOrigin3C13BF8C3"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_cloudfront.CfnCloudFrontOriginAccessIdentity",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/Distribution/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::CloudFront::Distribution",
+                      "aws:cdk:cloudformation:props": {
+                        "distributionConfig": {
+                          "enabled": true,
+                          "origins": [
+                            {
+                              "domainName": {
+                                "Fn::Select": [
+                                  0,
+                                  {
+                                    "Fn::Split": [
+                                      "/",
+                                      {
+                                        "Fn::Select": [
+                                          1,
+                                          {
+                                            "Fn::Split": [
+                                              "//",
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "SiteServerFunctionFunctionUrlAE55D36C",
+                                                  "FunctionUrl"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "id": "ziomadventurerSiteDistributionOrigin107DF787C",
+                              "customOriginConfig": {
+                                "originSslProtocols": [
+                                  "TLSv1.2"
+                                ],
+                                "originProtocolPolicy": "https-only",
+                                "originReadTimeout": 30
+                              }
+                            },
+                            {
+                              "domainName": {
+                                "Fn::Select": [
+                                  0,
+                                  {
+                                    "Fn::Split": [
+                                      "/",
+                                      {
+                                        "Fn::Select": [
+                                          1,
+                                          {
+                                            "Fn::Split": [
+                                              "//",
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "SiteImageFunctionFunctionUrlBB588560",
+                                                  "FunctionUrl"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "id": "ziomadventurerSiteDistributionOrigin289F7AB9C",
+                              "customOriginConfig": {
+                                "originSslProtocols": [
+                                  "TLSv1.2"
+                                ],
+                                "originProtocolPolicy": "https-only"
+                              }
+                            },
+                            {
+                              "domainName": {
+                                "Fn::GetAtt": [
+                                  "SiteS3Bucket43E5BB2F",
+                                  "RegionalDomainName"
+                                ]
+                              },
+                              "id": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "originPath": "/_assets",
+                              "s3OriginConfig": {
+                                "originAccessIdentity": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "origin-access-identity/cloudfront/",
+                                      {
+                                        "Ref": "SiteDistributionOrigin3S3Origin97F7879E"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "defaultCacheBehavior": {
+                            "pathPattern": "*",
+                            "targetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+                            "allowedMethods": [
+                              "GET",
+                              "HEAD",
+                              "OPTIONS",
+                              "PUT",
+                              "PATCH",
+                              "POST",
+                              "DELETE"
+                            ],
+                            "cachedMethods": [
+                              "GET",
+                              "HEAD",
+                              "OPTIONS"
+                            ],
+                            "cachePolicyId": {
+                              "Ref": "SiteServerCacheC3EA2799"
+                            },
+                            "compress": true,
+                            "originRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                            "viewerProtocolPolicy": "redirect-to-https",
+                            "functionAssociations": [
+                              {
+                                "functionArn": {
+                                  "Fn::GetAtt": [
+                                    "SiteCloudFrontFunctionF6976CC7",
+                                    "FunctionARN"
+                                  ]
+                                },
+                                "eventType": "viewer-request"
+                              }
+                            ],
+                            "lambdaFunctionAssociations": []
+                          },
+                          "aliases": [],
+                          "cacheBehaviors": [
+                            {
+                              "pathPattern": "api/*",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS",
+                                "PUT",
+                                "PATCH",
+                                "POST",
+                                "DELETE"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": {
+                                "Ref": "SiteServerCacheC3EA2799"
+                              },
+                              "compress": true,
+                              "originRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                              "viewerProtocolPolicy": "redirect-to-https",
+                              "functionAssociations": [
+                                {
+                                  "functionArn": {
+                                    "Fn::GetAtt": [
+                                      "SiteCloudFrontFunctionF6976CC7",
+                                      "FunctionARN"
+                                    ]
+                                  },
+                                  "eventType": "viewer-request"
+                                }
+                              ],
+                              "lambdaFunctionAssociations": []
+                            },
+                            {
+                              "pathPattern": "_next/data/*",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin107DF787C",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS",
+                                "PUT",
+                                "PATCH",
+                                "POST",
+                                "DELETE"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": {
+                                "Ref": "SiteServerCacheC3EA2799"
+                              },
+                              "compress": true,
+                              "originRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                              "viewerProtocolPolicy": "redirect-to-https",
+                              "functionAssociations": [
+                                {
+                                  "functionArn": {
+                                    "Fn::GetAtt": [
+                                      "SiteCloudFrontFunctionF6976CC7",
+                                      "FunctionARN"
+                                    ]
+                                  },
+                                  "eventType": "viewer-request"
+                                }
+                              ],
+                              "lambdaFunctionAssociations": []
+                            },
+                            {
+                              "pathPattern": "_next/image*",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin289F7AB9C",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS",
+                                "PUT",
+                                "PATCH",
+                                "POST",
+                                "DELETE"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": {
+                                "Ref": "SiteServerCacheC3EA2799"
+                              },
+                              "compress": true,
+                              "originRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                              "viewerProtocolPolicy": "redirect-to-https",
+                              "functionAssociations": [
+                                {
+                                  "functionArn": {
+                                    "Fn::GetAtt": [
+                                      "SiteCloudFrontFunctionF6976CC7",
+                                      "FunctionARN"
+                                    ]
+                                  },
+                                  "eventType": "viewer-request"
+                                }
+                              ],
+                              "lambdaFunctionAssociations": []
+                            },
+                            {
+                              "pathPattern": "background.webp",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            },
+                            {
+                              "pathPattern": "background_small.webp",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            },
+                            {
+                              "pathPattern": "BUILD_ID",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            },
+                            {
+                              "pathPattern": "robots.txt",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            },
+                            {
+                              "pathPattern": "sitemap.xml",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            },
+                            {
+                              "pathPattern": "_next/*",
+                              "targetOriginId": "ziomadventurerSiteDistributionOrigin3C13BF8C3",
+                              "allowedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachedMethods": [
+                                "GET",
+                                "HEAD",
+                                "OPTIONS"
+                              ],
+                              "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                              "compress": true,
+                              "viewerProtocolPolicy": "redirect-to-https"
+                            }
+                          ],
+                          "defaultRootObject": "",
+                          "httpVersion": "http2",
+                          "ipv6Enabled": true
+                        },
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cloudfront.CfnDistribution",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.Distribution",
+                  "version": "2.124.0"
+                }
+              },
+              "ServerFunctionInvalidatorPolicy": {
+                "id": "ServerFunctionInvalidatorPolicy",
+                "path": "ziom-adventurer-Site/Site/ServerFunctionInvalidatorPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/ServerFunctionInvalidatorPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "cloudfront:CreateInvalidation",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":cloudfront::044833949249:distribution/",
+                                    {
+                                      "Ref": "SiteDistribution390DED28"
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "SiteServerFunctionInvalidatorPolicy2A31909D",
+                        "roles": [
+                          {
+                            "Ref": "SiteServerFunctionServiceRole5E5374FA"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.124.0"
+                }
+              },
+              "CloudFrontInvalidatorPolicy": {
+                "id": "CloudFrontInvalidatorPolicy",
+                "path": "ziom-adventurer-Site/Site/CloudFrontInvalidatorPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/CloudFrontInvalidatorPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "cloudfront:GetInvalidation",
+                                "cloudfront:CreateInvalidation"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":cloudfront::044833949249:distribution/",
+                                    {
+                                      "Ref": "SiteDistribution390DED28"
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "SiteCloudFrontInvalidatorPolicy8E314A5F",
+                        "roles": [
+                          {
+                            "Ref": "CustomResourceHandlerServiceRole41AEC181"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.124.0"
+                }
+              },
+              "CloudFrontInvalidator": {
+                "id": "CloudFrontInvalidator",
+                "path": "ziom-adventurer-Site/Site/CloudFrontInvalidator",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "ziom-adventurer-Site/Site/CloudFrontInvalidator/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationQueue": {
+                "id": "RevalidationQueue",
+                "path": "ziom-adventurer-Site/Site/RevalidationQueue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/RevalidationQueue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "fifoQueue": true,
+                        "receiveMessageWaitTimeSeconds": 20,
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationFunction": {
+                "id": "RevalidationFunction",
+                "path": "ziom-adventurer-Site/Site/RevalidationFunction",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "adventurer"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "ziom"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "sqs:ReceiveMessage",
+                                        "sqs:ChangeMessageVisibility",
+                                        "sqs:GetQueueUrl",
+                                        "sqs:DeleteMessage",
+                                        "sqs:GetQueueAttributes"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "SiteRevalidationQueue5ABA040F",
+                                          "Arn"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "SiteRevalidationFunctionServiceRoleDefaultPolicy6BBF493A",
+                                "roles": [
+                                  {
+                                    "Ref": "SiteRevalidationFunctionServiceRoleFC63C731"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "ziom-adventurer-Site/Site/RevalidationFunction/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/RevalidationFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                          "s3Key": "d39a43f2471dcb00ea54dbc94ebec59245fa511a637245ea575b67a0e11cc1f5.zip"
+                        },
+                        "description": "Next.js revalidator",
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "SiteRevalidationFunctionServiceRoleFC63C731",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ],
+                        "timeout": 30
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "SqsEventSource:ziomadventurerSiteRevalidationQueue247622ED": {
+                    "id": "SqsEventSource:ziomadventurerSiteRevalidationQueue247622ED",
+                    "path": "ziom-adventurer-Site/Site/RevalidationFunction/SqsEventSource:ziomadventurerSiteRevalidationQueue247622ED",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/RevalidationFunction/SqsEventSource:ziomadventurerSiteRevalidationQueue247622ED/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                          "aws:cdk:cloudformation:props": {
+                            "batchSize": 5,
+                            "eventSourceArn": {
+                              "Fn::GetAtt": [
+                                "SiteRevalidationQueue5ABA040F",
+                                "Arn"
+                              ]
+                            },
+                            "functionName": {
+                              "Ref": "SiteRevalidationFunction8E21BEE4"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationTable": {
+                "id": "RevalidationTable",
+                "path": "ziom-adventurer-Site/Site/RevalidationTable",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/RevalidationTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::GlobalTable",
+                      "aws:cdk:cloudformation:props": {
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "tag",
+                            "attributeType": "S"
+                          },
+                          {
+                            "attributeName": "path",
+                            "attributeType": "S"
+                          },
+                          {
+                            "attributeName": "revalidatedAt",
+                            "attributeType": "N"
+                          }
+                        ],
+                        "billingMode": "PAY_PER_REQUEST",
+                        "globalSecondaryIndexes": [
+                          {
+                            "indexName": "revalidate",
+                            "keySchema": [
+                              {
+                                "attributeName": "path",
+                                "keyType": "HASH"
+                              },
+                              {
+                                "attributeName": "revalidatedAt",
+                                "keyType": "RANGE"
+                              }
+                            ],
+                            "projection": {
+                              "projectionType": "ALL"
+                            }
+                          }
+                        ],
+                        "keySchema": [
+                          {
+                            "attributeName": "tag",
+                            "keyType": "HASH"
+                          },
+                          {
+                            "attributeName": "path",
+                            "keyType": "RANGE"
+                          }
+                        ],
+                        "replicas": [
+                          {
+                            "region": "eu-central-1",
+                            "globalSecondaryIndexes": [
+                              {
+                                "indexName": "revalidate"
+                              }
+                            ],
+                            "pointInTimeRecoverySpecification": {
+                              "pointInTimeRecoveryEnabled": true
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnGlobalTable",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.TableV2",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationInsertFunction": {
+                "id": "RevalidationInsertFunction",
+                "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "adventurer"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "ziom"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "dynamodb:BatchWriteItem",
+                                        "dynamodb:PutItem",
+                                        "dynamodb:DescribeTable"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "SiteRevalidationTable0402D75F",
+                                          "Arn"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "SiteRevalidationInsertFunctionServiceRoleDefaultPolicy6D8D3B4C",
+                                "roles": [
+                                  {
+                                    "Ref": "SiteRevalidationInsertFunctionServiceRole93E210EB"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/RevalidationInsertFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                          "s3Key": "f6415963996082c9a4355a15e9ebf2c6c15429cc643cbf8758b2be36d1f2d7f5.zip"
+                        },
+                        "description": "Next.js revalidation data insert",
+                        "environment": {
+                          "variables": {
+                            "CACHE_DYNAMO_TABLE": {
+                              "Ref": "SiteRevalidationTable0402D75F"
+                            }
+                          }
+                        },
+                        "handler": "index.handler",
+                        "memorySize": 128,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "SiteRevalidationInsertFunctionServiceRole93E210EB",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ],
+                        "timeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationProvider": {
+                "id": "RevalidationProvider",
+                "path": "ziom-adventurer-Site/Site/RevalidationProvider",
+                "children": {
+                  "framework-onEvent": {
+                    "id": "framework-onEvent",
+                    "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ],
+                                "tags": [
+                                  {
+                                    "key": "sst:app",
+                                    "value": "adventurer"
+                                  },
+                                  {
+                                    "key": "sst:stage",
+                                    "value": "ziom"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "lambda:InvokeFunction",
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "SiteRevalidationInsertFunctionC1776A31",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "SiteRevalidationInsertFunctionC1776A31",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "SiteRevalidationProviderframeworkonEventServiceRoleDefaultPolicy37B0ED46",
+                                    "roles": [
+                                      {
+                                        "Ref": "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.124.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.124.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": "cdk-hnb659fds-assets-044833949249-eu-central-1",
+                              "s3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip"
+                            },
+                            "description": "AWS CDK resource provider framework - onEvent (ziom-adventurer-Site/Site/RevalidationProvider)",
+                            "environment": {
+                              "variables": {
+                                "USER_ON_EVENT_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "SiteRevalidationInsertFunctionC1776A31",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            },
+                            "handler": "framework.onEvent",
+                            "role": {
+                              "Fn::GetAtt": [
+                                "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "adventurer"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "ziom"
+                              }
+                            ],
+                            "timeout": 900
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.124.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.124.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.custom_resources.Provider",
+                  "version": "2.124.0"
+                }
+              },
+              "RevalidationResource": {
+                "id": "RevalidationResource",
+                "path": "ziom-adventurer-Site/Site/RevalidationResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "ziom-adventurer-Site/Site/RevalidationResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.124.0"
+                }
+              },
+              "Parameter_url": {
+                "id": "Parameter_url",
+                "path": "ziom-adventurer-Site/Site/Parameter_url",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/Site/Parameter_url/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "/sst/adventurer/ziom/NextjsSite/Site/url",
+                        "tags": {
+                          "sst:app": "adventurer",
+                          "sst:stage": "ziom"
+                        },
+                        "type": "String",
+                        "value": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "https://",
+                              {
+                                "Fn::GetAtt": [
+                                  "SiteDistribution390DED28",
+                                  "DomainName"
+                                ]
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+                  "version": "2.124.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
+            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "path": "ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "children": {
+              "Staging": {
+                "id": "Staging",
+                "path": "ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.AssetStaging",
+                  "version": "2.124.0"
+                }
+              },
+              "Role": {
+                "id": "Role",
+                "path": "ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.124.0"
+                }
+              },
+              "Handler": {
+                "id": "Handler",
+                "path": "ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.124.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
+              "version": "2.124.0"
+            }
+          },
+          "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a": {
+            "id": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a",
+            "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.124.0"
+                }
+              },
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "adventurer"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "ziom"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.124.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "logs:PutRetentionPolicy",
+                                    "logs:DeleteRetentionPolicy"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+                            "roles": [
+                              {
+                                "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.124.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.124.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.124.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.124.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "SSTStackOutputSiteUrl": {
+            "id": "SSTStackOutputSiteUrl",
+            "path": "ziom-adventurer-Site/SSTStackOutputSiteUrl",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.124.0"
+            }
+          },
+          "SSTStackOutputSSTMetadata": {
+            "id": "SSTStackOutputSSTMetadata",
+            "path": "ziom-adventurer-Site/SSTStackOutputSSTMetadata",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.124.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "ziom-adventurer-Site/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.124.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "ziom-adventurer-Site/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.124.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.124.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.124.0"
+    }
+  }
+}

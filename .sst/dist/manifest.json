@@ -1,0 +1,378 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "ziom-adventurer-Site.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ziom-adventurer-Site.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ziom-adventurer-Site": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://044833949249/eu-central-1",
+      "properties": {
+        "templateFile": "ziom-adventurer-Site.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "sst:app": "adventurer",
+          "sst:stage": "ziom"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::044833949249:role/cdk-hnb659fds-deploy-role-044833949249-eu-central-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::044833949249:role/cdk-hnb659fds-cfn-exec-role-044833949249-eu-central-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-044833949249-eu-central-1/78d8a5d79b8021a3a96d24dac1a55bdcbb391d5e72d5c12a2b2c1b19f9ddf394.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ziom-adventurer-Site.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::044833949249:role/cdk-hnb659fds-lookup-role-044833949249-eu-central-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ziom-adventurer-Site.assets"
+      ],
+      "metadata": {
+        "/ziom-adventurer-Site": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "adventurer"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "ziom"
+              }
+            ]
+          }
+        ],
+        "/ziom-adventurer-Site/CustomResourceHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerServiceRole41AEC181"
+          }
+        ],
+        "/ziom-adventurer-Site/CustomResourceHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerE8FB56BA"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/S3Bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteS3Bucket43E5BB2F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/S3Bucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteS3BucketPolicy5FFCCBA0"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/S3Bucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteS3BucketAutoDeleteObjectsCustomResource51C4527F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/CloudFrontFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteCloudFrontFunctionF6976CC7"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/AssetReplacerPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionAssetReplacerPolicy00BAA986"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/AssetReplacer/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionAssetReplacer4798FE1F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionServiceRole5E5374FA"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionServiceRoleDefaultPolicy9429B1C1"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunction70E7C026"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionLogRetention82FC0336"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionFunctionUrlAE55D36C"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunction/ServerFunction/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctioninvokefunctionurl8902A688"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunctionServiceRoleCD42FEF3"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunctionServiceRoleDefaultPolicyEF8D2843"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunction6C3177FC"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunctionLogRetention62D8F629"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunctionFunctionUrlBB588560"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ImageFunction/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteImageFunctioninvokefunctionurl5CA41C3F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/S3AssetUploaderPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteS3AssetUploaderPolicy748FF814"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/S3AssetUploader/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteS3AssetUploader75B75D7F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerCache/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerCacheC3EA2799"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/Distribution/Origin3/S3Origin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteDistributionOrigin3S3Origin97F7879E"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/Distribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteDistribution390DED28"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/ServerFunctionInvalidatorPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteServerFunctionInvalidatorPolicy2A31909D"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/CloudFrontInvalidatorPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteCloudFrontInvalidatorPolicy8E314A5F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/CloudFrontInvalidator/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteCloudFrontInvalidatorC49C53F3"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationQueue5ABA040F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationFunctionServiceRoleFC63C731"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationFunctionServiceRoleDefaultPolicy6BBF493A"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationFunction8E21BEE4"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationFunction/SqsEventSource:ziomadventurerSiteRevalidationQueue247622ED/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationFunctionSqsEventSourceziomadventurerSiteRevalidationQueue247622EDC2FE08CC"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationTable0402D75F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationInsertFunctionServiceRole93E210EB"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationInsertFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationInsertFunctionServiceRoleDefaultPolicy6D8D3B4C"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationInsertFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationInsertFunctionC1776A31"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationProviderframeworkonEventServiceRoleD74253E4"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationProviderframeworkonEventServiceRoleDefaultPolicy37B0ED46"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationProviderframeworkonEventB5533CBD"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationProvider/framework-onEvent/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationProviderframeworkonEventLogRetention5E4DFEF0"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/RevalidationResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteRevalidationResource5552076F"
+          }
+        ],
+        "/ziom-adventurer-Site/Site/Parameter_url/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteParameterurl4E8F14E2"
+          }
+        ],
+        "/ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/ziom-adventurer-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/ziom-adventurer-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/ziom-adventurer-Site/SSTStackOutputSiteUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteUrl"
+          }
+        ],
+        "/ziom-adventurer-Site/SSTStackOutputSSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/ziom-adventurer-Site/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ziom-adventurer-Site/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ziom-adventurer-Site"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
