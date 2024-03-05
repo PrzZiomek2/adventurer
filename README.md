@@ -4,10 +4,6 @@ A travel guidance portal that provides inspiration and ideas for everyone to tra
 
 Project at an early stage.
 
-### Address
-
-<a href="https://d3dde1giuv87xo.cloudfront.net/" target="_blank">Adventurer</a>
-
 ### Tech stack
 
 TypeScript, Next.js, React.js, AWS, Tailwind, Cypress
