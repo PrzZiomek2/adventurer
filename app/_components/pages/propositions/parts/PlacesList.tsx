@@ -12,8 +12,6 @@ export const PlacesList = ({
    loadingData,
    clickedPlace,
 }: PlacesListProps) => {
-   console.log({ clickedPlace });
-
    const placeItems = places.map((place) => (
       <PlaceItem
          key={place.place_id}

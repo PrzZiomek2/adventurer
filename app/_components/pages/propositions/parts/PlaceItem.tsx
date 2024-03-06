@@ -2,6 +2,7 @@ import { Tag } from "@/components/ui/Tag";
 import { urls } from "app/_utils/urls";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { IoStarSharp } from "react-icons/io5";
 
 interface PlaceItemProps {
@@ -10,6 +11,7 @@ interface PlaceItemProps {
 }
 
 export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
+   const itemRef = useRef<HTMLDivElement>(null);
    const { googleMaps } = urls();
    const {
       formatted_address,
@@ -23,6 +25,12 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
       opening_hours,
    } = place;
 
+   useEffect(() => {
+      if (itemRef.current && highlight) {
+         itemRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+   }, [itemRef.current, highlight]);
+
    const filteredTypes = types
       ?.filter(
          (type) => type !== "establishment" && type !== "point_of_interest",
@@ -31,6 +39,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
 
    return (
       <div
+         ref={itemRef}
          className={`
             flex flex-col md:flex-row border lg:max-desktop:flex-col
             md:max-w-fit md:gap-3 w-full max-w-[390px]
@@ -50,7 +59,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
          >
             {photos?.length > 0 &&
                photos.map(({ photo_reference }) => (
-                  <Image
+                  <img
                      alt="zdjęcie miejsca"
                      key={photo_reference}
                      className={`
@@ -60,7 +69,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                         object-fill bg-emerald-200 max-w-none
                      `}
                      src={`
-                        ${googleMaps}/place/photo?maxwidth=400&photoreference=${photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY}
+                        ${googleMaps}/place/photo?maxwidth=300&photoreference=${photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY}
                      `}
                      width={250}
                      height={200}
