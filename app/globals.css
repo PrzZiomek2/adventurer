@@ -86,6 +86,11 @@
    .link-basic {
       @apply text-dim hover:text-emerald-600 underline underline-offset-2 transition duration-300 hover:underline hover:underline-offset-2 font-medium;
    }
+
+   .fill-available-width {
+      min-width: -webkit-fill-available;
+      min-width: -moz-available;
+   }
 }
 
 .with-scroll::-webkit-scrollbar {
