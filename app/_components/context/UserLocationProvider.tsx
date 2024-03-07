@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React, { FC, createContext, useEffect, useMemo, useState } from "react";
 
 interface UserLocationProviderProps {
@@ -23,6 +24,7 @@ export const UserLocationContext =
 export const UserLocationProvider: FC<UserLocationProviderProps> = ({
    children,
 }) => {
+   const pathname = usePathname();
    const [value, setValue] =
       useState<UserLocationContextValue>(userLocationInit);
 
@@ -41,8 +43,11 @@ export const UserLocationProvider: FC<UserLocationProviderProps> = ({
             setValue((prev) => ({ ...prev, loading: false }));
          }
       };
-      getUserLocation();
-   }, []);
+
+      if (pathname.includes("/propositions")) {
+         getUserLocation();
+      }
+   }, [pathname]);
 
    const valueMemoized = useMemo(
       () => ({

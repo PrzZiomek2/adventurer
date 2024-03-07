@@ -23,7 +23,23 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
       types,
       icon,
       opening_hours,
+      place_id,
    } = place;
+
+   /*   TO DO: solve problem with missing photos
+useEffect(() => {
+      const getPhotoUrl = async () => {
+         const res = await fetch(
+            `https://places.googleapis.com/v1/places/${place_id}/photos/${photos[0].photo_reference}/media?maxWidthPx=300&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY}`,
+         );
+         const resJson = await res.json();
+         console.log({ resJson });
+      };
+
+      if (photos[0].photo_reference) {
+         getPhotoUrl();
+      }
+   }, [photos[0].photo_reference, place_id]); */
 
    useEffect(() => {
       if (itemRef.current && highlight) {
@@ -45,7 +61,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             md:max-w-fit md:gap-3 w-full max-w-[390px]
             border-dark rounded-lg 
             ${highlight ? "shadow-highlight" : "shadow-item-bolder"}
-            md:min-w-[-webkit-fill-available] justify-self-center
+            md:fill-available-width justify-self-center
          `}
       >
          <div
