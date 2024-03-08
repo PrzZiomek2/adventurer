@@ -55,7 +55,7 @@ const config: Config = {
          desktop: "1200px",
          desktop2: "1300px",
          hd: "1536px",
-         wide: "1800px",
+         wide: "1720px",
       },
       fontSize: {
          xs: "12px",
