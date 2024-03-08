@@ -30,17 +30,19 @@ export const Map: FC<MapProps> = ({
 
    const mapSettings = {
       center: mainPosition || { lat: 52.4, lng: 16.9 },
-      zoom: 13,
+      zoom: 12,
       mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
    };
 
    useEffect(() => {
+      if (!mapRef.current) return;
+
       let userMarker: google.maps.Marker | null = null;
-      const placeMarkers = [];
+      const placeMarkers: google.maps.Marker[] = [];
 
       const initMap = async () => {
-         const { Map } = await loader.importLibrary("maps");
          const { Marker } = await loader.importLibrary("marker");
+         const { Map } = await loader.importLibrary("maps");
          const map = new Map(mapRef.current as HTMLDivElement, mapSettings);
 
          if (mainPosition) {
@@ -53,7 +55,7 @@ export const Map: FC<MapProps> = ({
                position: mainPosition,
                icon: {
                   url: personIconUrl,
-                  scaledSize: new window.google.maps.Size(44, 44),
+                  scaledSize: new google.maps.Size(44, 44),
                },
             });
 
@@ -81,7 +83,7 @@ export const Map: FC<MapProps> = ({
                   position: coords,
                   icon: {
                      url: placeIconUrl,
-                     scaledSize: new window.google.maps.Size(30, 30),
+                     scaledSize: new google.maps.Size(30, 30),
                   },
                });
 
@@ -104,12 +106,13 @@ export const Map: FC<MapProps> = ({
          }
       };
 
-      if (mapRef.current) {
-         initMap();
-      }
+      initMap();
 
       return () => {
-         // TO DO: Clean up listeners
+         if (userMarker) google.maps.event.clearInstanceListeners(userMarker);
+         placeMarkers.forEach((marker) =>
+            google.maps.event.clearInstanceListeners(marker),
+         );
       };
    }, [mapRef, mainPosition, places]);
 
