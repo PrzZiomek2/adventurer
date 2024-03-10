@@ -16,7 +16,7 @@ export const IntroCard = () => {
                   - Wchodząc w zakladkę{" "}
                   <Link
                      className="link-basic"
-                     href="/propositions/popular"
+                     href="/places/popular"
                   >
                      Propozycje
                   </Link>

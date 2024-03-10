@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/_customHooks/useUrlParams";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -45,9 +45,9 @@ const CriteriaForm = () => {
 
    const handleFormSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-
+      // TO DO: set user id
       if (favourite.length) {
-         router.push(`/destinations?${currentParams.toString()}`);
+         router.push(`/places/id/?${currentParams.toString()}`);
       }
    };
 

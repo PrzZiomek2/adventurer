@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
 import { Heading } from "@/components/ui/Heading";

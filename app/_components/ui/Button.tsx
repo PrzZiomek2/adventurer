@@ -12,7 +12,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    className?: string;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
    (
       {
          variant = "secondary",
@@ -51,3 +51,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       );
    },
 );
+
+Button.displayName = "Button";
+
+export default Button;

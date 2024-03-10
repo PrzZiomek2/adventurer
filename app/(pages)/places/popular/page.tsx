@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PlacesNearby } from "@/components/pages/propositions/popular/PlacesNearby";
+import { PlacesNearby } from "@/components/pages/places/popular/PlacesNearby";
 import Tabs from "@/components/common/Tabs/Tabs";
 import { Heading } from "@/components/ui/Heading";
 

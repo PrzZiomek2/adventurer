@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import React, { ReactNode, useState, FC, useRef } from "react";
 
 interface TabsProps {

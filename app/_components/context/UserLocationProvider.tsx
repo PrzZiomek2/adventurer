@@ -44,7 +44,7 @@ export const UserLocationProvider: FC<UserLocationProviderProps> = ({
          }
       };
 
-      if (pathname.includes("/propositions")) {
+      if (pathname.includes("/places")) {
          getUserLocation();
       }
    }, [pathname]);

@@ -1,6 +1,5 @@
 import React from "react";
-import { Button } from "./Button";
-import { SlMenu } from "react-icons/sl";
+import Button from "./Button";
 import { RiCloseFill } from "react-icons/ri";
 
 interface TagProps {
