@@ -127,7 +127,7 @@ export const Map: FC<MapProps> = ({
          className={`
             min-h-[300px] sm:min-h-[400px] max-h-[500px] max-w-[500px] 
             desktop:max-h-[600px] desktop:max-w-[600px]
-            bg-200 w-full rounded-lg mx-auto 2md:ml-0 2md:mr-0 bg-emerald mt-[46px] hd:max-w-none
+            bg-200 w-full rounded-lg mx-auto 2md:ml-0 2md:mr-0 bg-emerald hd:max-w-none
          `}
       >
          <div className="relative max-w-[800px] w-full h-full rounded-lg bg-emerald-200">

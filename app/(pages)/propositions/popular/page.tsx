@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { PlacesNearby } from "@/components/pages/propositions/popular/PlacesNearby";
+import Tabs from "@/components/common/Tabs/Tabs";
+import { Heading } from "@/components/ui/Heading";
 
 function PropositionsPopular() {
+   const getHeader = (text: string) => {
+      return (
+         <Heading
+            className={`
+               col-span-full text-inherit 
+               leading-[1] whitespace-nowrap
+            `}
+            variant="h2"
+         >
+            {text}
+         </Heading>
+      );
+   };
+
    return (
       <main
          className={`
-            card  mt-0 sm:mt-6 lg:mt-8
-            grid min-h-[600px] lg:grid-cols-[auto_500px] 
-            hd:grid-cols-[auto_600px] 
-            grid-cols-1 gap-4 wide:gap-[40px] wide:grid-cols-[1fr_1fr] 
+            card mt-0 sm:mt-6 lg:mt-8 min-h-[500px] wide:min-h-[600px]
          `}
       >
-         <PlacesNearby />
+         <Tabs
+            ariaLabel="Rodzaje propozycji"
+            items={[
+               {
+                  tab: getHeader("W pobliżu"),
+                  panel: <PlacesNearby />,
+               },
+               {
+                  tab: getHeader("W kraju"),
+                  panel: <div>in progress</div>,
+               },
+               {
+                  tab: getHeader("Na świecie"),
+                  panel: <div>in progress</div>,
+               },
+            ]}
+         />
       </main>
    );
 }
