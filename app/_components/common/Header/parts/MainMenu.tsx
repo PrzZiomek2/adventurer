@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 
 import { SlMenu } from "react-icons/sl";
 import { AiOutlineClose } from "react-icons/ai";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Arrow from "@/components/ui/Arrow";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -67,7 +67,7 @@ export const MainMenu: React.FC = () => {
                   <li>
                      <Link
                         className="menu-item-hover"
-                        href="/propositions/popular"
+                        href="/places/popular"
                      >
                         Popularne
                      </Link>
@@ -81,7 +81,7 @@ export const MainMenu: React.FC = () => {
                            className={
                               user?.id ? "menu-item-hover" : "disabled-link"
                            }
-                           href={`/propositions/${user?.id}`}
+                           href={`/places/${user?.id}`}
                         >
                            Twoje
                         </Link>

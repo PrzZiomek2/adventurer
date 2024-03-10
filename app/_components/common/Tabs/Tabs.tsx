@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import React, { ReactNode, useState, FC, useRef } from "react";
 
 interface TabsProps {
@@ -30,6 +30,7 @@ export const Tabs: FC<TabsProps> = ({ items, ariaLabel }) => {
             bg-transparent rounded-none first:pl-0 first:border-l-0 last:border-r-0
             ${i === value ? "text-dim text-shadow-1" : "text-emerald-700"}
             ${i === value || i === value - 1 ? "border-emerald-900" : "border-emerald-600"}
+            hover:text-dim 
          `}
          role="tab"
          id={`tab-${i}`}

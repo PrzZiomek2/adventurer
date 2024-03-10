@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { SlLogin } from "react-icons/sl";
 import { FaCircleUser } from "react-icons/fa6";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import { Heading } from "@/components/ui/Heading";
 import { usePathname } from "next/navigation";
