@@ -61,27 +61,24 @@ export const PlacesNearby = () => {
       }));
 
    return (
-      <>
-         <div className="flex flex-col gap-3">
-            <Heading
-               className="col-span-full"
-               variant="h2"
-            >
-               W okolicy
-            </Heading>
-
-            <PlacesList
-               clickedPlace={clickedPlace}
-               loadingData={loadingData}
-               places={placesData}
-            />
-         </div>
+      <div
+         className={`
+            grid min-h-[500px] lg:grid-cols-[auto_500px] 
+            hd:grid-cols-[auto_600px] wide:min-h-[600px]
+            grid-cols-1 gap-8 lg:gap-4 wide:gap-[40px] wide:grid-cols-[1fr_1fr] 
+         `}
+      >
+         <PlacesList
+            clickedPlace={clickedPlace}
+            loadingData={loadingData}
+            places={placesData}
+         />
          <Map
             userLocalized
             places={placesCoords}
             setClickedPlace={setClickedPlace}
             mainPosition={userPosition}
          />
-      </>
+      </div>
    );
 };

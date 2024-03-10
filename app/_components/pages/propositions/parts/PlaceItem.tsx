@@ -1,5 +1,4 @@
 import { Tag } from "@/components/ui/Tag";
-import { urls } from "app/_utils/urls";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -12,7 +11,6 @@ interface PlaceItemProps {
 
 export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
    const itemRef = useRef<HTMLDivElement>(null);
-   const { googleMaps } = urls();
    const {
       formatted_address,
       name,
@@ -23,7 +21,6 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
       types,
       icon,
       opening_hours,
-      place_id,
    } = place;
 
    useEffect(() => {
@@ -48,7 +45,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             border-dark rounded-lg 
             ${highlight ? "shadow-highlight" : "shadow-item-bolder"}
             md:fill-available-width justify-self-center
-            overflow-hidden
+            overflow-hidden shrink-0
          `}
       >
          <div
