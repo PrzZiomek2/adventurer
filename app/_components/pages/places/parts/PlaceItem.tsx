@@ -51,7 +51,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
          <div
             className={`
                sm:mb-2 sm:mt-4 my-0 mx-auto 
-               w-[264px] h-[180px] sm:w-[300px] sm:h-[200px] lg:max-h-[240px]
+               w-[360px] h-[180px] sm:w-[300px] sm:h-[200px] lg:max-h-[240px]
                md:w-[200px] md:m-0 lg:max-desktop:w-[320px] lg:max-desktop:h-[180px] desktop:h-full
                 bg-emerald-200 lg:max-desktop:m-auto lg:max-desktop:mt-4 desktop2:max-h-[170px]
                 rounded-b-none sm:rounded-b-lg rounded-lg md:rounded-[8px_0_0_8px]
@@ -69,10 +69,10 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                         object-cover bg-emerald-200 max-w-none
                      `}
                      src={`
-                        https://maps.googleapis.com/maps/api/streetview?size=200x240&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}
+                        https://maps.googleapis.com/maps/api/streetview?size=400x300&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}
                      `}
-                     width={200}
-                     height={200}
+                     width={400}
+                     height={300}
                   />
                ))}
          </div>
