@@ -12,7 +12,7 @@ export const PlacesList = ({
    loadingData,
    clickedPlace,
 }: PlacesListProps) => {
-   const placeItems = places.map((place) => (
+   const placeItems = places?.map((place) => (
       <PlaceItem
          key={place.place_id}
          place={place}
@@ -27,7 +27,7 @@ export const PlacesList = ({
    return (
       <section
          className={`
-               flex flex-col items-center gap-6 pr-1 md:pr-3 pt-3 pb-1
+               flex flex-col items-center gap-6 md:gap-4 pr-1 md:pr-3 pt-1 pb-1
                max-h-[500px] wide:max-h-[600px] overflow-auto with-scroll
             `}
       >
