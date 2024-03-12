@@ -63,3 +63,15 @@ interface MapPlace {
    types: string[];
    user_ratings_total: number;
 }
+
+interface Coords {
+   lat: number;
+   lng: number;
+}
+
+interface PlaceCoords {
+   lat: number;
+   lng: number;
+   place_id: string;
+   name: string;
+}

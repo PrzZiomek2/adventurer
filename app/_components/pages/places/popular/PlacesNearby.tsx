@@ -1,15 +1,14 @@
 "use client";
 import { UserLocationContext } from "@/components/context/UserLocationProvider";
-import { Heading } from "@/components/ui/Heading";
-import { getServerData } from "app/_utils/handlersApi";
-import { useContext, useEffect, useState } from "react";
+import { MdPersonPinCircle } from "react-icons/md";
+import { useContext, useState } from "react";
 import { PlacesList } from "../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
+import { iconToString } from "app/_utils/handlers";
+import { useGooglePlacesList } from "app/_customHooks/useGooglePlacesList";
 
 export const PlacesNearby = () => {
    const { coords } = useContext(UserLocationContext);
-   const [placesData, setPlacesData] = useState<MapPlace[]>([]);
-   const [loadingData, setLoadingData] = useState(false);
    const [clickedPlace, setClickedPlace] = useState("");
 
    const userPosition = coords
@@ -18,7 +17,7 @@ export const PlacesNearby = () => {
            lng: coords.longitude,
         }
       : null;
-
+   const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
    const centerPosition = coords
       ? {
            lat: coords.latitude,
@@ -26,39 +25,11 @@ export const PlacesNearby = () => {
         }
       : { lat: 52.4, lng: 16.9 };
 
-   useEffect(() => {
-      const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
-      const radius = 2000;
-      const getPlaces = async () => {
-         try {
-            setLoadingData(true);
-            const placesDataRes = await getServerData<{ data: MapPlace[] }>(
-               `places?category=${categories.join("|")}&radius=${radius}&location=${centerPosition.lat},${centerPosition.lng}`,
-            );
-
-            if (placesDataRes) {
-               setPlacesData(placesDataRes?.data);
-            }
-         } catch (err) {
-            console.log(err);
-         } finally {
-            setLoadingData(false);
-         }
-      };
-
-      if (centerPosition.lat && centerPosition.lng) {
-         getPlaces();
-      }
-   }, [centerPosition.lat, centerPosition.lng]);
-
-   const placesCoords =
-      placesData &&
-      placesData.map(({ geometry, place_id, name }) => ({
-         lat: geometry.location.lat,
-         lng: geometry.location.lng,
-         name,
-         place_id,
-      }));
+   const { placesCoords, placesData, loadingData } = useGooglePlacesList(
+      centerPosition,
+      categories,
+      3000,
+   );
 
    return (
       <div
@@ -77,7 +48,14 @@ export const PlacesNearby = () => {
             userLocalized
             places={placesCoords}
             setClickedPlace={setClickedPlace}
-            mainPosition={userPosition}
+            mapSettings={{
+               center: userPosition || { lat: 52.4, lng: 16.9 },
+               zoom: 13,
+            }}
+            mainIcon={{
+               url: iconToString(MdPersonPinCircle),
+               text: "Ty",
+            }}
          />
       </div>
    );

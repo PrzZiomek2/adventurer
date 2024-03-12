@@ -1,38 +1,48 @@
 "use client";
 import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
 import { GiPositionMarker } from "react-icons/gi";
-import { MdPersonPinCircle } from "react-icons/md";
+import { Loader } from "@googlemaps/js-api-loader";
 
 import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
-import { renderToStaticMarkup } from "react-dom/server";
+import { useMap } from "app/_customHooks/useMap";
+import { iconToString } from "app/_utils/handlers";
+
+type Coordinates = {
+   lat: number;
+   lng: number;
+};
 
 interface MapProps {
-   mainPosition: {
-      lat: number;
-      lng: number;
-   } | null;
    userLocalized?: boolean;
-   places?: { lat: number; lng: number; place_id: string; name: string }[];
+   places?: PlaceCoords[];
    setClickedPlace: Dispatch<SetStateAction<string>>;
+   mapSettings: Record<string, unknown>;
+   mainIcon: {
+      url: string;
+      text: string;
+   };
 }
 
 export const Map: FC<MapProps> = ({
-   mainPosition,
    places,
    setClickedPlace,
+   mapSettings,
+   mainIcon,
 }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
+
+   const settings = {
+      ...mapSettings,
+      mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
+   };
+   const mainPosition = mapSettings?.center as Coordinates;
+
+   const map = useMap(mapRef.current, settings);
+
    const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
       version: "weekly",
    });
-
-   const mapSettings = {
-      center: mainPosition || { lat: 52.4, lng: 16.9 },
-      zoom: 12,
-      mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
-   };
 
    useEffect(() => {
       if (!mapRef.current) return;
@@ -40,73 +50,67 @@ export const Map: FC<MapProps> = ({
       let userMarker: google.maps.Marker | null = null;
       const placeMarkers: google.maps.Marker[] = [];
 
-      const initMap = async () => {
-         const { Marker } = await loader.importLibrary("marker");
-         const { Map } = await loader.importLibrary("maps");
-         const map = new Map(mapRef.current as HTMLDivElement, mapSettings);
+      const initMarkers = async () => {
+         try {
+            const { Marker } = await loader.importLibrary("marker");
 
-         if (mainPosition) {
-            const personIconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
-               renderToStaticMarkup(<MdPersonPinCircle />),
-            )}`;
-
-            userMarker = new Marker({
-               map,
-               position: mainPosition,
-               icon: {
-                  url: personIconUrl,
-                  scaledSize: new google.maps.Size(44, 44),
-               },
-            });
-
-            const markerInfo = new google.maps.InfoWindow({
-               content: "Ty",
-            });
-
-            userMarker.addListener("mouseover", () => {
-               markerInfo.open(map, userMarker);
-            });
-            userMarker.addListener("mouseout", () => {
-               markerInfo.close();
-            });
-         }
-
-         if (places?.length) {
-            const placeIconUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(
-               renderToStaticMarkup(<GiPositionMarker />),
-            )}`;
-
-            places?.forEach((place) => {
-               const { place_id, name, ...coords } = place;
-               const placeMarker = new Marker({
+            if (mainPosition) {
+               userMarker = new Marker({
                   map,
-                  position: coords,
+                  position: mainPosition,
                   icon: {
-                     url: placeIconUrl,
-                     scaledSize: new google.maps.Size(30, 30),
+                     url: mainIcon.url,
+                     scaledSize: new window.google.maps.Size(44, 44),
                   },
                });
 
-               const markerInfo = new google.maps.InfoWindow({
-                  content: name,
+               const markerInfo = new window.google.maps.InfoWindow({
+                  content: mainIcon.text,
                });
 
-               placeMarker.addListener("mouseover", () => {
-                  markerInfo.open(map, placeMarker);
+               userMarker.addListener("mouseover", () => {
+                  markerInfo.open(map, userMarker);
                });
-               placeMarker.addListener("mouseout", () => {
+               userMarker.addListener("mouseout", () => {
                   markerInfo.close();
                });
-               placeMarker.addListener("click", () => {
-                  setClickedPlace(place_id);
-               });
+            }
 
-               placeMarkers.push(placeMarker);
-            });
+            if (places?.length) {
+               places?.forEach((place) => {
+                  const { place_id, name, ...coords } = place;
+                  const placeMarker = new Marker({
+                     map,
+                     position: coords,
+                     icon: {
+                        url: iconToString(GiPositionMarker),
+                        scaledSize: new window.google.maps.Size(30, 30),
+                     },
+                  });
+
+                  const markerInfo = new google.maps.InfoWindow({
+                     content: name,
+                  });
+
+                  placeMarker.addListener("mouseover", () => {
+                     markerInfo.open(map, placeMarker);
+                  });
+                  placeMarker.addListener("mouseout", () => {
+                     markerInfo.close();
+                  });
+                  placeMarker.addListener("click", () => {
+                     setClickedPlace(place_id);
+                  });
+
+                  placeMarkers.push(placeMarker);
+               });
+            }
+         } catch (error) {
+            console.error(error);
          }
       };
 
-      initMap();
+      initMarkers();
 
       return () => {
          if (userMarker) google.maps.event.clearInstanceListeners(userMarker);

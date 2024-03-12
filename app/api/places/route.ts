@@ -33,14 +33,57 @@ export async function GET(req: NextRequest) {
          console.log(resData);
       }
 
-      const sortedRes = (resData.results as MapPlace[])?.sort(
-         (a, b) => b.rating - a.rating,
-      );
+      const sortedRes = (resData.results as MapPlace[])
+         ?.sort((a, b) => b.rating - a.rating)
+         .filter(
+            ({ types }) =>
+               !types.includes("store") ||
+               !types.includes("grocery_or_supermarket") ||
+               !types.includes("liquor_store"),
+         );
 
       if (resData) {
          resContent = {
             status: 200,
             data: sortedRes?.slice(0, 10),
+         };
+      }
+   } catch (error) {
+      resContent = {
+         message: `error when connecting place API: ${error}`,
+         status: 500,
+      };
+   } finally {
+      return NextResponse.json(resContent);
+   }
+}
+
+interface RequestBody {
+   name: string;
+}
+
+export async function POST(req: NextRequest) {
+   const body: RequestBody = await req.json();
+   const { name } = body;
+
+   const { googleGeocodingAPI } = urls();
+   let resContent = {};
+
+   try {
+      if (!name) {
+         throw new Error("country name not provided");
+      }
+
+      const response = await fetch(`
+         ${googleGeocodingAPI}?address=${name}&key=${process.env.GOOGLE_PLACES_KEY} 
+      `);
+
+      const resData = await response.json();
+
+      if (resData) {
+         resContent = {
+            status: 200,
+            data: resData.results[0].geometry.location,
          };
       }
    } catch (error) {
