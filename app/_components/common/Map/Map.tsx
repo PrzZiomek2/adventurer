@@ -17,10 +17,11 @@ interface MapProps {
    places?: PlaceCoords[];
    setClickedPlace: Dispatch<SetStateAction<string>>;
    mapSettings: Record<string, unknown>;
-   mainIcon: {
+   mainIcon?: {
       url: string;
       text: string;
-   };
+      size?: [number, number];
+   } | null;
 }
 
 export const Map: FC<MapProps> = ({
@@ -47,31 +48,35 @@ export const Map: FC<MapProps> = ({
    useEffect(() => {
       if (!mapRef.current) return;
 
-      let userMarker: google.maps.Marker | null = null;
+      let mainMarker: google.maps.Marker | null = null;
       const placeMarkers: google.maps.Marker[] = [];
 
       const initMarkers = async () => {
          try {
             const { Marker } = await loader.importLibrary("marker");
 
-            if (mainPosition) {
-               userMarker = new Marker({
+            if (mainPosition && mainIcon) {
+               const mainMarkerSize = mainIcon?.size || [44, 44];
+               mainMarker = new Marker({
                   map,
                   position: mainPosition,
                   icon: {
-                     url: mainIcon.url,
-                     scaledSize: new window.google.maps.Size(44, 44),
+                     url: mainIcon?.url,
+                     scaledSize: new window.google.maps.Size(
+                        mainMarkerSize[0],
+                        mainMarkerSize[1],
+                     ),
                   },
                });
 
                const markerInfo = new window.google.maps.InfoWindow({
-                  content: mainIcon.text,
+                  content: mainIcon?.text,
                });
 
-               userMarker.addListener("mouseover", () => {
-                  markerInfo.open(map, userMarker);
+               mainMarker.addListener("mouseover", () => {
+                  markerInfo.open(map, mainMarker);
                });
-               userMarker.addListener("mouseout", () => {
+               mainMarker.addListener("mouseout", () => {
                   markerInfo.close();
                });
             }
@@ -100,6 +105,7 @@ export const Map: FC<MapProps> = ({
                   });
                   placeMarker.addListener("click", () => {
                      setClickedPlace(place_id);
+                     markerInfo.close();
                   });
 
                   placeMarkers.push(placeMarker);
@@ -113,12 +119,12 @@ export const Map: FC<MapProps> = ({
       initMarkers();
 
       return () => {
-         if (userMarker) google.maps.event.clearInstanceListeners(userMarker);
+         if (mainMarker) google.maps.event.clearInstanceListeners(mainMarker);
          placeMarkers.forEach((marker) =>
             google.maps.event.clearInstanceListeners(marker),
          );
       };
-   }, [mapRef, mainPosition, places]);
+   }, [mapRef.current, mainPosition, places, mainIcon]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
