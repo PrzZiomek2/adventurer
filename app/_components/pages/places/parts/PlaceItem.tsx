@@ -37,8 +37,8 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
 
    return (
       <div
-         ref={itemRef}
          className={`
+            relative
             flex flex-col md:flex-row border lg:max-desktop:flex-col 
             lg:max-desktop:min-w-[200px] lg:max-desktop:max-w-[400px]
             md:max-w-fit md:gap-3 w-full max-w-[390px]
@@ -48,6 +48,10 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             overflow-hidden shrink-0
          `}
       >
+         <div
+            ref={itemRef}
+            className="absolute -top-[10px] left-0 w-full h-2"
+         />
          <div
             className={`
                sm:mb-2 sm:mt-4 my-0 mx-auto 

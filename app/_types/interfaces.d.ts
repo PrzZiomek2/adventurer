@@ -75,3 +75,10 @@ interface PlaceCoords {
    place_id: string;
    name: string;
 }
+
+interface PlacesApiPostRes {
+   data: {
+      coords: Coords;
+      places: MapPlace[];
+   };
+}

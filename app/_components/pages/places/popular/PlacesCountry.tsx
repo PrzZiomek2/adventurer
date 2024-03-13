@@ -3,11 +3,10 @@ import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { useContext, useEffect, useState } from "react";
 import { PlacesList } from "../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
-import { BsFillFlagFill } from "react-icons/bs";
-import { iconToString } from "app/_utils/handlers";
-import { useGooglePlacesList } from "app/_customHooks/useGooglePlacesList";
 import { hereAPI } from "app/_utils/hereApi";
 import { postServerData } from "app/_utils/handlersApi";
+import { getPlacesCoords } from "app/_utils/handlers";
+import { MapPlacesContainer } from "../parts/MapPlacesContainer";
 
 type CountryRes = {
    address: {
@@ -19,10 +18,11 @@ type CountryRes = {
 export const PlacesCountry = () => {
    const { coords } = useContext(UserLocationContext);
    const [clickedPlace, setClickedPlace] = useState("");
+   const [places, setPlaces] = useState<MapPlace[]>([]);
    const [countryLocation, setCountryLocation] = useState<Coords>();
-   const [countryName, setCountryName] = useState("");
+   const [placesLoading, setPlacesLoading] = useState(false);
 
-   const centerPosition = coords
+   const userPosition = coords
       ? {
            lat: coords.latitude,
            lng: coords.longitude,
@@ -30,71 +30,55 @@ export const PlacesCountry = () => {
       : { lat: 52.4, lng: 16.9 };
 
    useEffect(() => {
-      const getPlaceName = async () => {
+      const getPlaces = async () => {
          try {
+            setPlacesLoading(true);
             const decodeRes =
-               await hereAPI.reverseGeocode<CountryRes>(centerPosition);
+               await hereAPI.reverseGeocode<CountryRes>(userPosition);
             if (decodeRes) {
                const name = decodeRes?.address.countryName;
-               setCountryName(name);
-               const coords = await postServerData<
-                  { data: Coords } & NextResponseBasic
+               const results = await postServerData<
+                  PlacesApiPostRes & NextResponseBasic
                >("places", {
-                  name,
+                  phrase: `most interesting and popular tourist places in ${name}`,
+                  regionName: name,
                });
-
-               if (coords) {
-                  setCountryLocation(coords.data);
+               if (results.data) {
+                  setPlaces(results.data.places);
+                  setCountryLocation(results.data.coords);
                }
             }
          } catch (err) {
             console.log(err);
+         } finally {
+            setPlacesLoading(false);
          }
       };
 
-      if (centerPosition.lat && centerPosition.lng) {
-         getPlaceName();
+      if (userPosition.lat && userPosition.lng) {
+         getPlaces();
       }
-   }, [centerPosition?.lat, centerPosition?.lng]);
+   }, [userPosition?.lat, userPosition?.lng]);
 
-   const categories = ["tourist_attraction", "cafe", "bar", "restaurant"]; // TODO: category selection
-
-   const { placesCoords, placesData, loadingData } = useGooglePlacesList(
-      countryLocation || centerPosition,
-      categories,
-      10000,
-   );
+   const placesCoords = places && getPlacesCoords(places);
 
    return (
-      <div
-         className={`
-            grid min-h-[500px] lg:grid-cols-[auto_500px] 
-            hd:grid-cols-[auto_600px] wide:min-h-[600px]
-            grid-cols-1 gap-8 lg:gap-4 wide:gap-[40px] wide:grid-cols-[1fr_1fr] 
-         `}
-      >
-         {placesData?.length > 0 && (
-            <PlacesList
-               clickedPlace={clickedPlace}
-               loadingData={loadingData}
-               places={placesData}
-            />
-         )}
-         {countryLocation && (
-            <Map
-               userLocalized
-               places={placesCoords}
-               setClickedPlace={setClickedPlace}
-               mapSettings={{
-                  center: countryLocation,
-                  zoom: 7,
-               }}
-               mainIcon={{
-                  url: iconToString(BsFillFlagFill),
-                  text: countryName,
-               }}
-            />
-         )}
-      </div>
+      <MapPlacesContainer>
+         <PlacesList
+            clickedPlace={clickedPlace}
+            places={places}
+            loadingData={placesLoading}
+         />
+
+         <Map
+            userLocalized
+            places={placesCoords}
+            setClickedPlace={setClickedPlace}
+            mapSettings={{
+               center: countryLocation || { lat: 51.919, lng: 19.14 },
+               zoom: 6,
+            }}
+         />
+      </MapPlacesContainer>
    );
 };

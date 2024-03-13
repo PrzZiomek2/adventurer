@@ -2,12 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { urls } from "app/_utils/urls";
 
-interface Params {
-   category: string;
-   location: string;
-   radius: number;
-}
-
 export async function GET(req: NextRequest) {
    const { searchParams } = req.nextUrl;
    const category = searchParams.get("category");
@@ -59,32 +53,66 @@ export async function GET(req: NextRequest) {
 }
 
 interface RequestBody {
-   name: string;
+   phrase: string;
+   regionName?: string;
+   coords?: Coords;
+   radius?: number;
 }
 
 export async function POST(req: NextRequest) {
    const body: RequestBody = await req.json();
-   const { name } = body;
+   const { phrase, regionName } = body;
 
-   const { googleGeocodingAPI } = urls();
+   const { googleMaps, googleGeocodingAPI } = urls();
    let resContent = {};
 
    try {
-      if (!name) {
-         throw new Error("country name not provided");
+      if (!phrase) {
+         throw new Error("region or phrase not provided");
       }
 
-      const response = await fetch(`
-         ${googleGeocodingAPI}?address=${name}&key=${process.env.GOOGLE_PLACES_KEY} 
-      `);
+      if (regionName) {
+         const fetcRegionCoords = fetch(`
+            ${googleGeocodingAPI}?address=${regionName}&key=${process.env.GOOGLE_PLACES_KEY}
+         `);
+         const fetchPlaces = fetch(`
+            ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}}&key=${process.env.GOOGLE_PLACES_KEY}  
+         `);
 
-      const resData = await response.json();
+         const resData = await Promise.all([
+            fetcRegionCoords,
+            fetchPlaces,
+         ]).then((responses) =>
+            Promise.all(responses.map((res) => res.json())),
+         );
 
-      if (resData) {
-         resContent = {
-            status: 200,
-            data: resData.results[0].geometry.location,
-         };
+         if (resData) {
+            const [regionCoords, places] = resData;
+            resContent = {
+               status: 200,
+               data: {
+                  coords: regionCoords.results[0].geometry.location,
+                  places: places.results,
+               },
+            };
+         }
+      }
+
+      if (!regionName) {
+         const getPlaces = await fetch(`
+            ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}}&key=${process.env.GOOGLE_PLACES_KEY}  
+         `);
+         const resData = await getPlaces.json();
+         console.log(resData);
+
+         if (resData) {
+            resContent = {
+               status: 200,
+               data: {
+                  places: resData.results,
+               },
+            };
+         }
       }
    } catch (error) {
       resContent = {
