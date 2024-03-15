@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&&limit=10&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
       const resData = await response.json();
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       if (resData) {
          resContent = {
             status: 200,
-            data: sortedRes?.slice(0, 10),
+            data: sortedRes?.slice(0, 15),
          };
       }
    } catch (error) {
@@ -92,7 +92,9 @@ export async function POST(req: NextRequest) {
                status: 200,
                data: {
                   coords: regionCoords.results[0].geometry.location,
-                  places: places.results,
+                  places: (places.results as MapPlace[]).sort(
+                     (a, b) => b.rating - a.rating,
+                  ),
                },
             };
          }
@@ -103,7 +105,6 @@ export async function POST(req: NextRequest) {
             ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}}&key=${process.env.GOOGLE_PLACES_KEY}  
          `);
          const resData = await getPlaces.json();
-         console.log(resData);
 
          if (resData) {
             resContent = {
