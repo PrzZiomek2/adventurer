@@ -9,7 +9,8 @@ import { getServerData } from "app/_utils/handlersApi";
 import { MapPlacesContainer } from "../parts/MapPlacesContainer";
 
 export const PlacesNearby = () => {
-   const { coords } = useContext(UserLocationContext);
+   const { coords, loading: userLocationLoading } =
+      useContext(UserLocationContext);
    const [clickedPlace, setClickedPlace] = useState("");
    const [placesLoading, setPlacesLoading] = useState(false);
    const [places, setPlaces] = useState<MapPlace[]>([]);
@@ -57,10 +58,11 @@ export const PlacesNearby = () => {
          sprawdź pozostałe sekcje
       </div>
    );
+   console.log({ userPosition, userLocationLoading, places });
 
    return (
       <MapPlacesContainer>
-         {userPosition && !placesLoading ? (
+         {userPosition && !userLocationLoading ? (
             <PlacesList
                clickedPlace={clickedPlace}
                loadingData={placesLoading}
