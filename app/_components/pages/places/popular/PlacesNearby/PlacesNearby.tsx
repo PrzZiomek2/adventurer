@@ -2,11 +2,13 @@
 import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { MdPersonPinCircle } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
-import { PlacesList } from "../parts/PlacesList";
+import { PlacesList } from "../../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
 import { getPlacesCoords, iconToString } from "app/_utils/handlers";
 import { getServerData } from "app/_utils/handlersApi";
-import { MapPlacesContainer } from "../parts/MapPlacesContainer";
+import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
+import Select from "@/components/ui/Select";
+import { PlacesOptions } from "./parts/PlacesOptions";
 
 export const PlacesNearby = () => {
    const { coords, loading: userLocationLoading } =
@@ -14,6 +16,7 @@ export const PlacesNearby = () => {
    const [clickedPlace, setClickedPlace] = useState("");
    const [placesLoading, setPlacesLoading] = useState(false);
    const [places, setPlaces] = useState<MapPlace[]>([]);
+   const [currentCity, setCurrentCity] = useState("Poznań");
 
    const userPosition = coords
       ? {
@@ -58,10 +61,11 @@ export const PlacesNearby = () => {
          sprawdź pozostałe sekcje
       </div>
    );
-   console.log({ userPosition, userLocationLoading, places });
+   const options = [{ value: "Poznań", label: "Poznań" }];
 
    return (
       <MapPlacesContainer>
+         <PlacesOptions />
          {userPosition && !userLocationLoading ? (
             <PlacesList
                clickedPlace={clickedPlace}

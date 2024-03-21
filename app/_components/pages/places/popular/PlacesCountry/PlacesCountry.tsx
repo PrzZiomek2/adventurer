@@ -1,12 +1,13 @@
 "use client";
 import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { useContext, useEffect, useState } from "react";
-import { PlacesList } from "../parts/PlacesList";
+import { PlacesList } from "../../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
 import { hereAPI } from "app/_utils/hereApi";
 import { postServerData } from "app/_utils/handlersApi";
 import { getPlacesCoords } from "app/_utils/handlers";
-import { MapPlacesContainer } from "../parts/MapPlacesContainer";
+import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
+import { PlacesOptions } from "./parts/PlacesOptions";
 
 type CountryRes = {
    address: {
@@ -21,6 +22,7 @@ export const PlacesCountry = () => {
    const [places, setPlaces] = useState<MapPlace[]>([]);
    const [countryLocation, setCountryLocation] = useState<Coords>();
    const [placesLoading, setPlacesLoading] = useState(false);
+   const [currentCountry, setCurrentCountry] = useState("Poland");
 
    const userPosition = coords
       ? {
@@ -46,6 +48,7 @@ export const PlacesCountry = () => {
                if (results.data) {
                   setPlaces(results.data.places);
                   setCountryLocation(results.data.coords);
+                  console.log({ data: results.data });
                }
             }
          } catch (err) {
@@ -64,12 +67,15 @@ export const PlacesCountry = () => {
 
    return (
       <MapPlacesContainer>
+         <PlacesOptions
+            currentCountry={currentCountry}
+            setCurrentCountry={setCurrentCountry}
+         />
          <PlacesList
             clickedPlace={clickedPlace}
             places={places}
             loadingData={placesLoading}
          />
-
          <Map
             userLocalized
             places={placesCoords}

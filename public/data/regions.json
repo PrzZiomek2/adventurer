@@ -1,0 +1,67 @@
+[
+   {
+      "value": "Africa",
+      "label": "Afryka",
+      "coordinates": { "lat": 0, "lng": 25 }
+   },
+   {
+      "value": "Northern Africa",
+      "label": "Afryka Północna",
+      "coordinates": { "lat": 25, "lng": 10 }
+   },
+   {
+      "value": "Western Africa",
+      "label": "Afryka Zachodnia",
+      "coordinates": { "lat": 10, "lng": -10 }
+   },
+   {
+      "value": "Asia",
+      "label": "Azja",
+      "coordinates": { "lat": 30, "lng": 100 }
+   },
+   {
+      "value": "Central Asia",
+      "label": "Azja Środkowa",
+      "coordinates": { "lat": 40, "lng": 70 }
+   },
+   {
+      "value": "Souteast Asia",
+      "label": "Azja Południowo-Wschodnia",
+      "coordinates": { "lat": 5, "lng": 120 }
+   },
+   {
+      "value": "Australia and Oceania",
+      "label": "Australia i Oceania",
+      "coordinates": { "lat": -25, "lng": 135 }
+   },
+   {
+      "value": "South America",
+      "label": "Ameryka Południowa",
+      "coordinates": { "lat": -10, "lng": -60 }
+   },
+   {
+      "value": "Northern America",
+      "label": "Ameryka Północna",
+      "coordinates": { "lat": 45, "lng": -100 }
+   },
+   {
+      "value": "Central America",
+      "label": "Ameryka Środkowa",
+      "coordinates": { "lat": 15, "lng": -90 }
+   },
+   {
+      "value": "Caribbean",
+      "label": "Karaiby",
+      "coordinates": { "lat": 15, "lng": -70 }
+   },
+   {
+      "value": "Europe",
+      "label": "Europa",
+      "coordinates": { "lat": 50, "lng": 10 }
+   },
+   {
+      "value": "Middle East",
+      "label": "Bliski Wschód",
+      "coordinates": { "lat": 30, "lng": 45 }
+   }
+]

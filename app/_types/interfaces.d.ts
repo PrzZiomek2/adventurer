@@ -82,3 +82,9 @@ interface PlacesApiPostRes {
       places: MapPlace[];
    };
 }
+
+interface Region {
+   value: string;
+   label: string;
+   coordinates: Coords;
+}

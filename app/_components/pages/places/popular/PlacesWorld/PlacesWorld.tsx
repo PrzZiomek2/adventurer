@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { PlacesList } from "../parts/PlacesList";
+import { PlacesList } from "../../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
 import { postServerData } from "app/_utils/handlersApi";
 import { getPlacesCoords } from "app/_utils/handlers";
-import { MapPlacesContainer } from "../parts/MapPlacesContainer";
-import Select from "@/components/ui/Select";
+import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
+import { PlacesOptions } from "./parts/PlacesOptions";
+import regions from "../../../../../../public/data/regions.json";
 
 export const PlacesWorld = () => {
    const [clickedPlace, setClickedPlace] = useState("");
@@ -36,45 +37,27 @@ export const PlacesWorld = () => {
    }, [currentRegion]);
 
    const placesCoords = places && getPlacesCoords(places);
-
-   const options = [
-      { value: "Africa", label: "Afryka" },
-      { value: "Asia", label: "Azja" },
-      { value: "Europe", label: "Europa" },
-      { value: "Australia andOceania", label: "Australia i Oceania" },
-      { value: "South America", label: "Ameryka Południowa" },
-      { value: "Northern Africa", label: "Afryka Północna" },
-      { value: "Western Africa", label: "Afryka Zachodnia" },
-      { value: "Northern America", label: "Ameryka Północna" },
-      { value: "Central America", label: "Ameryka Środkowa" },
-      { value: "Caribbean", label: "Karaiby" },
-      { value: "South America", label: "Ameryka Południowa" },
-      { value: "Central Asia", label: "Azja Środkowa" },
-      { value: "Souteast Asia", label: "Azja Południowo-Wschodnia" },
-      { value: "Middle East", label: "Bliski Wschód" },
-   ];
+   const regionCoords = regions.find(
+      (region) => region.value === currentRegion,
+   );
 
    return (
       <MapPlacesContainer>
-         {/*   TO DO: styloe region select
-       <Select
-            options={options}
-            value={currentRegion}
-            onChange={(value) => setCurrentRegion(value)}
-            ariaLabel="wybierz kontynent / region"
-         /> */}
+         <PlacesOptions
+            currentRegion={currentRegion}
+            setCurrentRegion={setCurrentRegion}
+         />
          <PlacesList
             clickedPlace={clickedPlace}
             places={places}
             loadingData={placesLoading}
          />
-
          <Map
             userLocalized
             places={placesCoords}
             setClickedPlace={setClickedPlace}
             mapSettings={{
-               center: { lat: 51.919, lng: 19.14 },
+               center: regionCoords?.coordinates,
                zoom: 3,
             }}
          />

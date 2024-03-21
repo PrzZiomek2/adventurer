@@ -31,6 +31,9 @@ export const Map: FC<MapProps> = ({
    mainIcon,
 }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
+   const [placeMarkers, setPlaceMarkers] = React.useState<google.maps.Marker[]>(
+      [],
+   );
 
    const settings = {
       ...mapSettings,
@@ -49,7 +52,6 @@ export const Map: FC<MapProps> = ({
       if (!mapRef.current) return;
 
       let mainMarker: google.maps.Marker | null = null;
-      const placeMarkers: google.maps.Marker[] = [];
 
       const initMarkers = async () => {
          try {
@@ -81,7 +83,7 @@ export const Map: FC<MapProps> = ({
                });
             }
 
-            if (places?.length) {
+            if (places?.length && placeMarkers.length === 0) {
                places?.forEach((place) => {
                   const { place_id, name, ...coords } = place;
                   const placeMarker = new Marker({
@@ -111,6 +113,15 @@ export const Map: FC<MapProps> = ({
                   placeMarkers.push(placeMarker);
                });
             }
+            if (places?.length && placeMarkers.length) {
+               placeMarkers.map((marker, i) => {
+                  return marker.setPosition({
+                     lat: +places[i]?.lat.toFixed(4),
+                     lng: +places[i]?.lng.toFixed(4),
+                  });
+               });
+               setPlaceMarkers(placeMarkers);
+            }
          } catch (error) {
             console.error(error);
          }
@@ -124,7 +135,7 @@ export const Map: FC<MapProps> = ({
             google.maps.event.clearInstanceListeners(marker),
          );
       };
-   }, [mapRef.current, mainPosition, places, mainIcon]);
+   }, [mapRef.current, mainPosition, places, mainIcon, map]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
