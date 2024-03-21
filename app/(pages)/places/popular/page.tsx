@@ -1,10 +1,10 @@
 import React from "react";
 
-import { PlacesNearby } from "@/components/pages/places/popular/PlacesNearby";
+import { PlacesNearby } from "@/components/pages/places/popular/PlacesNearby/PlacesNearby";
 import Tabs from "@/components/common/Tabs/Tabs";
 import { Heading } from "@/components/ui/Heading";
-import { PlacesCountry } from "@/components/pages/places/popular/PlacesCountry";
-import { PlacesWorld } from "@/components/pages/places/popular/PlacesWorld";
+import { PlacesCountry } from "@/components/pages/places/popular/PlacesCountry/PlacesCountry";
+import { PlacesWorld } from "@/components/pages/places/popular/PlacesWorld/PlacesWorld";
 
 function PropositionsPopular() {
    const getHeader = (text: string) => {
