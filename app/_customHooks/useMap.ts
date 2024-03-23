@@ -15,8 +15,12 @@ export const useMap = (
    useEffect(() => {
       const fetchMap = async () => {
          try {
+            const mapSettings = {
+               ...settings,
+               mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
+            };
             const { Map } = await loader.importLibrary("maps");
-            const map = new Map(mapRef as HTMLDivElement, settings);
+            const map = new Map(mapRef as HTMLDivElement, mapSettings);
             setMap(map);
          } catch (err) {
             console.log(err);

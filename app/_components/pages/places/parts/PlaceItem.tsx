@@ -30,9 +30,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
    }, [itemRef.current, highlight]);
 
    const filteredTypes = types
-      ?.filter(
-         (type) => type !== "establishment" && type !== "point_of_interest",
-      )
+      ?.filter((type) => type !== "establishment")
       .slice(0, 5);
 
    return (

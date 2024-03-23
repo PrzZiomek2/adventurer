@@ -22,7 +22,15 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
       options.find((option) => option.value === value),
    );
    const selectRef = useRef<HTMLDivElement>(null);
+   const listRef = useRef<HTMLUListElement>(null);
    useClickOutside(selectRef.current, () => setExpanded(false));
+   const [itemNumber, setItemNumber] = useState(-1);
+
+   useEffect(() => {
+      if (listRef.current && expanded) {
+         listRef.current.tabIndex = 0;
+      }
+   }, [expanded]);
 
    const handleChange = (option: { value: string; label: string }) => {
       setSelectedOption(option);
@@ -36,12 +44,32 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
       }
    };
 
+   const handleListNavigation = (e: KeyboardEvent<HTMLUListElement>) => {
+      e.preventDefault();
+      switch (e.key) {
+         case "ArrowDown":
+            setItemNumber((prev) => Math.min(prev + 1, options.length - 1));
+            break;
+         case "ArrowUp":
+            setItemNumber((prev) => Math.max(prev - 1, 0));
+            break;
+         case "Enter":
+            if (itemNumber >= 0 && itemNumber < options.length) {
+               setSelectedOption(options[itemNumber]);
+               onChange(options[itemNumber].value);
+            }
+            break;
+         default:
+            break;
+      }
+   };
+
    return (
       <div
          ref={selectRef}
          tabIndex={0}
          onKeyDown={handleKeyPress}
-         className="relative max-w-[262px]"
+         className="relative md:max-w-[262px]"
          aria-expanded={expanded}
          aria-label={ariaLabel}
       >
@@ -68,15 +96,21 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
                   shadow-lg rounded-md z-10 -mt-[2px] rounded-t-none max-h-[400px] 
                   overflow-y-auto with-scroll
                `}
+               ref={listRef}
+               onKeyDown={handleListNavigation}
             >
-               {options.map((option) => (
+               {options.map((option, i) => (
                   <li
                      key={option.value}
                      className={`
                         px-3 py-2 cursor-pointer
                         hover:bg-[#047857] hover:text-light
+                        ${i === itemNumber ? "bg-[#047857] text-light" : ""}
                      `}
                      onClick={() => handleChange(option)}
+                     onKeyDown={(e) =>
+                        e.key === "Enter" && handleChange(option)
+                     }
                   >
                      {option.label}
                   </li>

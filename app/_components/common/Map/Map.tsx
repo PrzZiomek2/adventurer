@@ -31,17 +31,11 @@ export const Map: FC<MapProps> = ({
    mainIcon,
 }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
-   const [placeMarkers, setPlaceMarkers] = React.useState<google.maps.Marker[]>(
-      [],
-   );
+   const placeMarkers: google.maps.Marker[] = [];
 
-   const settings = {
-      ...mapSettings,
-      mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
-   };
    const mainPosition = mapSettings?.center as Coordinates;
 
-   const map = useMap(mapRef.current, settings);
+   const map = useMap(mapRef.current, mapSettings);
 
    const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
@@ -114,13 +108,12 @@ export const Map: FC<MapProps> = ({
                });
             }
             if (places?.length && placeMarkers.length) {
-               placeMarkers.map((marker, i) => {
+               placeMarkers.forEach((marker, i) => {
                   return marker.setPosition({
                      lat: +places[i]?.lat.toFixed(4),
                      lng: +places[i]?.lng.toFixed(4),
                   });
                });
-               setPlaceMarkers(placeMarkers);
             }
          } catch (error) {
             console.error(error);
@@ -136,6 +129,13 @@ export const Map: FC<MapProps> = ({
          );
       };
    }, [mapRef.current, mainPosition, places, mainIcon, map]);
+
+   useEffect(() => {
+      if (map && mapSettings?.center && mapSettings?.zoom) {
+         map.setZoom(mapSettings.zoom as number);
+         map.panTo(mapSettings.center as google.maps.LatLng);
+      }
+   }, [mapSettings.center, mapSettings.zoom, map]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">

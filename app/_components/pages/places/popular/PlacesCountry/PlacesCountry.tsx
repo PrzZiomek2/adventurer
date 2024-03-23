@@ -7,7 +7,7 @@ import { hereAPI } from "app/_utils/hereApi";
 import { postServerData } from "app/_utils/handlersApi";
 import { getPlacesCoords } from "app/_utils/handlers";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
-import { PlacesOptions } from "./parts/PlacesOptions";
+import { PlacesCountryOptions } from "./parts/PlacesCountryOptions";
 
 type CountryRes = {
    address: {
@@ -67,7 +67,7 @@ export const PlacesCountry = () => {
 
    return (
       <MapPlacesContainer>
-         <PlacesOptions
+         <PlacesCountryOptions
             currentCountry={currentCountry}
             setCurrentCountry={setCurrentCountry}
          />

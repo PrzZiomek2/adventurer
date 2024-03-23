@@ -27,8 +27,8 @@ export const PlacesList = ({
    return (
       <section
          className={`
-               flex flex-col items-center gap-6 md:gap-4 pr-1 md:pr-3 pt-1 pb-1
-               max-h-[500px] wide:max-h-[600px] overflow-auto with-scroll
+               flex flex-col items-center gap-6 md:gap-4 pl-1 pr-2 md:pr-3 pt-1 pb-1
+               max-h-[550px] wide:max-h-[600px] overflow-auto with-scroll
             `}
       >
          {loadingData && !places.length ? loadingSkeletons : placeItems}
