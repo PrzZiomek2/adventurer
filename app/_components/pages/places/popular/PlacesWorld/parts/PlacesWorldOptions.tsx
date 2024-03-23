@@ -2,12 +2,12 @@ import Select from "@/components/ui/Select";
 import regions from "../../../../../../../public/data/regions.json";
 import { Dispatch, FC, SetStateAction } from "react";
 
-interface PlacesOptionsProps {
+interface PlacesWorldOptionsProps {
    currentRegion: string;
    setCurrentRegion: Dispatch<SetStateAction<string>>;
 }
 
-export const PlacesOptions: FC<PlacesOptionsProps> = ({
+export const PlacesWorldOptions: FC<PlacesWorldOptionsProps> = ({
    currentRegion,
    setCurrentRegion,
 }) => {

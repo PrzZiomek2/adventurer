@@ -7,8 +7,7 @@ import { Map } from "@/components/common/Map/Map";
 import { getPlacesCoords, iconToString } from "app/_utils/handlers";
 import { getServerData } from "app/_utils/handlersApi";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
-import Select from "@/components/ui/Select";
-import { PlacesOptions } from "./parts/PlacesOptions";
+import { PlacesNearbyOptions } from "./parts/PlacesNearbyOptions";
 
 export const PlacesNearby = () => {
    const { coords, loading: userLocationLoading } =
@@ -16,7 +15,16 @@ export const PlacesNearby = () => {
    const [clickedPlace, setClickedPlace] = useState("");
    const [placesLoading, setPlacesLoading] = useState(false);
    const [places, setPlaces] = useState<MapPlace[]>([]);
-   const [currentCity, setCurrentCity] = useState("Poznań");
+   const [categories, setCategories] = useState([
+      "landmark",
+      "theater",
+      "night_club",
+      "museum",
+      "hiking_trail",
+      "cafe",
+      "historical_site",
+      "monument",
+   ]);
 
    const userPosition = coords
       ? {
@@ -29,13 +37,7 @@ export const PlacesNearby = () => {
       const getPlaces = async () => {
          try {
             setPlacesLoading(true);
-            const categories = [
-               "tourist_attraction",
-               "point_of_interest",
-               "natural_feature",
-               "museum",
-            ]; // TODO: category selection
-            const radius = 5000;
+            const radius = 6000;
             const results = await getServerData<{ data: MapPlace[] }>(
                `places?category=${categories.join("|")}&radius=${radius}&location=${userPosition?.lat},${userPosition?.lng}`,
             );
@@ -52,7 +54,7 @@ export const PlacesNearby = () => {
       if (userPosition) {
          getPlaces();
       }
-   }, [userPosition?.lat, userPosition?.lng]);
+   }, [userPosition?.lat, userPosition?.lng, categories]);
 
    const placesCoords = places && getPlacesCoords(places);
    const noUserLocalizationInfo = (
@@ -61,11 +63,13 @@ export const PlacesNearby = () => {
          sprawdź pozostałe sekcje
       </div>
    );
-   const options = [{ value: "Poznań", label: "Poznań" }];
 
    return (
       <MapPlacesContainer>
-         <PlacesOptions />
+         <PlacesNearbyOptions
+            setCategories={setCategories}
+            categories={categories}
+         />
          {userPosition && !userLocationLoading ? (
             <PlacesList
                clickedPlace={clickedPlace}
@@ -81,7 +85,7 @@ export const PlacesNearby = () => {
             setClickedPlace={setClickedPlace}
             mapSettings={{
                center: userPosition || { lat: 52.4, lng: 16.9 },
-               zoom: 13,
+               zoom: 12,
             }}
             mainIcon={
                userPosition && {

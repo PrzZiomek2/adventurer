@@ -1,12 +1,12 @@
 import Select from "@/components/ui/Select";
 import { Dispatch, FC, SetStateAction } from "react";
 
-interface PlacesOptionsProps {
+interface PlacesCountryOptionsProps {
    currentCountry: string;
    setCurrentCountry: Dispatch<SetStateAction<string>>;
 }
 
-export const PlacesOptions: FC<PlacesOptionsProps> = ({
+export const PlacesCountryOptions: FC<PlacesCountryOptionsProps> = ({
    currentCountry,
    setCurrentCountry,
 }) => {

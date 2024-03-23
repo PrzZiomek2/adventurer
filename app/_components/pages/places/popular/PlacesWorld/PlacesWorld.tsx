@@ -5,7 +5,7 @@ import { Map } from "@/components/common/Map/Map";
 import { postServerData } from "app/_utils/handlersApi";
 import { getPlacesCoords } from "app/_utils/handlers";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
-import { PlacesOptions } from "./parts/PlacesOptions";
+import { PlacesWorldOptions } from "./parts/PlacesWorldOptions";
 import regions from "../../../../../../public/data/regions.json";
 
 export const PlacesWorld = () => {
@@ -43,7 +43,7 @@ export const PlacesWorld = () => {
 
    return (
       <MapPlacesContainer>
-         <PlacesOptions
+         <PlacesWorldOptions
             currentRegion={currentRegion}
             setCurrentRegion={setCurrentRegion}
          />

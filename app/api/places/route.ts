@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       if (resData) {
          resContent = {
             status: 200,
-            data: sortedRes?.slice(0, 15),
+            data: sortedRes,
          };
       }
    } catch (error) {
