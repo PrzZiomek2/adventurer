@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { IoStarSharp } from "react-icons/io5";
+import translations from "../../../../../public/translations/tags.json";
+import { getTranslatedTag } from "app/_utils/handlers";
 
 interface PlaceItemProps {
    place: MapPlace;
@@ -101,11 +103,15 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             </div>
             <div className="flex flex-col  md:flex-row items-stretch md:items-baseline">
                <div className="flex mt-2 items-center">
-                  <div className="flex gap-2 items-center text-xl font-bold mr-2">
-                     <span className="text-darken">{rating}</span>
-                     <IoStarSharp className="text-2xl text-yellow-50 mb-[4px]" />
-                  </div>
-                  <div className="text-lg">({user_ratings_total})</div>
+                  {rating && (
+                     <div className="flex gap-2 items-center text-xl font-bold mr-2">
+                        <span className="text-darken">{rating}</span>
+                        <IoStarSharp className="text-2xl text-yellow-50 mb-[4px]" />
+                     </div>
+                  )}
+                  {user_ratings_total ? (
+                     <div className="text-lg">({user_ratings_total})</div>
+                  ) : null}
                   {price_level ? (
                      <div className="text-xl text-darken tracking-wider font-bold ml-6 text-right flex-grow">
                         {Array.from({ length: price_level }, () => `$`).join(
@@ -126,7 +132,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                {filteredTypes.map((tag) => (
                   <Tag
                      key={tag}
-                     data={tag}
+                     data={getTranslatedTag(tag, "placeTypes")}
                   />
                ))}
             </div>

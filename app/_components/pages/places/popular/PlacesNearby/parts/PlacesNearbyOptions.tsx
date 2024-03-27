@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { Tag } from "@/components/ui/Tag";
+import { getTranslatedTag } from "app/_utils/handlers";
 
 interface PlacesNearbyOptionsProps {
    categories: string[];
@@ -21,7 +22,7 @@ export const PlacesNearbyOptions: FC<PlacesNearbyOptionsProps> = ({
             {categories.map((tag) => (
                <Tag
                   key={tag}
-                  data={tag}
+                  data={getTranslatedTag(tag, "placeCategories")}
                   handleDelete={handleDelete}
                />
             ))}
