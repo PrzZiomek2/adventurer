@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import React, { useEffect, useState, FC } from "react";
 import { BsExclamationCircle } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";

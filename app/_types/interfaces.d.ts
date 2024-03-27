@@ -57,9 +57,34 @@ interface MapPlace {
    ];
    place_id: string;
    plus_code: { compound_code: string; global_code: string };
-   price_level: 1;
-   rating: 4.6;
+   price_level: number;
+   rating: number;
    reference: string;
    types: string[];
    user_ratings_total: number;
+}
+
+interface Coords {
+   lat: number;
+   lng: number;
+}
+
+interface PlaceCoords {
+   lat: number;
+   lng: number;
+   place_id: string;
+   name: string;
+}
+
+interface PlacesApiPostRes {
+   data: {
+      coords: Coords;
+      places: MapPlace[];
+   };
+}
+
+interface Region {
+   value: string;
+   label: string;
+   coordinates: Coords;
 }

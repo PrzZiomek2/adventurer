@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { Label } from "@/components/ui/Label";
