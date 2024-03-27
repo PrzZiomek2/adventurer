@@ -108,6 +108,8 @@ export const Map: FC<MapProps> = ({
                });
             }
             if (places?.length && placeMarkers.length) {
+               console.log(places);
+
                placeMarkers.forEach((marker, i) => {
                   return marker.setPosition({
                      lat: +places[i]?.lat.toFixed(4),

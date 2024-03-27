@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { IconType } from "react-icons";
+import translations from "../../public/translations/tags.json";
 
 export const iconToString = (Icon: IconType) =>
    `data:image/svg+xml;utf-8,${encodeURIComponent(
@@ -13,3 +14,10 @@ export const getPlacesCoords = (places: MapPlace[]) =>
       name,
       place_id,
    }));
+
+export const getTranslatedTag = (tag: string, key: string) => {
+   const translatedTag = (translations as Record<string, any>)[key].find(
+      (translation: any) => translation[tag],
+   ) as Record<string, string> | undefined;
+   return translatedTag ? translatedTag[tag] : tag;
+};
