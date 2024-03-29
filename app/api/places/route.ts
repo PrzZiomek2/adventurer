@@ -88,13 +88,15 @@ export async function POST(req: NextRequest) {
 
          if (resData) {
             const [regionCoords, places] = resData;
+            const placesSorted = (places.results as MapPlace[])
+               .sort((a, b) => b.rating - a.rating)
+               .filter(({ types }) => !types.includes("colloquial_area"));
+
             resContent = {
                status: 200,
                data: {
                   coords: regionCoords.results[0].geometry.location,
-                  places: (places.results as MapPlace[]).sort(
-                     (a, b) => b.rating - a.rating,
-                  ),
+                  places: placesSorted,
                },
             };
          }

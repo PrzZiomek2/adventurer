@@ -69,7 +69,7 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
          ref={selectRef}
          tabIndex={0}
          onKeyDown={handleKeyPress}
-         className="relative md:max-w-[262px]"
+         className="relative md:max-w-[282px]"
          aria-expanded={expanded}
          aria-label={ariaLabel}
       >
