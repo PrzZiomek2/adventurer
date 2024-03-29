@@ -24,7 +24,10 @@ export const PlacesWorld = () => {
                phrase: `most popular tourist attractions in the ${currentRegion}`,
             });
             if (results.data) {
-               setPlaces(results.data.places);
+               const filteredPlaces = results.data?.places.filter(
+                  ({ types }) => !types.includes("amusement_park"),
+               );
+               setPlaces(filteredPlaces);
             }
          } catch (err) {
             console.log(err);

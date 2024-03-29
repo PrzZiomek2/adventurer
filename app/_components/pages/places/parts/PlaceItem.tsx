@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { IoStarSharp } from "react-icons/io5";
-import translations from "../../../../../public/translations/tags.json";
 import { getTranslatedTag } from "app/_utils/handlers";
+import { urls } from "../../../../_utils/urls";
 
 interface PlaceItemProps {
    place: MapPlace;
@@ -24,6 +24,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
       icon,
       opening_hours,
    } = place;
+   const { googleMaps } = urls();
 
    useEffect(() => {
       if (itemRef.current && highlight) {
@@ -73,7 +74,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                         object-cover bg-emerald-200 max-w-none
                      `}
                      src={`
-                        https://maps.googleapis.com/maps/api/streetview?size=400x300&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}
+                        ${googleMaps}/streetview?size=400x300&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}
                      `}
                      width={400}
                      height={300}

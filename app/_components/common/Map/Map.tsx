@@ -7,11 +7,6 @@ import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { useMap } from "app/_customHooks/useMap";
 import { iconToString } from "app/_utils/handlers";
 
-type Coordinates = {
-   lat: number;
-   lng: number;
-};
-
 interface MapProps {
    userLocalized?: boolean;
    places?: PlaceCoords[];
@@ -31,9 +26,7 @@ export const Map: FC<MapProps> = ({
    mainIcon,
 }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
-   const placeMarkers: google.maps.Marker[] = [];
-
-   const mainPosition = mapSettings?.center as Coordinates;
+   const mainPosition = mapSettings?.center as Coords;
 
    const map = useMap(mapRef.current, mapSettings);
 
@@ -43,15 +36,14 @@ export const Map: FC<MapProps> = ({
    });
 
    useEffect(() => {
-      if (!mapRef.current) return;
+      if (!map) return;
 
       let mainMarker: google.maps.Marker | null = null;
 
-      const initMarkers = async () => {
+      const initMarker = async () => {
          try {
             const { Marker } = await loader.importLibrary("marker");
-
-            if (mainPosition && mainIcon) {
+            if (mainPosition?.lat && mainPosition?.lng && mainIcon) {
                const mainMarkerSize = mainIcon?.size || [44, 44];
                mainMarker = new Marker({
                   map,
@@ -74,6 +66,29 @@ export const Map: FC<MapProps> = ({
                });
                mainMarker.addListener("mouseout", () => {
                   markerInfo.close();
+               });
+            }
+         } catch (error) {
+            console.error(error);
+         }
+      };
+
+      initMarker();
+
+      return () => {
+         if (mainMarker) google.maps.event.clearInstanceListeners(mainMarker);
+      };
+   }, [mainPosition, mainIcon, map]);
+
+   useEffect(() => {
+      const placeMarkers: google.maps.Marker[] = [];
+      const initPlaceMarkers = async () => {
+         try {
+            const { Marker } = await loader.importLibrary("marker");
+
+            if (places?.length && placeMarkers.length) {
+               placeMarkers.forEach((marker, i) => {
+                  marker.setMap(null);
                });
             }
 
@@ -107,30 +122,19 @@ export const Map: FC<MapProps> = ({
                   placeMarkers.push(placeMarker);
                });
             }
-            if (places?.length && placeMarkers.length) {
-               console.log(places);
-
-               placeMarkers.forEach((marker, i) => {
-                  return marker.setPosition({
-                     lat: +places[i]?.lat.toFixed(4),
-                     lng: +places[i]?.lng.toFixed(4),
-                  });
-               });
-            }
          } catch (error) {
             console.error(error);
          }
       };
 
-      initMarkers();
+      initPlaceMarkers();
 
       return () => {
-         if (mainMarker) google.maps.event.clearInstanceListeners(mainMarker);
          placeMarkers.forEach((marker) =>
             google.maps.event.clearInstanceListeners(marker),
          );
       };
-   }, [mapRef.current, mainPosition, places, mainIcon, map]);
+   }, [places]);
 
    useEffect(() => {
       if (map && mapSettings?.center && mapSettings?.zoom) {
