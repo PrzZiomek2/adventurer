@@ -9,9 +9,16 @@ interface InputTagsProps {
    setTags: (tags: string[]) => void;
    id: string;
    label?: string;
+   placeholder: string;
 }
 
-export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
+export const InputTags: FC<InputTagsProps> = ({
+   tags,
+   setTags,
+   id,
+   label,
+   placeholder,
+}) => {
    const [tagValue, setTagValue] = useState("");
 
    const handleDelete = (value: string) => {
@@ -28,7 +35,7 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
                type="text"
                id={id}
                name={id}
-               placeholder="Wpisz tutaj"
+               placeholder={placeholder}
                onChange={(e) => setTagValue(e.target.value)}
             />
          </div>
