@@ -9,6 +9,7 @@ describe("test InputTags component", () => {
             tags={tagsArr}
             setTags={() => {}}
             id="test"
+            placeholder="test"
          />,
       );
    });

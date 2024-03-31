@@ -73,6 +73,7 @@ const CriteriaForm = () => {
             <InputTags
                id="favourite"
                label="Ulubione miejsca"
+               placeholder="np. Meksyk"
                setTags={(read) => handleInputChange("favourite", read)}
                tags={formData.favourite}
             />
@@ -80,13 +81,15 @@ const CriteriaForm = () => {
             <InputTags
                id="disliked"
                label="Nielubiane miejsca"
+               placeholder="np. Rosja"
                setTags={(dis) => handleInputChange("disliked", dis)}
                tags={formData.disliked}
             />
 
             <InputTags
                id="tags"
-               label="Tagi / Cechy charakterystyczne (np. zabytki, nigtlife, tanio, rodzinnie, city break)"
+               label="Tagi"
+               placeholder="np. zabytki, nigtlife, tanio, rodzinnie, city break"
                setTags={(tags) => handleInputChange("tags", tags)}
                tags={formData.tags}
             />

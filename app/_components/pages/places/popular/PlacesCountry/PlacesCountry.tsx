@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { PlacesList } from "../../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
 import { hereAPI } from "app/_utils/hereApi";
-import { getServerData, postServerData } from "app/_utils/handlersApi";
+import { postServerData } from "app/_utils/handlersApi";
 import { getPlacesCoords } from "app/_utils/handlers";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
 import { PlacesCountryOptions } from "./parts/PlacesCountryOptions";
@@ -23,7 +23,6 @@ export const PlacesCountry = () => {
    const [countryLocation, setCountryLocation] = useState<Coords>();
    const [placesLoading, setPlacesLoading] = useState(false);
    const [currentCountry, setCurrentCountry] = useState("Poland");
-   const [cities, setCities] = useState<string[]>([]);
 
    const userPosition = coords
       ? {
@@ -63,26 +62,6 @@ export const PlacesCountry = () => {
          getPlaces();
       }
    }, [userPosition?.lat, userPosition?.lng]);
-
-   useEffect(() => {
-      const getCities = async () => {
-         try {
-            const results = await getServerData<{ data: MapPlace[] }>(
-               `places/country?name=${currentCountry}`,
-            );
-            console.log({ results });
-
-            if (results.data) {
-            }
-            setCities(cities);
-         } catch (err) {
-            console.log(err);
-         }
-      };
-
-      getCities();
-   }, [currentCountry]);
-   console.log({ cities });
 
    const placesCoords = places && getPlacesCoords(places);
 

@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
          `${googleGeocodingAPI}?address=${encodeURIComponent(country)}&key=${process.env.GOOGLE_PLACES_KEY}`,
       );
       const geocodingData = await geocodingResponse.json();
-      //console.log({ geocodingData });
 
       if (!geocodingData) {
          throw new Error("Can not get geocoding data");
@@ -27,9 +26,10 @@ export async function GET(req: NextRequest) {
       const boundArea = `${southwest.lat},${southwest.lng}|${northeast.lat},${northeast.lng}`;
 
       const citiesResponse = await fetch(
-         `${googleMaps}/place/nearbysearch/json?type=locality&bounds=${boundArea}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}`,
+         `${googleMaps}/place/nearbysearch/json?type=locality&viewport=${boundArea}&key=${process.env.GOOGLE_PLACES_KEY}`,
       );
       const resData = await citiesResponse.json();
+      console.log({ resData });
 
       if (resData?.error_message) {
          //console.log(resData);
