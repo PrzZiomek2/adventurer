@@ -31,6 +31,20 @@ export const PlacesCountry = () => {
         }
       : { lat: 52.4, lng: 16.9 };
 
+   const fetchPlaces = async (name: string) => {
+      if (!name) return;
+      const results = await postServerData<
+         PlacesApiPostRes & NextResponseBasic
+      >("places", {
+         phrase: `most interesting and popular tourist places in ${name}`,
+         regionName: name,
+      });
+      if (results.data) {
+         setPlaces(results.data.places);
+         setCountryLocation(results.data.coords);
+      }
+   };
+
    useEffect(() => {
       const getPlaces = async () => {
          try {
@@ -40,16 +54,7 @@ export const PlacesCountry = () => {
             if (decodeRes) {
                const name = decodeRes?.address.countryName;
                setCurrentCountry(name);
-               const results = await postServerData<
-                  PlacesApiPostRes & NextResponseBasic
-               >("places", {
-                  phrase: `most interesting and popular tourist places in ${name}`,
-                  regionName: name,
-               });
-               if (results.data) {
-                  setPlaces(results.data.places);
-                  setCountryLocation(results.data.coords);
-               }
+               await fetchPlaces(name);
             }
          } catch (err) {
             console.log(err);
@@ -62,6 +67,21 @@ export const PlacesCountry = () => {
          getPlaces();
       }
    }, [userPosition?.lat, userPosition?.lng]);
+
+   useEffect(() => {
+      if (!currentCountry) return;
+      const getPlaces = async () => {
+         try {
+            setPlacesLoading(true);
+            await fetchPlaces(currentCountry);
+         } catch (err) {
+            console.log(err);
+         } finally {
+            setPlacesLoading(false);
+         }
+      };
+      getPlaces();
+   }, [currentCountry]);
 
    const placesCoords = places && getPlacesCoords(places);
 
@@ -82,7 +102,7 @@ export const PlacesCountry = () => {
             setClickedPlace={setClickedPlace}
             mapSettings={{
                center: countryLocation || { lat: 51.919, lng: 19.14 },
-               zoom: 6,
+               zoom: 5,
             }}
          />
       </MapPlacesContainer>

@@ -1,12 +1,6 @@
 import { useClickOutside } from "app/_customHooks/useClickOutside";
-import {
-   FC,
-   ChangeEvent,
-   useState,
-   useEffect,
-   KeyboardEvent,
-   useRef,
-} from "react";
+import { useKeyboardNavigation } from "app/_customHooks/useKeyboardNavigation";
+import { FC, useState, useEffect, KeyboardEvent, useRef } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 interface SelectProps {
@@ -22,9 +16,14 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
       options.find((option) => option.value === value),
    );
    const selectRef = useRef<HTMLDivElement>(null);
-   const listRef = useRef<HTMLUListElement>(null);
    useClickOutside(selectRef.current, () => setExpanded(false));
-   const [itemNumber, setItemNumber] = useState(-1);
+   const { listRef, itemNumber, handleListNavigation } = useKeyboardNavigation(
+      options,
+      (itemNumber: number) => {
+         setSelectedOption(options[itemNumber]);
+         onChange(options[itemNumber].value);
+      },
+   );
 
    useEffect(() => {
       if (listRef.current && expanded) {
@@ -41,26 +40,6 @@ const Select: FC<SelectProps> = ({ options, value, onChange, ariaLabel }) => {
    const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter" || e.key === " ") {
          setExpanded(!expanded);
-      }
-   };
-
-   const handleListNavigation = (e: KeyboardEvent<HTMLUListElement>) => {
-      e.preventDefault();
-      switch (e.key) {
-         case "ArrowDown":
-            setItemNumber((prev) => Math.min(prev + 1, options.length - 1));
-            break;
-         case "ArrowUp":
-            setItemNumber((prev) => Math.max(prev - 1, 0));
-            break;
-         case "Enter":
-            if (itemNumber >= 0 && itemNumber < options.length) {
-               setSelectedOption(options[itemNumber]);
-               onChange(options[itemNumber].value);
-            }
-            break;
-         default:
-            break;
       }
    };
 

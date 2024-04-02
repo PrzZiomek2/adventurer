@@ -69,7 +69,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                      key={photo_reference}
                      className={`
                         w-full h-[180px] sm:w-[300px] sm:h-[200px] 
-                        md:w-[200px] md:m-0 lg:max-desktop:w-[320px] lg:max-h-[240px]
+                        md:w-[200px] md:m-0 lg:max-desktop:w-[320px] lg:h-[300px]
                         rounded-b-none sm:rounded-b-lg rounded-lg md:rounded-[8px_0_0_8px] 
                         object-cover bg-emerald-200 max-w-none
                      `}
