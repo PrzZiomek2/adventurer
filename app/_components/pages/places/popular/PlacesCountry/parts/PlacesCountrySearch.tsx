@@ -1,6 +1,7 @@
 import React, {
    Dispatch,
    FC,
+   FormEvent,
    SetStateAction,
    useEffect,
    useRef,
@@ -11,6 +12,7 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import countries from "../../../../../../../public/data/countries.json";
 import { useClickOutside } from "app/_customHooks/useClickOutside";
+import { useKeyboardNavigation } from "app/_customHooks/useKeyboardNavigation";
 
 interface CountryMatch {
    value: string;
@@ -31,16 +33,27 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
    const initialCountry = countries.find((country) =>
       isCountryMatch(currentCountryName, country.value),
    );
-   const [country, setCountry] = useState(initialCountry);
    const [currentValue, setCurrentValue] = useState(
       initialCountry?.label || currentCountryName,
    );
    const [expanded, setExpanded] = useState(false);
    const [suggestions, setSuggestions] = useState<CountryMatch[]>([]);
-   const searchRef = useRef<HTMLDivElement>(null);
+   const searchRef = useRef<HTMLInputElement>(null);
    useClickOutside(searchRef.current, () => setExpanded(false));
+   const { listRef, itemNumber, handleListNavigation } = useKeyboardNavigation(
+      suggestions,
+      (itemNumber: number) => {
+         handleSelect(suggestions[itemNumber]);
+      },
+   );
 
    const id = "search-country";
+
+   useEffect(() => {
+      if (suggestions.length === 1 && suggestions[0].label === currentValue) {
+         setExpanded(false);
+      }
+   }, [suggestions.length, currentValue]);
 
    useEffect(() => {
       if (currentValue.length < 2) {
@@ -52,7 +65,6 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
             isCountryMatch(currentValue, country.value) ||
             isCountryMatch(currentValue, country.label),
       );
-      console.log(matchCountries);
 
       if (matchCountries.length) {
          setExpanded(true);
@@ -60,56 +72,82 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
       }
    }, [currentValue]);
 
-   const handleChange = (value: CountryMatch) => {
-      setCurrentValue(value.label);
-      setCountry(value);
+   const handleSelect = ({ label, value }: CountryMatch) => {
+      setCurrentValue(label);
+      setCurrentCountry(value);
       setExpanded(false);
    };
 
+   const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setExpanded(false);
+      const formData = new FormData(e.currentTarget);
+      const inputValue = formData.get("country");
+      if (inputValue && typeof inputValue === "string") {
+         setCurrentCountry(inputValue);
+      }
+   };
+
    return (
-      <div
-         className="relative mt-4 md:max-w-[300px]"
-         ref={searchRef}
+      <form
+         onSubmit={handleSearchSubmit}
+         className="flex items-end"
+         autoComplete="off"
       >
-         <div className="search-input">
+         <div className="search-input md:min-w-[300px] relative">
             <Label htmlFor={id}>Kraj</Label>
             <Input
                value={currentValue}
                type="text"
                id={id}
-               name={id}
+               name="country"
                placeholder="np. Polska"
                onChange={(e) => setCurrentValue(e.target.value)}
+               className="rounded-r-none"
+               ref={searchRef}
             />
-         </div>
-         {expanded && (
-            <ul
-               className={`
-                  search-list
-                  absolute top-full left-0 w-full border border-dark bg-white 
-                  shadow-lg rounded-md z-10 -mt-[2px] rounded-t-none max-h-[400px] 
-                  overflow-y-auto with-scroll
-               `}
-               // ref={listRef}
-               //onKeyDown={handleListNavigation}
-            >
-               {suggestions.map((suggestion, i) => (
-                  <li
-                     key={suggestion.value}
-                     className={`
+            {expanded && (
+               <ul
+                  className={`
+                        search-list
+                        absolute top-full left-0 w-full border border-dark bg-white 
+                        shadow-lg rounded-md z-10 -mt-[2px] rounded-t-none max-h-[400px] 
+                        overflow-y-auto with-scroll
+                     `}
+                  tabIndex={0}
+                  ref={listRef}
+                  onKeyDown={handleListNavigation}
+               >
+                  {suggestions.map((suggestion, i) => (
+                     <li
+                        key={suggestion.value}
+                        className={`
                         px-3 py-2 cursor-pointer
                         hover:bg-light
+                        ${i === itemNumber ? "bg-light" : ""}
                      `}
-                     onClick={() => handleChange(suggestion)}
-                     onKeyDown={(e) =>
-                        e.key === "Enter" && handleChange(suggestion)
-                     }
-                  >
-                     {suggestion.label}
-                  </li>
-               ))}
-            </ul>
-         )}
-      </div>
+                        onClick={() => handleSelect(suggestion)}
+                        onKeyDown={(e) =>
+                           e.key === "Enter" && handleSelect(suggestion)
+                        }
+                     >
+                        {suggestion.label}
+                     </li>
+                  ))}
+               </ul>
+            )}
+         </div>
+         <Button
+            type="submit"
+            variant="custom"
+            className={`
+                  rounded-l-none bg-dark hover:bg-emerald-500 border-2 text-white
+                   border-dark focus-visible:outline-white p-[10px] text-[16px] 
+                   leading-[normal] m-0
+               `}
+         >
+            Szukaj
+         </Button>
+      </form>
    );
 };
