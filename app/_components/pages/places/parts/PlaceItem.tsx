@@ -86,7 +86,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                <div className="text-lg font-bold flex justify-between items-baseline gap-4">
                   <Link
                      className="text-dark hover:underline text-[22px] leading-[1.3] decoration-4"
-                     href={`#`}
+                     href={`/place/${place.place_id}`}
                   >
                      {name}
                   </Link>

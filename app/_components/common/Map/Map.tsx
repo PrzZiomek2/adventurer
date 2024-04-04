@@ -10,7 +10,7 @@ import { iconToString } from "app/_utils/handlers";
 interface MapProps {
    userLocalized?: boolean;
    places?: PlaceCoords[];
-   setClickedPlace: Dispatch<SetStateAction<string>>;
+   setClickedPlace?: Dispatch<SetStateAction<string>>;
    mapSettings: Record<string, unknown>;
    mainIcon?: {
       url: string;
@@ -115,7 +115,7 @@ export const Map: FC<MapProps> = ({
                      markerInfo.close();
                   });
                   placeMarker.addListener("click", () => {
-                     setClickedPlace(place_id);
+                     setClickedPlace && setClickedPlace(place_id);
                      markerInfo.close();
                   });
 

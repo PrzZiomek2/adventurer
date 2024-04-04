@@ -12,7 +12,7 @@ interface TabsProps {
 }
 
 export const Tabs: FC<TabsProps> = ({ items, ariaLabel }) => {
-   const [value, setValue] = useState(1);
+   const [value, setValue] = useState(0);
    const refs = useRef<Record<string, HTMLElement | null>>({});
 
    const handleTabClick = (newValue: number) => {
