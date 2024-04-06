@@ -157,7 +157,7 @@ export const Map: FC<MapProps> = ({
             bg-200 w-full rounded-lg mx-auto 2md:ml-0 2md:mr-0 bg-emerald hd:max-w-none
          `}
       >
-         <div className="relative max-w-[800px] w-full h-full rounded-lg bg-emerald-200">
+         <div className="relative max-w-[800px] w-full h-full min-h-[400px] rounded-lg bg-emerald-200">
             {loadingPlaceholder}
             {!mapRef.current && loadingPlaceholder}
             <div

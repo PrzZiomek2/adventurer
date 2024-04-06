@@ -9,7 +9,6 @@ export async function GET(
    const id = params.params.slug;
    const { googleMaps } = urls();
    let resContent = {};
-   console.log({ id });
 
    try {
       if (!id) {
@@ -20,7 +19,6 @@ export async function GET(
          `${googleMaps}/place/details/json?place_id=${id}&key=${process.env.GOOGLE_PLACES_KEY}`,
       );
       const resData = await response.json();
-      console.log({ resData });
 
       if (resData?.error_message) {
          console.log(resData);

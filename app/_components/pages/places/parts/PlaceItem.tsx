@@ -2,9 +2,9 @@ import { Tag } from "@/components/ui/Tag";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { IoStarSharp } from "react-icons/io5";
 import { getTranslatedTag } from "app/_utils/handlers";
 import { urls } from "../../../../_utils/urls";
+import { RatingLabel } from "@/components/common/Rating/RatingLabel";
 
 interface PlaceItemProps {
    place: MapPlace;
@@ -78,6 +78,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                      `}
                      width={400}
                      height={300}
+                     loading="lazy"
                   />
                ))}
          </div>
@@ -104,12 +105,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             </div>
             <div className="flex flex-col  md:flex-row items-stretch md:items-baseline">
                <div className="flex mt-2 items-center">
-                  {rating && (
-                     <div className="flex gap-2 items-center text-xl font-bold mr-2">
-                        <span className="text-darken">{rating}</span>
-                        <IoStarSharp className="text-2xl text-yellow-50 mb-[4px]" />
-                     </div>
-                  )}
+                  <RatingLabel rating={rating} />
                   {user_ratings_total ? (
                      <div className="text-lg">({user_ratings_total})</div>
                   ) : null}
