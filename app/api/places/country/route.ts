@@ -29,7 +29,6 @@ export async function GET(req: NextRequest) {
          `${googleMaps}/place/nearbysearch/json?type=locality&viewport=${boundArea}&key=${process.env.GOOGLE_PLACES_KEY}`,
       );
       const resData = await citiesResponse.json();
-      console.log({ resData });
 
       if (resData?.error_message) {
          //console.log(resData);
