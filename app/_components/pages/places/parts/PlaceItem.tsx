@@ -105,7 +105,10 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
             </div>
             <div className="flex flex-col  md:flex-row items-stretch md:items-baseline">
                <div className="flex mt-2 items-center">
-                  <RatingLabel rating={rating} />
+                  <RatingLabel
+                     rating={rating}
+                     className="items-center"
+                  />
                   {user_ratings_total ? (
                      <div className="text-lg">({user_ratings_total})</div>
                   ) : null}
