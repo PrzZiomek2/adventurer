@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Map } from "@/components/common/Map/Map";
-import { PlaceDetails } from "@/components/pages/place/PlaceDetails";
+import { PlaceOpinionList } from "@/components/pages/place/PlaceOpinionList";
 import { getServerData } from "app/_utils/handlersApi";
 import { iconToString } from "app/_utils/handlers";
 import { GiPositionMarker } from "react-icons/gi";
 import { Heading } from "@/components/ui/Heading";
+import { PlaceInfo } from "@/components/pages/place/PlaceInfo";
 
 interface Params {
    params: {
@@ -47,29 +48,33 @@ function PropositionsUser({ params }: Params) {
    return (
       <main
          className={`
-            grid 2md:grid-cols-[3fr_2fr] grid-rows-[50px_1fr_1fr] 2md:grid-rows[50px _auto]
             gap-5 card mt-0 sm:mt-6 lg:mt-8 min-h-[500px] wide:min-h-[600px]
         `}
       >
          <Heading
             variant="h2"
-            className="col-span-full"
+            className="mb-4"
          >
             {name}
          </Heading>
-         <PlaceDetails details={details} />
-         <Map
-            mapSettings={{
-               center: geometry?.location,
-               zoom: 12,
-            }}
-            mainIcon={
-               geometry && {
-                  url: iconToString(GiPositionMarker),
-                  text: "",
-               }
-            }
-         />
+         <div className="grid 2md:flex gap-0 2md:gap-8">
+            <PlaceOpinionList details={details} />
+            <div className="flex flex-col gap-5 w-full">
+               <Map
+                  mapSettings={{
+                     center: geometry?.location,
+                     zoom: 12,
+                  }}
+                  mainIcon={
+                     geometry && {
+                        url: iconToString(GiPositionMarker),
+                        text: "",
+                     }
+                  }
+               />
+               <PlaceInfo details={details} />
+            </div>
+         </div>
       </main>
    );
 }
