@@ -1,5 +1,12 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import React, {
+   Dispatch,
+   FC,
+   SetStateAction,
+   useCallback,
+   useEffect,
+   useMemo,
+} from "react";
 import { GiPositionMarker } from "react-icons/gi";
 import { Loader } from "@googlemaps/js-api-loader";
 
@@ -28,15 +35,23 @@ export const Map: FC<MapProps> = ({
    const mapRef = React.useRef<HTMLDivElement>(null);
    const mainPosition = mapSettings?.center as Coords;
 
-   const map = useMap(mapRef.current, mapSettings);
+   const map = useCallback(
+      () => useMap(mapRef.current, mapSettings),
+      [mapSettings, mapRef.current],
+   );
+   const mapMemo = map();
 
-   const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
-      version: "weekly",
-   });
+   const loader = useMemo(
+      () =>
+         new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
+            version: "weekly",
+         }),
+      [],
+   );
 
    useEffect(() => {
-      if (!map) return;
+      if (!mapMemo) return;
 
       let mainMarker: google.maps.Marker | null = null;
 
@@ -46,7 +61,7 @@ export const Map: FC<MapProps> = ({
             if (mainPosition?.lat && mainPosition?.lng && mainIcon) {
                const mainMarkerSize = mainIcon?.size || [44, 44];
                mainMarker = new Marker({
-                  map,
+                  map: mapMemo,
                   position: mainPosition,
                   icon: {
                      url: mainIcon?.url,
@@ -62,7 +77,7 @@ export const Map: FC<MapProps> = ({
                });
 
                mainMarker.addListener("mouseover", () => {
-                  markerInfo.open(map, mainMarker);
+                  markerInfo.open(mapMemo, mainMarker);
                });
                mainMarker.addListener("mouseout", () => {
                   markerInfo.close();
@@ -78,7 +93,7 @@ export const Map: FC<MapProps> = ({
       return () => {
          if (mainMarker) google.maps.event.clearInstanceListeners(mainMarker);
       };
-   }, [mainPosition, mainIcon, map]);
+   }, [mainPosition, mainIcon, mapMemo]);
 
    useEffect(() => {
       const placeMarkers: google.maps.Marker[] = [];
@@ -87,7 +102,7 @@ export const Map: FC<MapProps> = ({
             const { Marker } = await loader.importLibrary("marker");
 
             if (places?.length && placeMarkers.length) {
-               placeMarkers.forEach((marker, i) => {
+               placeMarkers.forEach((marker) => {
                   marker.setMap(null);
                });
             }
@@ -96,7 +111,7 @@ export const Map: FC<MapProps> = ({
                places?.forEach((place) => {
                   const { place_id, name, ...coords } = place;
                   const placeMarker = new Marker({
-                     map,
+                     map: mapMemo,
                      position: coords,
                      icon: {
                         url: iconToString(GiPositionMarker),
@@ -109,7 +124,7 @@ export const Map: FC<MapProps> = ({
                   });
 
                   placeMarker.addListener("mouseover", () => {
-                     markerInfo.open(map, placeMarker);
+                     markerInfo.open(mapMemo, placeMarker);
                   });
                   placeMarker.addListener("mouseout", () => {
                      markerInfo.close();
@@ -137,11 +152,11 @@ export const Map: FC<MapProps> = ({
    }, [places]);
 
    useEffect(() => {
-      if (map && mapSettings?.center && mapSettings?.zoom) {
-         map.setZoom(mapSettings.zoom as number);
-         map.panTo(mapSettings.center as google.maps.LatLng);
+      if (mapMemo && mapSettings?.center && mapSettings?.zoom) {
+         mapMemo.setZoom(mapSettings.zoom as number);
+         mapMemo.panTo(mapSettings.center as google.maps.LatLng);
       }
-   }, [mapSettings.center, mapSettings.zoom, map]);
+   }, [mapSettings.center, mapSettings.zoom, mapMemo]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
@@ -158,7 +173,6 @@ export const Map: FC<MapProps> = ({
          `}
       >
          <div className="relative max-w-[800px] w-full h-full min-h-[400px] rounded-lg bg-emerald-200">
-            {loadingPlaceholder}
             {!mapRef.current && loadingPlaceholder}
             <div
                className="h-full rounded-lg"
