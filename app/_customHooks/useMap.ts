@@ -1,5 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const useMap = (
    mapRef: HTMLDivElement | null,
@@ -7,10 +7,14 @@ export const useMap = (
 ): google.maps.Map | undefined => {
    const [map, setMap] = useState<google.maps.Map>();
 
-   const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
-      version: "weekly",
-   });
+   const loader = useMemo(
+      () =>
+         new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
+            version: "weekly",
+         }),
+      [],
+   );
 
    const mapStyles = [
       {
@@ -30,7 +34,7 @@ export const useMap = (
          try {
             const mapSettings = {
                ...settings,
-               //  mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
+               // mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
             };
             const { Map } = await loader.importLibrary("maps");
             const map = new Map(mapRef as HTMLDivElement, {

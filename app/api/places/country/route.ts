@@ -5,7 +5,7 @@ import { urls } from "app/_utils/urls";
 export async function GET(req: NextRequest) {
    const { searchParams } = req.nextUrl;
    const country = searchParams.get("name");
-   const { googleMaps, googleGeocodingAPI } = urls();
+   const { placeNearbyByArea, googleGeocodingAPI } = urls();
    let resContent = {};
 
    try {
@@ -25,9 +25,7 @@ export async function GET(req: NextRequest) {
       const { southwest, northeast } = countryBounds || {};
       const boundArea = `${southwest.lat},${southwest.lng}|${northeast.lat},${northeast.lng}`;
 
-      const citiesResponse = await fetch(
-         `${googleMaps}/place/nearbysearch/json?type=locality&viewport=${boundArea}&key=${process.env.GOOGLE_PLACES_KEY}`,
-      );
+      const citiesResponse = await fetch(placeNearbyByArea(boundArea));
       const resData = await citiesResponse.json();
 
       if (resData?.error_message) {

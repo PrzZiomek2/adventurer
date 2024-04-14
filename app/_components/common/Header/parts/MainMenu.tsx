@@ -36,14 +36,6 @@ export const MainMenu: React.FC = () => {
 
    const menuList = (
       <>
-         <li className="mb-4 desktop:mb-0 text-right">
-            <Link
-               className="menu-item-hover"
-               href="/about"
-            >
-               O projekcie
-            </Link>
-         </li>
          <li className="mb-4 desktop:mb-0 text-right relative">
             <Button
                onClick={() => setPropositionsOpen(!propositionsOpen)}
@@ -93,9 +85,25 @@ export const MainMenu: React.FC = () => {
          <li className="mb-4 desktop:mb-0 text-right">
             <Link
                className="menu-item-hover"
+               href="/world-map"
+            >
+               Mapa
+            </Link>
+         </li>
+         <li className="mb-4 desktop:mb-0 text-right">
+            <Link
+               className="menu-item-hover"
                href="#"
             >
                Relacje
+            </Link>
+         </li>
+         <li className="mb-4 desktop:mb-0 text-right">
+            <Link
+               className="menu-item-hover"
+               href="/about"
+            >
+               O projekcie
             </Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right">

@@ -1,5 +1,12 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import React, {
+   Dispatch,
+   FC,
+   SetStateAction,
+   useCallback,
+   useEffect,
+   useMemo,
+} from "react";
 import { GiPositionMarker } from "react-icons/gi";
 import { Loader } from "@googlemaps/js-api-loader";
 
@@ -30,10 +37,14 @@ export const Map: FC<MapProps> = ({
 
    const map = useMap(mapRef.current, mapSettings);
 
-   const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
-      version: "weekly",
-   });
+   const loader = useMemo(
+      () =>
+         new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
+            version: "weekly",
+         }),
+      [],
+   );
 
    useEffect(() => {
       if (!map) return;
@@ -46,7 +57,7 @@ export const Map: FC<MapProps> = ({
             if (mainPosition?.lat && mainPosition?.lng && mainIcon) {
                const mainMarkerSize = mainIcon?.size || [44, 44];
                mainMarker = new Marker({
-                  map,
+                  map: map,
                   position: mainPosition,
                   icon: {
                      url: mainIcon?.url,
@@ -87,7 +98,7 @@ export const Map: FC<MapProps> = ({
             const { Marker } = await loader.importLibrary("marker");
 
             if (places?.length && placeMarkers.length) {
-               placeMarkers.forEach((marker, i) => {
+               placeMarkers.forEach((marker) => {
                   marker.setMap(null);
                });
             }
@@ -96,7 +107,7 @@ export const Map: FC<MapProps> = ({
                places?.forEach((place) => {
                   const { place_id, name, ...coords } = place;
                   const placeMarker = new Marker({
-                     map,
+                     map: map,
                      position: coords,
                      icon: {
                         url: iconToString(GiPositionMarker),
@@ -158,7 +169,6 @@ export const Map: FC<MapProps> = ({
          `}
       >
          <div className="relative max-w-[800px] w-full h-full min-h-[400px] rounded-lg bg-emerald-200">
-            {loadingPlaceholder}
             {!mapRef.current && loadingPlaceholder}
             <div
                className="h-full rounded-lg"
