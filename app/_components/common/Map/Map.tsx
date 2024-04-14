@@ -35,11 +35,7 @@ export const Map: FC<MapProps> = ({
    const mapRef = React.useRef<HTMLDivElement>(null);
    const mainPosition = mapSettings?.center as Coords;
 
-   const map = useCallback(
-      () => useMap(mapRef.current, mapSettings),
-      [mapSettings, mapRef.current],
-   );
-   const mapMemo = map();
+   const map = useMap(mapRef.current, mapSettings);
 
    const loader = useMemo(
       () =>
@@ -51,7 +47,7 @@ export const Map: FC<MapProps> = ({
    );
 
    useEffect(() => {
-      if (!mapMemo) return;
+      if (!map) return;
 
       let mainMarker: google.maps.Marker | null = null;
 
@@ -61,7 +57,7 @@ export const Map: FC<MapProps> = ({
             if (mainPosition?.lat && mainPosition?.lng && mainIcon) {
                const mainMarkerSize = mainIcon?.size || [44, 44];
                mainMarker = new Marker({
-                  map: mapMemo,
+                  map: map,
                   position: mainPosition,
                   icon: {
                      url: mainIcon?.url,
@@ -77,7 +73,7 @@ export const Map: FC<MapProps> = ({
                });
 
                mainMarker.addListener("mouseover", () => {
-                  markerInfo.open(mapMemo, mainMarker);
+                  markerInfo.open(map, mainMarker);
                });
                mainMarker.addListener("mouseout", () => {
                   markerInfo.close();
@@ -93,7 +89,7 @@ export const Map: FC<MapProps> = ({
       return () => {
          if (mainMarker) google.maps.event.clearInstanceListeners(mainMarker);
       };
-   }, [mainPosition, mainIcon, mapMemo]);
+   }, [mainPosition, mainIcon, map]);
 
    useEffect(() => {
       const placeMarkers: google.maps.Marker[] = [];
@@ -111,7 +107,7 @@ export const Map: FC<MapProps> = ({
                places?.forEach((place) => {
                   const { place_id, name, ...coords } = place;
                   const placeMarker = new Marker({
-                     map: mapMemo,
+                     map: map,
                      position: coords,
                      icon: {
                         url: iconToString(GiPositionMarker),
@@ -124,7 +120,7 @@ export const Map: FC<MapProps> = ({
                   });
 
                   placeMarker.addListener("mouseover", () => {
-                     markerInfo.open(mapMemo, placeMarker);
+                     markerInfo.open(map, placeMarker);
                   });
                   placeMarker.addListener("mouseout", () => {
                      markerInfo.close();
@@ -152,11 +148,11 @@ export const Map: FC<MapProps> = ({
    }, [places]);
 
    useEffect(() => {
-      if (mapMemo && mapSettings?.center && mapSettings?.zoom) {
-         mapMemo.setZoom(mapSettings.zoom as number);
-         mapMemo.panTo(mapSettings.center as google.maps.LatLng);
+      if (map && mapSettings?.center && mapSettings?.zoom) {
+         map.setZoom(mapSettings.zoom as number);
+         map.panTo(mapSettings.center as google.maps.LatLng);
       }
-   }, [mapSettings.center, mapSettings.zoom, mapMemo]);
+   }, [mapSettings.center, mapSettings.zoom, map]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
