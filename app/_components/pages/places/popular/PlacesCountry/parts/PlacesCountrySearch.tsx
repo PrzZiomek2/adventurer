@@ -2,11 +2,14 @@ import React, {
    Dispatch,
    FC,
    FormEvent,
+   KeyboardEvent,
+   MouseEvent,
    SetStateAction,
    useEffect,
    useRef,
    useState,
 } from "react";
+import htmlParse from "html-react-parser";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -38,12 +41,12 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
    );
    const [expanded, setExpanded] = useState(false);
    const [suggestions, setSuggestions] = useState<CountryMatch[]>([]);
-   const searchRef = useRef<HTMLInputElement>(null);
+   const searchRef = useRef<HTMLFormElement>(null);
    useClickOutside(searchRef.current, () => setExpanded(false));
    const { listRef, itemNumber, handleListNavigation } = useKeyboardNavigation(
       suggestions,
       (itemNumber: number) => {
-         handleSelect(suggestions[itemNumber]);
+         handleSelect(null, suggestions[itemNumber]);
       },
    );
 
@@ -60,10 +63,8 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
          setExpanded(false);
          return;
       }
-      const matchCountries = countries.filter(
-         (country) =>
-            isCountryMatch(currentValue, country.value) ||
-            isCountryMatch(currentValue, country.label),
+      const matchCountries = countries.filter((country) =>
+         isCountryMatch(currentValue, country.label),
       );
 
       if (matchCountries.length) {
@@ -72,7 +73,11 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
       }
    }, [currentValue]);
 
-   const handleSelect = ({ label, value }: CountryMatch) => {
+   const handleSelect = (
+      e: MouseEvent | KeyboardEvent<HTMLLIElement> | null,
+      { label, value }: CountryMatch,
+   ) => {
+      e?.preventDefault();
       setCurrentValue(label);
       setCurrentCountry(value);
       setExpanded(false);
@@ -88,11 +93,21 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
       }
    };
 
+   const bolderContent = (content: string) => {
+      const regex = new RegExp(currentValue, "gi");
+      const withBold = content.replace(
+         regex,
+         (match) => `<span className="font-bold">${match}</span>`,
+      );
+      return htmlParse(withBold);
+   };
+
    return (
       <form
          onSubmit={handleSearchSubmit}
-         className="flex items-end"
+         className="flex items-end w-min"
          autoComplete="off"
+         ref={searchRef}
       >
          <div className="search-input md:min-w-[300px] relative">
             <Label htmlFor={id}>Kraj</Label>
@@ -104,7 +119,6 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
                placeholder="np. Polska"
                onChange={(e) => setCurrentValue(e.target.value)}
                className="rounded-r-none"
-               ref={searchRef}
             />
             {expanded && (
                <ul
@@ -126,12 +140,12 @@ export const PlacesCountrySearch: FC<PlacesCountrysuggestionsProps> = ({
                         hover:bg-light
                         ${i === itemNumber ? "bg-light" : ""}
                      `}
-                        onClick={() => handleSelect(suggestion)}
+                        onClick={(e) => handleSelect(e, suggestion)}
                         onKeyDown={(e) =>
-                           e.key === "Enter" && handleSelect(suggestion)
+                           e.key === "Enter" && handleSelect(e, suggestion)
                         }
                      >
-                        {suggestion.label}
+                        {bolderContent(suggestion.label)}
                      </li>
                   ))}
                </ul>

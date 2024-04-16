@@ -158,3 +158,10 @@ interface PlaceDetails {
    website: string;
    wheelchair_accessible_entrance: boolean;
 }
+
+interface CountryRes {
+   address: {
+      countryName: string;
+      countryCode: string;
+   };
+}
