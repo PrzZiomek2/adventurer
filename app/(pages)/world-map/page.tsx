@@ -4,10 +4,12 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { postServerData } from "app/_utils/handlersApi";
+import { hereAPI } from "app/_utils/hereApi";
 
 export default function WorldMap() {
    const mapRef = React.useRef<HTMLDivElement | null>(null);
    const [map, setMap] = useState<google.maps.Map>();
+   const [places, setPlaces] = useState<MapPlace[]>([]);
    const mapSettings = {
       center: { lat: 52.4, lng: 16.9 },
       zoom: 12,
@@ -60,28 +62,35 @@ export default function WorldMap() {
       }
    }, [map]);
 
-   const getWorldPlaces = async (bounds: google.maps.LatLngBounds) => {
-      try {
-         const results = await postServerData<
-            PlacesApiPostRes & NextResponseBasic
-         >("world-map/places", bounds);
-         if (results?.data) {
-            console.log(results.data);
-         }
-      } catch (err) {
-         console.log("error when getting world map places");
+   const fetchPlaces = async (name: string) => {
+      if (!name) return;
+      const results = await postServerData<
+         PlacesApiPostRes & NextResponseBasic
+      >("places", {
+         phrase: `most interesting and popular tourist places in ${name}`,
+         regionName: name,
+      });
+      if (results.data) {
+         setPlaces(results.data.places);
       }
    };
 
    useEffect(() => {
       if (!map) return;
 
-      const handleMapIdle = () => {
-         const bounds = map.getBounds();
-         if (!bounds) return;
-         getWorldPlaces(bounds);
+      const handleMapIdle = async () => {
+         const center = map.getCenter();
+         if (!center) return;
+         const coords = {
+            lat: center.lat(),
+            lng: center.lng(),
+         };
+         const decodeRes = await hereAPI.reverseGeocode<CountryRes>(coords);
+         if (decodeRes) {
+            // TO DO: show places markers
+            // fetchPlaces(decodeRes?.address.countryName);
+         }
       };
-
       const mapLoadListener = map.addListener("idle", handleMapIdle);
 
       return () => {
@@ -94,13 +103,13 @@ export default function WorldMap() {
    return (
       <main
          className={`
-             h-full min-h-[800px] p-0 m-0 w-[calc(100vw_-_10px)] 
+             h-full min-h-[600px] p-0 m-0 w-[calc(100vw_-_10px)] 
              -ml-[27px] bg-blend
         `}
       >
          {!mapRef.current && loadingPlaceholder}
          <div
-            className="h-full rounded-lg min-h-[800px]"
+            className="h-full rounded-lg min-h-[600px]"
             ref={mapRef}
          />
       </main>

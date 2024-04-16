@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
       const resData = await citiesResponse.json();
 
       if (resData?.error_message) {
-         //console.log(resData);
+         console.log(resData);
       }
 
       if (resData) {

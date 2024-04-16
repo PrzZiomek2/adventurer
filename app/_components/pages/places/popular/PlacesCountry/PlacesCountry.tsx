@@ -9,13 +9,6 @@ import { getPlacesCoords } from "app/_utils/handlers";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
 import { PlacesCountryOptions } from "./parts/PlacesCountryOptions";
 
-type CountryRes = {
-   address: {
-      countryName: string;
-      countryCode: string;
-   };
-};
-
 export const PlacesCountry = () => {
    const { coords } = useContext(UserLocationContext);
    const [clickedPlace, setClickedPlace] = useState("");
