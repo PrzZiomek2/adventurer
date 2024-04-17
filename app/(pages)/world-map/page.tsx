@@ -1,10 +1,12 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import React, { useEffect, useState } from "react";
+import debounce from "lodash.debounce";
 
-import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { postServerData } from "app/_utils/handlersApi";
 import { hereAPI } from "app/_utils/hereApi";
+import { useMapMarkers } from "app/_customHooks/useMapMarkers";
+import { getMapLoader } from "app/_lib/mapLoader";
+import { Loader } from "@/components/ui/Loader/Loader";
 
 export default function WorldMap() {
    const mapRef = React.useRef<HTMLDivElement | null>(null);
@@ -12,22 +14,18 @@ export default function WorldMap() {
    const [places, setPlaces] = useState<MapPlace[]>([]);
    const mapSettings = {
       center: { lat: 52.4, lng: 16.9 },
-      zoom: 12,
+      zoom: 6,
    };
 
-   const loader = useMemo(
-      () =>
-         new Loader({
-            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!,
-            version: "weekly",
-         }),
-      [],
+   useMapMarkers(
+      map,
+      places.map((place) => place.geometry.location),
    );
 
    useEffect(() => {
       const fetchMap = async () => {
          try {
-            const { Map } = await loader.importLibrary("maps");
+            const { Map } = await getMapLoader().importLibrary("maps");
             const map = new Map(mapRef.current!, {
                ...mapSettings,
                mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!,
@@ -41,26 +39,13 @@ export default function WorldMap() {
       if (mapRef.current && !map) {
          fetchMap();
       }
-   }, [mapRef, mapSettings, loader]);
+   }, [mapRef, mapSettings]);
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
-         <CircleLoader label={"Ładowanie mapy..."} />
+         <Loader label={"Ładowanie mapy..."} />
       </div>
    );
-
-   useEffect(() => {
-      const loadMarkers = async () => {
-         const { AdvancedMarkerElement } = await loader.importLibrary("marker");
-         const marker = new AdvancedMarkerElement({
-            map,
-            position: mapSettings.center,
-         });
-      };
-      if (map && mapSettings?.center) {
-         loadMarkers();
-      }
-   }, [map]);
 
    const fetchPlaces = async (name: string) => {
       if (!name) return;
@@ -71,14 +56,14 @@ export default function WorldMap() {
          regionName: name,
       });
       if (results.data) {
-         setPlaces(results.data.places);
+         setPlaces([...results.data.places]);
       }
    };
 
    useEffect(() => {
       if (!map) return;
 
-      const handleMapIdle = async () => {
+      const handleMapChange = async () => {
          const center = map.getCenter();
          if (!center) return;
          const coords = {
@@ -86,17 +71,25 @@ export default function WorldMap() {
             lng: center.lng(),
          };
          const decodeRes = await hereAPI.reverseGeocode<CountryRes>(coords);
+
          if (decodeRes) {
-            // TO DO: show places markers
-            // fetchPlaces(decodeRes?.address.countryName);
+            fetchPlaces(decodeRes?.address.countryName);
          }
       };
-      const mapLoadListener = map.addListener("idle", handleMapIdle);
+
+      const debouncedMapHandler = debounce(handleMapChange, 1500);
+
+      const mapLoadListener = map.addListener("idle", debouncedMapHandler);
+      const centerListener = map.addListener(
+         "center_changed",
+         debouncedMapHandler,
+      );
+      const zoomListener = map.addListener("zoom_changed", debouncedMapHandler);
 
       return () => {
-         if (mapLoadListener) {
-            google.maps.event.removeListener(mapLoadListener);
-         }
+         google.maps.event.removeListener(mapLoadListener);
+         google.maps.event.removeListener(centerListener);
+         google.maps.event.removeListener(zoomListener);
       };
    }, [map]);
 
