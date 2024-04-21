@@ -96,8 +96,7 @@ export default function WorldMap() {
    return (
       <main
          className={`
-             h-full min-h-[600px] p-0 m-0 w-[calc(100vw_-_10px)] 
-             -ml-[27px] bg-blend
+             h-lvh p-0 w-full m-auto bg-blend
         `}
       >
          {!mapRef.current && loadingPlaceholder}
