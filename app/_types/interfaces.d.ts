@@ -73,6 +73,7 @@ interface PlaceCoords {
    lat: number;
    lng: number;
    place_id: string;
+   id?: string;
    name: string;
 }
 

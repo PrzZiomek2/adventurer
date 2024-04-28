@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
             resContent = {
                status: 200,
                data: {
-                  coords: regionCoords.results[0].geometry.location,
+                  coords: regionCoords.results[0].geometry?.location,
                   places: placesSorted,
                },
             };
@@ -107,6 +107,7 @@ export async function POST(req: NextRequest) {
             ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}}&key=${process.env.GOOGLE_PLACES_KEY}  
          `);
          const resData = await getPlaces.json();
+         console.log({ resData });
 
          if (resData) {
             resContent = {
