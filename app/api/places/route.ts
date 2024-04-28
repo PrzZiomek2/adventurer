@@ -88,8 +88,6 @@ export async function POST(req: NextRequest) {
 
          if (resData) {
             const [regionCoords, places] = resData;
-            console.log({ regionCoords, places });
-
             const placesSorted = (places.results as MapPlace[])
                .sort((a, b) => b.rating - a.rating)
                .filter(({ types }) => !types.includes("colloquial_area"));
