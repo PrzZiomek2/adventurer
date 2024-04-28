@@ -81,7 +81,8 @@ export const Map: FC<MapProps> = ({
          id: place.place_id,
          name: place.name,
       })),
-      (place: PlaceCoords) => setClickedPlace && setClickedPlace(place.id),
+      (place: PlaceCoords) =>
+         setClickedPlace && setClickedPlace(place.id || ""),
    );
 
    useEffect(() => {

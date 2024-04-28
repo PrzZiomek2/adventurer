@@ -20,6 +20,7 @@ export default function WorldMap() {
    useMapMarkers(
       map,
       places.map((place) => place.geometry.location),
+      () => {},
    );
 
    useEffect(() => {
