@@ -16,6 +16,21 @@ export const IntroCard = () => {
                   - Wchodząc w zakladkę{" "}
                   <Link
                      className="link-basic"
+                     href="/world-map"
+                  >
+                     Mapa
+                  </Link>
+               </span>
+               <p className="my-2">
+                  gdzie na mapie świata możesz zobaczyć ciekawe miejsca, które
+                  bedą pojawiać się w czasie twojej podróży "palcem po mapie".
+               </p>
+            </li>
+            <li className="mb-4">
+               <span>
+                  - Wchodząc w zakladkę{" "}
+                  <Link
+                     className="link-basic"
                      href="/places/popular"
                   >
                      Propozycje
