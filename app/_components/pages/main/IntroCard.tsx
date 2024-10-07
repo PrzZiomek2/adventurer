@@ -1,4 +1,3 @@
-import Header from "@/components/common/Header/Header";
 import { Heading } from "@/components/ui/Heading";
 import Link from "next/link";
 
@@ -23,7 +22,8 @@ export const IntroCard = () => {
                </span>
                <p className="my-2">
                   gdzie na mapie świata możesz zobaczyć ciekawe miejsca, które
-                  bedą pojawiać się w czasie twojej podróży "palcem po mapie".
+                  bedą pojawiać się w czasie twojej podróży &quot;palcem po
+                  mapie&quot;.
                </p>
             </li>
             <li className="mb-4">

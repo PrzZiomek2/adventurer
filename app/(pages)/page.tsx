@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CriteriaForm from "@/components/pages/main/CriteriaForm";
 import { IntroCard } from "@/components/pages/main/IntroCard";
 
@@ -9,8 +10,10 @@ export default function Home() {
          sm:gap-4 2md:gap-10 max-w-[1200px]
       `}
       >
-         <IntroCard />
-         <CriteriaForm />
+         <Suspense>
+            <IntroCard />
+            <CriteriaForm />
+         </Suspense>
       </main>
    );
 }
