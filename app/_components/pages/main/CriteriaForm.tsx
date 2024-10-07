@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/_customHooks/useUrlParams";
 import Button from "@/components/ui/Button";
-import { Label } from "@/components/ui/Label";
 import { Form } from "@/components/ui/Form";
-import { Checkbox } from "@/components/ui/Checkbox";
 import { Heading } from "@/components/ui/Heading";
 import { useSession } from "next-auth/react";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -21,7 +19,6 @@ interface CriteriaFormFields {
 const CriteriaForm = () => {
    const router = useRouter();
    const session = useSession();
-   const searchParams = useSearchParams();
    const userId = session.data?.user.id;
 
    const [formData, setFormData] = useState<CriteriaFormFields>({
@@ -93,22 +90,6 @@ const CriteriaForm = () => {
                setTags={(tags) => handleInputChange("tags", tags)}
                tags={formData.tags}
             />
-            {/* <div className="flex gap-3 w-full mt-6">
-               <Checkbox
-                  id="isCreative"
-                  name="isCreative"
-                  checked={formData.isCreative}
-                  onChange={(checked) =>
-                     handleInputChange("isCreative", checked)
-                  }
-               />
-               <Label
-                  variant="right"
-                  htmlFor="isCreative"
-               >
-                  Losowo
-               </Label>
-            </div> */}
             <Tooltip
                id="search-by-pref-btn"
                text="Wyszukiwanie według preferencji dostępne po zalogowaniu"

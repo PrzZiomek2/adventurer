@@ -43,3 +43,5 @@ openAiCommands.ts
 .open-next
 
 .vscode
+
+/aws-cdk
