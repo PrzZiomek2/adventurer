@@ -33,7 +33,9 @@ export const UserLocationProvider: FC<UserLocationProviderProps> = ({
          try {
             const position = await new Promise<GeolocationPosition>(
                (resolve, reject) => {
-                  navigator.geolocation.getCurrentPosition(resolve, reject);
+                  navigator.geolocation.getCurrentPosition(resolve, reject, {
+                     enableHighAccuracy: true,
+                  });
                },
             );
             setValue((prev) => ({ ...prev, coords: position.coords }));
