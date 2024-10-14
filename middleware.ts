@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export { default } from "next-auth/middleware";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 
-export function middleware(request: NextRequest) {
+const intlMiddleware = createMiddleware(routing);
+
+export async function middleware(request: NextRequest) {
+   let response = intlMiddleware(request);
+
    const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
    const cspHeader = `
       default-src 'self';
@@ -33,11 +38,10 @@ export function middleware(request: NextRequest) {
       contentSecurityPolicyHeaderValue,
    );
 
-   const response = NextResponse.next({
-      request: {
-         headers: requestHeaders,
-      },
-   });
+   if (!response) {
+      response = NextResponse.next({ request: { headers: requestHeaders } });
+   }
+
    response.headers.set(
       "Content-Security-Policy",
       contentSecurityPolicyHeaderValue,
@@ -47,5 +51,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-   matcher: ["/destinations"],
+   matcher: ["/", "/(pl|en)/:path*"],
 };
