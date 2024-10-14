@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 
+const createNextIntlPlugin = require("next-intl/plugin");
+
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig = {
    reactStrictMode: process.env.NODE_ENV === "development",
    swcMinify: true,
@@ -58,4 +62,4 @@ const nextConfig = {
    },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

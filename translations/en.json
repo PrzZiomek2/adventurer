@@ -1,0 +1,22 @@
+{
+   "home": {
+      "heading": "",
+      "paragraph": "",
+      "list": {
+         "item1": {
+            "title": "",
+            "link1": "",
+            "description": ""
+         },
+         "item2": {
+            "title": "",
+            "link2": "",
+            "description": ""
+         },
+         "item3": {
+            "title": "",
+            "description": ""
+         }
+      }
+   }
+}

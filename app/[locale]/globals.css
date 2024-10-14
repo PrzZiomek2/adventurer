@@ -129,7 +129,7 @@ select {
 
 @media screen and (min-width: 576px) {
    body::before {
-      background-image: url("../public/background_small.webp");
+      background-image: url("../../public/background.webp");
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
@@ -147,6 +147,6 @@ select {
 
 @media screen and (min-width: 1280px) {
    body::before {
-      background-image: url("../public/background.webp");
+      background-image: url("../../public/background.webp");
    }
 }
