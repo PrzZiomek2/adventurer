@@ -1,4 +1,5 @@
 import React from "react";
+import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Control, Controller, FieldErrors } from "react-hook-form";
@@ -22,6 +23,9 @@ export const LoginForm = ({
    isSubmitting,
    onSubmitHandler,
 }: LoginFormProps) => {
+   const pathname = usePathname();
+   const locale = pathname.split("/")[1];
+
    return (
       <Form
          onSubmit={onSubmitHandler}
@@ -88,7 +92,7 @@ export const LoginForm = ({
             Nie masz jeszcze konta?{" "}
             <Link
                className="link-basic"
-               href="/register"
+               href={`${locale}/register`}
             >
                Zarejestruj się
             </Link>

@@ -2,6 +2,7 @@ import { Tag } from "@/components/ui/Tag";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { getTranslatedTag } from "app/_utils/handlers";
 import { urls } from "../../../../_utils/urls";
 import { RatingLabel } from "@/components/common/Rating/RatingLabel";
@@ -12,6 +13,8 @@ interface PlaceItemProps {
 }
 
 export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
+   const pathname = usePathname();
+   const locale = pathname.split("/")[1];
    const itemRef = useRef<HTMLDivElement>(null);
    const {
       formatted_address,
@@ -87,7 +90,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                <div className="text-lg font-bold flex justify-between items-baseline gap-4">
                   <Link
                      className="text-dark hover:underline text-[22px] leading-[1.3] decoration-4"
-                     href={`/place/${place.place_id}`}
+                     href={`${locale}/place/${place.place_id}`}
                   >
                      {name}
                   </Link>

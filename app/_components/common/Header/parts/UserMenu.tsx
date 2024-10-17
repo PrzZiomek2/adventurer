@@ -17,6 +17,7 @@ export const UserMenu: React.FC = () => {
    const isUserLoggedIn = session.status === "authenticated";
    const user = session.data?.user;
    const userName = user?.name;
+   const locale = pathname.split("/")[1];
 
    useEffect(() => {
       setMenuOpen(false);
@@ -31,12 +32,12 @@ export const UserMenu: React.FC = () => {
    };
 
    const menuLoggedData = [
-      { menuText: "Konto", path: "/account" },
+      { menuText: "Konto", path: `/${locale}/account` },
       { menuText: "Wyloguj się", path: "#", handler: () => signOut() },
    ];
    const menuNotLoggedData = [
-      { menuText: "Zaloguj się", path: "/login" },
-      { menuText: "Załóż konto", path: "/register" },
+      { menuText: "Zaloguj się", path: `/${locale}/login` },
+      { menuText: "Załóż konto", path: `/${locale}/register` },
    ];
 
    type MenuItem = { menuText: string; path: string; handler?: () => void };

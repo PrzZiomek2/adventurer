@@ -16,6 +16,7 @@ export const MainMenu: React.FC = () => {
    const [propositionsOpen, setPropositionsOpen] = useState(false);
    const session = useSession();
    const user = session.data?.user;
+   const locale = pathname.split("/")[1];
 
    useEffect(() => {
       setMenuOpen(false);
@@ -59,7 +60,7 @@ export const MainMenu: React.FC = () => {
                   <li>
                      <Link
                         className="menu-item-hover"
-                        href="/places/popular"
+                        href={`/${locale}/places/popular`}
                      >
                         Popularne
                      </Link>
@@ -73,7 +74,7 @@ export const MainMenu: React.FC = () => {
                            className={
                               user?.id ? "menu-item-hover" : "disabled-link"
                            }
-                           href={`/places/${user?.id}`}
+                           href={`/${locale}/places/${user?.id}`}
                         >
                            Twoje
                         </Link>
@@ -85,7 +86,7 @@ export const MainMenu: React.FC = () => {
          <li className="mb-4 desktop:mb-0 text-right">
             <Link
                className="menu-item-hover"
-               href="/world-map"
+               href={`/${locale}/world-map`}
             >
                Mapa
             </Link>
@@ -101,7 +102,7 @@ export const MainMenu: React.FC = () => {
          <li className="mb-4 desktop:mb-0 text-right">
             <Link
                className="menu-item-hover"
-               href="/about"
+               href={`/${locale}/about`}
             >
                O projekcie
             </Link>
@@ -109,7 +110,7 @@ export const MainMenu: React.FC = () => {
          <li className="mb-4 desktop:mb-0 text-right">
             <Link
                className="menu-item-hover"
-               href="/contact"
+               href={`/${locale}/contact`}
             >
                Kontakt
             </Link>
