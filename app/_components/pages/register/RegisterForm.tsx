@@ -1,5 +1,6 @@
 import React from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
+import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
@@ -23,6 +24,8 @@ export const RegisterForm = ({
    isSubmitting,
    onSubmitHandler,
 }: RegisterFormProps) => {
+   const pathname = usePathname();
+   const locale = pathname.split("/")[1];
    return (
       <Form
          onSubmit={onSubmitHandler}
@@ -116,7 +119,7 @@ export const RegisterForm = ({
             Jeśli posiadasz już konto{" "}
             <Link
                className="link-basic"
-               href="/login"
+               href={`/${locale}/login`}
             >
                Zaloguj się
             </Link>

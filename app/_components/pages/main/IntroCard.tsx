@@ -1,19 +1,24 @@
+"use client";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+
 import { Heading } from "@/components/ui/Heading";
 
 export const IntroCard = () => {
    const t = useTranslations("home");
+   const pathname = usePathname();
+   const locale = pathname.split("/")[1];
 
    const listItems = [
       {
          key: "list.item1",
-         linkHref: "/world-map",
+         linkHref: `${locale}/world-map`,
          linkText: t("list.item1.link1"),
       },
       {
          key: "list.item2",
-         linkHref: "/places/popular",
+         linkHref: `${locale}/popular`,
          linkText: t("list.item2.link2"),
       },
       {
