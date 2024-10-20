@@ -11,16 +11,16 @@ export async function middleware(request: NextRequest) {
    const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
    const cspHeader = `
       default-src 'self';
-      style-src 'self' 'unsafe-inline';
+      style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
       script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: 'unsafe-eval' blob:;
       img-src 'self' https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com data:;
       frame-src *.google.com;
-      connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com data: blob:;
+      connect-src 'self' https://*.googleapis.com *.google.com https://revgeocode.search.hereapi.com https://*.gstatic.com data: blob:;
       worker-src blob:;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
-      font-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com;
+      font-src 'self' 'nonce-${nonce}' https://fonts.gstatic.com https://fonts.googleapis.com;
       frame-ancestors 'none';
       block-all-mixed-content;
       upgrade-insecure-requests;

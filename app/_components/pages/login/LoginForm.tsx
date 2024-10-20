@@ -1,5 +1,6 @@
 import React from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Control, Controller, FieldErrors } from "react-hook-form";
@@ -25,6 +26,7 @@ export const LoginForm = ({
 }: LoginFormProps) => {
    const pathname = usePathname();
    const locale = pathname.split("/")[1];
+   const t = useTranslations("forms");
 
    return (
       <Form
@@ -38,10 +40,10 @@ export const LoginForm = ({
             className="text-xl text-center mb-4"
             variant="h2"
          >
-            Zaloguj się
+            {t("login.login")}
          </Heading>
          <div className="mb-7 relative">
-            <Label htmlFor="email">Login</Label>
+            <Label htmlFor="email">{t("login.login")}</Label>
             <Controller
                name="email"
                control={control}
@@ -61,7 +63,7 @@ export const LoginForm = ({
             )}
          </div>
          <div className="mb-7 relative">
-            <Label htmlFor="password">Hasło</Label>
+            <Label htmlFor="password">{t("login.password")}</Label>
             <Controller
                name="password"
                control={control}
@@ -71,7 +73,7 @@ export const LoginForm = ({
                      {...field}
                      type="password"
                      id="password"
-                     placeholder="hasło"
+                     placeholder={t("login.password")}
                      error={Boolean(fieldState.error)}
                   />
                )}
@@ -86,15 +88,15 @@ export const LoginForm = ({
             className="mt-6"
             isSubmitting={isSubmitting}
          >
-            Zaloguj się
+            {t("login.login")}
          </Button>
          <p className="mt-8 mb-0 text-sm max-w-[480px] md:px-0">
-            Nie masz jeszcze konta?{" "}
+            {t("login.question")}?{" "}
             <Link
                className="link-basic"
                href={`${locale}/register`}
             >
-               Zarejestruj się
+               {t("login.register")}
             </Link>
          </p>
       </Form>

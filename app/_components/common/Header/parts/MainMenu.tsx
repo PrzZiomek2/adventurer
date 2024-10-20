@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import { SlMenu } from "react-icons/sl";
 import { AiOutlineClose } from "react-icons/ai";
@@ -15,6 +16,7 @@ export const MainMenu: React.FC = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
    const [propositionsOpen, setPropositionsOpen] = useState(false);
    const session = useSession();
+   const t = useTranslations("mainMenu");
    const user = session.data?.user;
    const locale = pathname.split("/")[1];
 
@@ -46,7 +48,7 @@ export const MainMenu: React.FC = () => {
                   menu-item-hover focus-visible:outline-white mr-[-7px]
                `}
             >
-               <span>Propozycje</span>
+               <span>{t("suggestions")}</span>
                <Arrow isUp={propositionsOpen} />
             </Button>
             {propositionsOpen && (
@@ -54,7 +56,7 @@ export const MainMenu: React.FC = () => {
                   className="
                      flex flex-col gap-4
                      py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 desktop:-translate-x-1/2 
-                     desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%] z-30
+                     desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%] z-30 pb-0
                   "
                >
                   <li>
@@ -62,13 +64,13 @@ export const MainMenu: React.FC = () => {
                         className="menu-item-hover"
                         href={`/${locale}/places/popular`}
                      >
-                        Popularne
+                        {t("popular")}
                      </Link>
                   </li>
                   <li>
                      <Tooltip
                         id="propositions-user"
-                        text="Dostępne po zalogowaniu"
+                        text={t("tooltip")} //"Dostępne po zalogowaniu"
                      >
                         <Link
                            className={
@@ -76,7 +78,7 @@ export const MainMenu: React.FC = () => {
                            }
                            href={`/${locale}/places/${user?.id}`}
                         >
-                           Twoje
+                           {t("yours")}
                         </Link>
                      </Tooltip>
                   </li>
@@ -88,7 +90,7 @@ export const MainMenu: React.FC = () => {
                className="menu-item-hover"
                href={`/${locale}/world-map`}
             >
-               Mapa
+               {t("map")}
             </Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right">
@@ -96,7 +98,7 @@ export const MainMenu: React.FC = () => {
                className="menu-item-hover"
                href="#"
             >
-               Relacje
+               {t("reports")}
             </Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right">
@@ -104,7 +106,7 @@ export const MainMenu: React.FC = () => {
                className="menu-item-hover"
                href={`/${locale}/about`}
             >
-               O projekcie
+               {t("about")}
             </Link>
          </li>
          <li className="mb-4 desktop:mb-0 text-right">
@@ -112,7 +114,7 @@ export const MainMenu: React.FC = () => {
                className="menu-item-hover"
                href={`/${locale}/contact`}
             >
-               Kontakt
+               {t("contact")}
             </Link>
          </li>
       </>

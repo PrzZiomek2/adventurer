@@ -1,6 +1,7 @@
 import React from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
@@ -26,6 +27,8 @@ export const RegisterForm = ({
 }: RegisterFormProps) => {
    const pathname = usePathname();
    const locale = pathname.split("/")[1];
+   const t = useTranslations("forms.register");
+
    return (
       <Form
          onSubmit={onSubmitHandler}
@@ -38,10 +41,10 @@ export const RegisterForm = ({
             className="text-xl text-center mb-4"
             variant="h2"
          >
-            Dołącz do nas
+            {t("joinUs")}
          </Heading>
          <div className="mb-7">
-            <Label htmlFor="name">Imię</Label>
+            <Label htmlFor="name">{t("name")}</Label>
             <Controller
                name="name"
                control={control}
@@ -50,7 +53,7 @@ export const RegisterForm = ({
                   <Input
                      {...field}
                      type="text"
-                     placeholder="twoje imię"
+                     placeholder={t("yourName")}
                      error={Boolean(fieldState.error)}
                      id="name"
                   />
@@ -61,7 +64,7 @@ export const RegisterForm = ({
             )}
          </div>
          <div className="mb-7">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("email")}</Label>
             <Controller
                name="email"
                control={control}
@@ -81,7 +84,7 @@ export const RegisterForm = ({
             )}
          </div>
          <div className="mb-12">
-            <Label htmlFor="password">Hasło</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <Controller
                name="password"
                control={control}
@@ -91,7 +94,7 @@ export const RegisterForm = ({
                      {...field}
                      type="password"
                      id="password"
-                     placeholder="hasło"
+                     placeholder={t("password")}
                      error={Boolean(fieldState.error)}
                   />
                )}
@@ -102,7 +105,7 @@ export const RegisterForm = ({
          </div>
          <Tooltip
             id="register-btn"
-            text="Rejestracja niedostępna dla tego wydania"
+            text={t("tooltip")}
          >
             {" "}
             <Button
@@ -112,16 +115,16 @@ export const RegisterForm = ({
                isSubmitting={isSubmitting}
                disabled
             >
-               Zapisz
+               {t("save")}
             </Button>
          </Tooltip>
          <p className="mt-8 mb-0 text-sm max-w-[480px] px-4 md:px-0">
-            Jeśli posiadasz już konto{" "}
+            {t("youHaveAccount")}{" "}
             <Link
                className="link-basic"
                href={`/${locale}/login`}
             >
-               Zaloguj się
+               {t("login")}
             </Link>
          </p>
       </Form>

@@ -1,8 +1,9 @@
+import { FC, useState } from "react";
+import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Tag } from "@/components/ui/Tag";
-import { FC, useState } from "react";
 
 interface InputTagsProps {
    tags: string[];
@@ -20,6 +21,7 @@ export const InputTags: FC<InputTagsProps> = ({
    placeholder,
 }) => {
    const [tagValue, setTagValue] = useState("");
+   const t = useTranslations("forms.criteria");
 
    const handleDelete = (value: string) => {
       const newTags = tags.filter((val) => val !== value);
@@ -58,7 +60,7 @@ export const InputTags: FC<InputTagsProps> = ({
                setTagValue("");
             }}
          >
-            Dodaj
+            {t("add")}
          </Button>
       </div>
    );
