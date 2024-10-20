@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/_customHooks/useUrlParams";
@@ -11,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { Tooltip } from "@/components/ui/Tooltip";
 
 interface CriteriaFormFields {
+   [key: string]: string[];
    disliked: string[];
    favourite: string[];
    tags: string[];
@@ -19,6 +21,8 @@ interface CriteriaFormFields {
 const CriteriaForm = () => {
    const router = useRouter();
    const session = useSession();
+   const t = useTranslations("forms.criteria");
+   const tTags = useTranslations("forms.criteria.tags");
    const userId = session.data?.user.id;
 
    const [formData, setFormData] = useState<CriteriaFormFields>({
@@ -48,12 +52,14 @@ const CriteriaForm = () => {
       }
    };
 
-   const handleInputChange = (key: string, v: string[] | boolean) => {
+   const handleInputChange = (key: string, v: string[]) => {
       setFormData((prev) => ({
          ...prev,
          [key]: v,
       }));
    };
+
+   const tagsData = ["favourite", "disliked", "tags"];
 
    return (
       <>
@@ -65,34 +71,23 @@ const CriteriaForm = () => {
                className="text-xl mb-2"
                variant="h2"
             >
-               Twoje preferencje
+               {t("yourPreferences")}
             </Heading>
-            <InputTags
-               id="favourite"
-               label="Ulubione miejsca"
-               placeholder="np. Meksyk"
-               setTags={(read) => handleInputChange("favourite", read)}
-               tags={formData.favourite}
-            />
 
-            <InputTags
-               id="disliked"
-               label="Nielubiane miejsca"
-               placeholder="np. Rosja"
-               setTags={(dis) => handleInputChange("disliked", dis)}
-               tags={formData.disliked}
-            />
+            {tagsData.map((name, i) => (
+               <InputTags
+                  key={name}
+                  id={name}
+                  label={tTags(`${i + 1}.label`)}
+                  placeholder={tTags(`${i + 1}.placeholder`)}
+                  setTags={(value) => handleInputChange(name, value)}
+                  tags={formData[name]}
+               />
+            ))}
 
-            <InputTags
-               id="tags"
-               label="Tagi"
-               placeholder="np. zabytki, nigtlife, tanio, rodzinnie, city break"
-               setTags={(tags) => handleInputChange("tags", tags)}
-               tags={formData.tags}
-            />
             <Tooltip
                id="search-by-pref-btn"
-               text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
+               text={t("tooltip")} //"Wyszukiwanie według preferencji dostępne po zalogowaniu"
                wrapperClassName="mt-6 sm:max-w-max"
             >
                <Button
@@ -101,7 +96,7 @@ const CriteriaForm = () => {
                   variant="primary"
                   disabled={!userId}
                >
-                  Start
+                  {t("add")}
                </Button>
             </Tooltip>
          </Form>

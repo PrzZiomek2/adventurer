@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 import { SlLogin } from "react-icons/sl";
 import { FaCircleUser } from "react-icons/fa6";
 import Button from "@/components/ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import { Heading } from "@/components/ui/Heading";
-import { usePathname } from "next/navigation";
 
 export const UserMenu: React.FC = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
    const session = useSession();
    const pathname = usePathname();
+   const t = useTranslations("userMenu");
    const isUserLoggedIn = session.status === "authenticated";
    const user = session.data?.user;
    const userName = user?.name;
@@ -32,12 +34,13 @@ export const UserMenu: React.FC = () => {
    };
 
    const menuLoggedData = [
-      { menuText: "Konto", path: `/${locale}/account` },
-      { menuText: "Wyloguj się", path: "#", handler: () => signOut() },
+      { menuText: t("account"), path: `/${locale}/account` },
+      { menuText: t("logout"), path: "#", handler: () => signOut() },
    ];
+
    const menuNotLoggedData = [
-      { menuText: "Zaloguj się", path: `/${locale}/login` },
-      { menuText: "Załóż konto", path: `/${locale}/register` },
+      { menuText: t("login"), path: `/${locale}/login` },
+      { menuText: t("createAccount"), path: `/${locale}/register` },
    ];
 
    type MenuItem = { menuText: string; path: string; handler?: () => void };
