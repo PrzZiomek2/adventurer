@@ -1,18 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { InputTags } from "@/components/common/inputTags/InputTags";
 import { useUrlParams } from "app/_customHooks/useUrlParams";
-import { Button } from "@/components/ui/Button";
-import { Label } from "@/components/ui/Label";
+import Button from "@/components/ui/Button";
 import { Form } from "@/components/ui/Form";
-import { Checkbox } from "@/components/ui/Checkbox";
 import { Heading } from "@/components/ui/Heading";
 import { useSession } from "next-auth/react";
 import { Tooltip } from "@/components/ui/Tooltip";
 
 interface CriteriaFormFields {
+   [key: string]: string[];
    disliked: string[];
    favourite: string[];
    tags: string[];
@@ -21,7 +21,8 @@ interface CriteriaFormFields {
 const CriteriaForm = () => {
    const router = useRouter();
    const session = useSession();
-   const searchParams = useSearchParams();
+   const t = useTranslations("forms.criteria");
+   const tTags = useTranslations("forms.criteria.tags");
    const userId = session.data?.user.id;
 
    const [formData, setFormData] = useState<CriteriaFormFields>({
@@ -45,18 +46,20 @@ const CriteriaForm = () => {
 
    const handleFormSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-
+      // TO DO: set user id
       if (favourite.length) {
-         router.push(`/destinations?${currentParams.toString()}`);
+         router.push(`/places/id/?${currentParams.toString()}`);
       }
    };
 
-   const handleInputChange = (key: string, v: string[] | boolean) => {
+   const handleInputChange = (key: string, v: string[]) => {
       setFormData((prev) => ({
          ...prev,
          [key]: v,
       }));
    };
+
+   const tagsData = ["favourite", "disliked", "tags"];
 
    return (
       <>
@@ -68,47 +71,23 @@ const CriteriaForm = () => {
                className="text-xl mb-2"
                variant="h2"
             >
-               Twoje preferencje
+               {t("yourPreferences")}
             </Heading>
-            <InputTags
-               id="favourite"
-               label="Ulubione miejsca"
-               setTags={(read) => handleInputChange("favourite", read)}
-               tags={formData.favourite}
-            />
 
-            <InputTags
-               id="disliked"
-               label="Nielubiane miejsca"
-               setTags={(dis) => handleInputChange("disliked", dis)}
-               tags={formData.disliked}
-            />
-
-            <InputTags
-               id="tags"
-               label="Tagi / Cechy charakterystyczne (np. zabytki, nigtlife, tanio, rodzinnie, city break)"
-               setTags={(tags) => handleInputChange("tags", tags)}
-               tags={formData.tags}
-            />
-            {/* <div className="flex gap-3 w-full mt-6">
-               <Checkbox
-                  id="isCreative"
-                  name="isCreative"
-                  checked={formData.isCreative}
-                  onChange={(checked) =>
-                     handleInputChange("isCreative", checked)
-                  }
+            {tagsData.map((name, i) => (
+               <InputTags
+                  key={name}
+                  id={name}
+                  label={tTags(`${i + 1}.label`)}
+                  placeholder={tTags(`${i + 1}.placeholder`)}
+                  setTags={(value) => handleInputChange(name, value)}
+                  tags={formData[name]}
                />
-               <Label
-                  variant="right"
-                  htmlFor="isCreative"
-               >
-                  Losowo
-               </Label>
-            </div> */}
+            ))}
+
             <Tooltip
                id="search-by-pref-btn"
-               text="Wyszukiwanie według preferencji dostępne po zalogowaniu"
+               text={t("tooltip")} //"Wyszukiwanie według preferencji dostępne po zalogowaniu"
                wrapperClassName="mt-6 sm:max-w-max"
             >
                <Button
@@ -117,7 +96,7 @@ const CriteriaForm = () => {
                   variant="primary"
                   disabled={!userId}
                >
-                  Start
+                  {t("add")}
                </Button>
             </Tooltip>
          </Form>

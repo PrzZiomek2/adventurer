@@ -5,6 +5,7 @@ import { MainMenu } from "@/components/common/Header/parts/MainMenu";
 import { UserMenu } from "./parts/UserMenu";
 import { Heading } from "@/components/ui/Heading";
 import { Container } from "@/components/ui/Container";
+import { LanguageSwitch } from "./parts/LanguageSwitch";
 
 const Header: React.FC = () => {
    return (
@@ -18,7 +19,7 @@ const Header: React.FC = () => {
                <MainMenu />
                <Heading
                   variant="h1"
-                  className="text-2xl text-white lg:text-3xl desktop:order-1"
+                  className="text-lg sm:text-xl md:text-2xl text-white lg:text-3xl desktop:order-1"
                >
                   <Link
                      className="hover:no-underline"
@@ -27,6 +28,7 @@ const Header: React.FC = () => {
                      Adventurer
                   </Link>
                </Heading>
+               <LanguageSwitch />
                <UserMenu />
             </div>
          </Container>
