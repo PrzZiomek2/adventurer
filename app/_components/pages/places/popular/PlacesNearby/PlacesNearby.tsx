@@ -8,8 +8,10 @@ import { getPlacesCoords, iconToString } from "app/_utils/handlers";
 import { getServerData } from "app/_utils/handlersApi";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
 import { PlacesNearbyOptions } from "./parts/PlacesNearbyOptions";
+import { useTranslations } from "next-intl";
 
 export const PlacesNearby = () => {
+   const t = useTranslations("suggestions");
    const { coords, loading: userLocationLoading } =
       useContext(UserLocationContext);
    const [clickedPlace, setClickedPlace] = useState("");
@@ -59,8 +61,7 @@ export const PlacesNearby = () => {
    const placesCoords = places && getPlacesCoords(places);
    const noUserLocalizationInfo = (
       <div className="h-full px-12 flex text-lg justify-center items-center text-center">
-         Bez udostępnionej lokalizacji nie można pokazać miejsc w pobliżu,
-         sprawdź pozostałe sekcje
+         {t("userLocation")}
       </div>
    );
 
@@ -90,7 +91,7 @@ export const PlacesNearby = () => {
             mainIcon={
                userPosition && {
                   url: iconToString(MdPersonPinCircle),
-                  text: "Jesteś tutaj",
+                  text: t("you"),
                }
             }
          />

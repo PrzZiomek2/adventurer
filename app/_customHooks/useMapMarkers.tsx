@@ -26,9 +26,6 @@ export const useMapMarkers = (
                   map,
                   position: coords,
                });
-               const markerInfo = new google.maps.InfoWindow({
-                  content: "place.name",
-               });
 
                const iconEl = new DOMParser().parseFromString(
                   renderToStaticMarkup(<GiPositionMarker />),
@@ -38,16 +35,9 @@ export const useMapMarkers = (
                iconEl.setAttribute("height", "35");
                placeMarker.content = iconEl;
 
-               placeMarker.addListener("mouseover", () => {
-                  markerInfo.open(map, placeMarker);
-               });
-               placeMarker.addListener("mouseout", () => {
-                  markerInfo.close();
-               });
                if (cb) {
                   placeMarker.addListener("click", () => {
                      cb(coordList[i]);
-                     markerInfo.close();
                   });
                }
 

@@ -5,8 +5,11 @@ import Tabs from "@/components/common/Tabs/Tabs";
 import { Heading } from "@/components/ui/Heading";
 import { PlacesCountry } from "@/components/pages/places/popular/PlacesCountry/PlacesCountry";
 import { PlacesWorld } from "@/components/pages/places/popular/PlacesWorld/PlacesWorld";
+import { useTranslations } from "next-intl";
 
 function PropositionsPopular() {
+   const t = useTranslations("suggestions");
+
    const getHeader = (text: string) => {
       return (
          <Heading
@@ -16,7 +19,7 @@ function PropositionsPopular() {
             `}
             variant="h2"
          >
-            {text}
+            {t(text)}
          </Heading>
       );
    };
@@ -31,15 +34,15 @@ function PropositionsPopular() {
             ariaLabel="Rodzaje propozycji"
             items={[
                {
-                  tab: getHeader("W pobliżu"),
+                  tab: getHeader("nearby"),
                   panel: <PlacesNearby />,
                },
                {
-                  tab: getHeader("W kraju"),
+                  tab: getHeader("country"),
                   panel: <PlacesCountry />,
                },
                {
-                  tab: getHeader("Na świecie"),
+                  tab: getHeader("world"),
                   panel: <PlacesWorld />,
                },
             ]}

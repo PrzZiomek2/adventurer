@@ -1,9 +1,10 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, memo } from "react";
 import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { useMap } from "app/_customHooks/useMap";
 import { getMapLoader } from "app/_lib/mapLoader";
 import { useMapMarkers } from "app/_customHooks/useMapMarkers";
+import { useTranslations } from "next-intl";
 
 interface MapProps {
    userLocalized?: boolean;
@@ -25,7 +26,7 @@ export const Map: FC<MapProps> = ({
 }) => {
    const mapRef = React.useRef<HTMLDivElement>(null);
    const mainPosition = mapSettings?.center as Coords;
-
+   const t = useTranslations("map");
    const map = useMap(mapRef.current, mapSettings);
 
    useEffect(() => {
@@ -102,7 +103,7 @@ export const Map: FC<MapProps> = ({
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
-         <CircleLoader label={"Ładowanie mapy..."} />
+         <CircleLoader label={t("loading")} />
       </div>
    );
 

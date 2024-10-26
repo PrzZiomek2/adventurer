@@ -72,5 +72,15 @@
          "tooltip": "Search by preferences available for signed users",
          "add": "Add"
       }
+   },
+   "map": {
+      "loading": "Loading map..."
+   },
+   "suggestions": {
+      "userLocation": "Share your location to see places nearby.",
+      "nearby": "Nearby",
+      "country": "Country",
+      "world": "World",
+      "you": "You are here"
    }
 }
