@@ -7,8 +7,10 @@ import { hereAPI } from "app/_utils/hereApi";
 import { useMapMarkers } from "app/_customHooks/useMapMarkers";
 import { getMapLoader } from "app/_lib/mapLoader";
 import { Loader } from "@/components/ui/Loader/Loader";
+import { useTranslations } from "next-intl";
 
 export default function WorldMap() {
+   const t = useTranslations("map");
    const mapRef = React.useRef<HTMLDivElement | null>(null);
    const [map, setMap] = useState<google.maps.Map>();
    const [places, setPlaces] = useState<MapPlace[]>([]);
@@ -44,7 +46,7 @@ export default function WorldMap() {
 
    const loadingPlaceholder = (
       <div className="h-full flex justify-center items-center flex-col absolute w-full">
-         <Loader label={"Ładowanie mapy..."} />
+         <Loader label={t("loading")} />
       </div>
    );
 
