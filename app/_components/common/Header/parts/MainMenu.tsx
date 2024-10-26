@@ -56,7 +56,7 @@ export const MainMenu: React.FC = () => {
                   className="
                      flex flex-col gap-4
                      py-4 pr-7 text-xl font-normal desktop:w-auto desktop:shadow-lg desktop:left-1/2 desktop:-translate-x-1/2 
-                     desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%] z-30 pb-0
+                     desktop:px-4 desktop:absolute bg-dark rounded-md desktop:top-[110%] z-30 pb-0 desktop:pb-4  
                   "
                >
                   <li>
@@ -70,7 +70,7 @@ export const MainMenu: React.FC = () => {
                   <li>
                      <Tooltip
                         id="propositions-user"
-                        text={t("tooltip")} //"Dostępne po zalogowaniu"
+                        text={t("tooltip")}
                      >
                         <Link
                            className={

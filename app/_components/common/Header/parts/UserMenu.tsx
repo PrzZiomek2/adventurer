@@ -34,7 +34,7 @@ export const UserMenu: React.FC = () => {
    };
 
    const menuLoggedData = [
-      { menuText: t("account"), path: `/${locale}/account` },
+      { menuText: t("createAccount"), path: `/${locale}/account` },
       { menuText: t("logout"), path: "#", handler: () => signOut() },
    ];
 
