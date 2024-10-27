@@ -17,7 +17,10 @@ export const useMapMarkers = (
 
    useEffect(() => {
       const loadMarkers = async () => {
-         clearMarkers(prevMarkersRef.current);
+         if (prevMarkersRef.current.length) {
+            clearMarkers(prevMarkersRef.current);
+            prevMarkersRef.current = [];
+         }
          const { AdvancedMarkerElement } =
             await getMapLoader().importLibrary("marker");
          coordList?.forEach((coords, i) => {
