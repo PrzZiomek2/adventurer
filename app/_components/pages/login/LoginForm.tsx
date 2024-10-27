@@ -94,7 +94,7 @@ export const LoginForm = ({
             {t("login.question")}?{" "}
             <Link
                className="link-basic"
-               href={`${locale}/register`}
+               href={`/${locale}/register`}
             >
                {t("login.register")}
             </Link>

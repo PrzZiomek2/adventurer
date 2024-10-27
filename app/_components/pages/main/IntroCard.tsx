@@ -13,12 +13,12 @@ export const IntroCard = () => {
    const listItems = [
       {
          key: "list.item1",
-         linkHref: `${locale}/world-map`,
+         linkHref: `/${locale}/world-map`,
          linkText: t("list.item1.link1"),
       },
       {
          key: "list.item2",
-         linkHref: `${locale}/popular`,
+         linkHref: `/${locale}/popular`,
          linkText: t("list.item2.link2"),
       },
       {
