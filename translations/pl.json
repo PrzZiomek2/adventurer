@@ -73,13 +73,13 @@
       }
    },
    "map": {
-      "you": "Jesteś tutaj",
       "loading": "Ładowanie mapy..."
    },
    "suggestions": {
       "userLocation": " Bez udostępnionej lokalizacji nie można pokazać miejsc w pobliżu, sprawdź pozostałe sekcje",
       "nearby": "W pobliżu",
       "country": "W kraju",
-      "world": "Na świecie"
+      "world": "Na świecie",
+      "you": "Jesteś tutaj"
    }
 }

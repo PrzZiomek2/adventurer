@@ -12,7 +12,7 @@ export const PlacesWorld = () => {
    const [clickedPlace, setClickedPlace] = useState("");
    const [places, setPlaces] = useState<MapPlace[]>([]);
    const [placesLoading, setPlacesLoading] = useState(false);
-   const [currentRegion, setCurrentRegion] = useState("Europe");
+   const [currentRegion, setCurrentRegion] = useState("Western Europe");
 
    useEffect(() => {
       const getPlaces = async () => {

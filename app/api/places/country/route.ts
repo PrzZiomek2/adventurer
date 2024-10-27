@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       }
 
       const geocodingResponse = await fetch(
-         `${googleGeocodingAPI}?address=${encodeURIComponent(country)}&key=${process.env.GOOGLE_PLACES_KEY}`,
+         `${googleGeocodingAPI}?address=${encodeURIComponent(country)}&type=tourist_attraction&key=${process.env.GOOGLE_PLACES_KEY}`,
       );
       const geocodingData = await geocodingResponse.json();
 

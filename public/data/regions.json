@@ -1,8 +1,8 @@
 [
    {
-      "value": "Africa",
-      "label": "Afryka",
-      "coordinates": { "lat": 0, "lng": 25 }
+      "value": "Central Africa",
+      "label": "Afryka Centralna",
+      "coordinates": { "lat": -2, "lng": 20 }
    },
    {
       "value": "Northern Africa",
@@ -15,9 +15,19 @@
       "coordinates": { "lat": 10, "lng": -10 }
    },
    {
-      "value": "Asia",
-      "label": "Azja",
-      "coordinates": { "lat": 30, "lng": 100 }
+      "value": "Eastern Africa",
+      "label": "Afryka Wschodnia",
+      "coordinates": { "lat": 10, "lng": -10 }
+   },
+   {
+      "value": "Southern Africa",
+      "label": "Afryka Południowa",
+      "coordinates": { "lat": -23, "lng": 25 }
+   },
+   {
+      "value": "Horn of Africa",
+      "label": "Róg Afryki",
+      "coordinates": { "lat": 10, "lng": 43 }
    },
    {
       "value": "Central Asia",
@@ -25,7 +35,7 @@
       "coordinates": { "lat": 40, "lng": 70 }
    },
    {
-      "value": "Souteast Asia",
+      "value": "South East Asia",
       "label": "Azja Południowo-Wschodnia",
       "coordinates": { "lat": 5, "lng": 120 }
    },
@@ -55,9 +65,14 @@
       "coordinates": { "lat": 15, "lng": -70 }
    },
    {
-      "value": "Europe",
-      "label": "Europa",
-      "coordinates": { "lat": 50, "lng": 10 }
+      "value": "Eastern Europe",
+      "label": "Europa Wschodnia",
+      "coordinates": { "lat": 50, "lng": 50 }
+   },
+   {
+      "value": "Western Europe",
+      "label": "Europa Zachodnia",
+      "coordinates": { "lat": 48.5, "lng": 2.2 }
    },
    {
       "value": "Middle East",

@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
 
       if (!regionName) {
          const getPlaces = await fetch(`
-            ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}}&key=${process.env.GOOGLE_PLACES_KEY}  
+            ${googleMaps}/place/textsearch/json?query=${encodeURIComponent(phrase)}&key=${process.env.GOOGLE_PLACES_KEY}  
          `);
          const resData = await getPlaces.json();
 
