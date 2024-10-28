@@ -5,6 +5,7 @@ import { useMap } from "app/_customHooks/useMap";
 import { getMapLoader } from "app/_lib/mapLoader";
 import { useMapMarkers } from "app/_customHooks/useMapMarkers";
 import { useTranslations } from "next-intl";
+import { postServerData } from "app/_utils/handlersApi";
 
 interface MapProps {
    userLocalized?: boolean;
@@ -82,8 +83,14 @@ export const Map: FC<MapProps> = ({
          id: place.place_id,
          name: place.name,
       })),
-      (place: PlaceCoords) =>
-         setClickedPlace && setClickedPlace(place.id || ""),
+      (place: PlaceCoords) => {
+         setClickedPlace && setClickedPlace(place.id || "");
+         postServerData("click-tracking", {
+            name: place.name,
+            id: place.id,
+            click_location: "map",
+         });
+      },
    );
 
    useEffect(() => {
