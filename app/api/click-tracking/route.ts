@@ -1,5 +1,5 @@
-import { serialize, parse } from "cookie";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { Kafka } from "kafkajs";
 
 interface RequestBody {
    name: string;
@@ -7,7 +7,43 @@ interface RequestBody {
    click_location: "map" | "details";
 }
 
-export async function POST(req: Request) {
+const kafka = new Kafka({
+   clientId: "nextjs-click-tracker",
+   brokers: ["localhost:9092"],
+});
+
+const producer = kafka.producer();
+
+export async function GET(req: NextRequest) {
+   let resContent = {};
+
+   try {
+      const res = await fetch(
+         `${process.env.NODE_SERVER_URL}/api/place-most-clicks`,
+      );
+
+      const data = await res.json();
+
+      if (!data) {
+         throw new Error("Server error");
+      }
+
+      resContent = {
+         message: "success",
+         status: 200,
+         data: data.place,
+      };
+   } catch (error) {
+      resContent = {
+         message: `server error: ${error}`,
+         status: 500,
+      };
+   } finally {
+      return NextResponse.json(resContent);
+   }
+}
+
+export async function POST(req: NextRequest) {
    const body: RequestBody = await req.json();
    const { name, id, click_location } = body;
    let resContent = {};
@@ -17,18 +53,15 @@ export async function POST(req: Request) {
          throw new Error("All fields are required");
       }
 
-      const res = await fetch(`${process.env.NODE_SERVER_URL}/api/place`, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-            "Accept-Encoding": "gzip, deflate, br, compress",
-         },
-         body: JSON.stringify({
-            place: { name, id, click_location },
-         }),
+      await producer.connect();
+      const res = await producer.send({
+         topic: "click-events",
+         messages: [{ value: JSON.stringify({ name, id, click_location }) }],
       });
 
-      if (res.status === 500) throw new Error("server error");
+      if (!res) {
+         throw new Error("server error");
+      }
 
       resContent = {
          message: "success",
@@ -36,7 +69,7 @@ export async function POST(req: Request) {
       };
    } catch (error) {
       resContent = {
-         message: `request rejected: ${name}`,
+         message: `request rejected: ${error}`,
          status: 500,
       };
    } finally {
