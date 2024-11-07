@@ -1,16 +1,15 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect, memo } from "react";
+import React, { FC, useEffect } from "react";
 import { Loader as CircleLoader } from "@/components/ui/Loader/Loader";
 import { useMap } from "app/_customHooks/useMap";
 import { getMapLoader } from "app/_lib/mapLoader";
 import { useMapMarkers } from "app/_customHooks/useMapMarkers";
 import { useTranslations } from "next-intl";
-import { postServerData } from "app/_utils/handlersApi";
 
 interface MapProps {
    userLocalized?: boolean;
    places?: PlaceCoords[];
-   setClickedPlace?: Dispatch<SetStateAction<string>>;
+   placeClickHandler?: (place: PlaceCoords) => void;
    mapSettings: Record<string, unknown>;
    mainIcon?: {
       url: string;
@@ -21,7 +20,7 @@ interface MapProps {
 
 export const Map: FC<MapProps> = ({
    places,
-   setClickedPlace,
+   placeClickHandler,
    mapSettings,
    mainIcon,
 }) => {
@@ -84,12 +83,7 @@ export const Map: FC<MapProps> = ({
          name: place.name,
       })),
       (place: PlaceCoords) => {
-         setClickedPlace && setClickedPlace(place.id || "");
-         postServerData("click-tracking", {
-            name: place.name,
-            id: place.id,
-            click_location: "map",
-         });
+         placeClickHandler && placeClickHandler(place);
       },
    );
 

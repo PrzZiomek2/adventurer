@@ -39,6 +39,18 @@ export const PlacesWorld = () => {
       getPlaces();
    }, [currentRegion]);
 
+   const handlePlaceClick = (place: PlaceCoords) => {
+      const { name, id } = place;
+      if (!id) return;
+      setClickedPlace(id);
+      postServerData("click-tracking", {
+         name,
+         id,
+         click_location: "map",
+         place_type: "world",
+      });
+   };
+
    const placesCoords = places && getPlacesCoords(places);
    const regionCoords = regions.find(
       (region) => region.value === currentRegion,
@@ -54,11 +66,12 @@ export const PlacesWorld = () => {
             clickedPlace={clickedPlace}
             places={places}
             loadingData={placesLoading}
+            placeType="world"
          />
          <Map
             userLocalized
             places={placesCoords}
-            setClickedPlace={setClickedPlace}
+            placeClickHandler={handlePlaceClick}
             mapSettings={{
                center: regionCoords?.coordinates,
                zoom: 3,
