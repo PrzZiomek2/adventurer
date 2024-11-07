@@ -5,6 +5,7 @@ interface RequestBody {
    name: string;
    id: string;
    click_location: "map" | "details";
+   place_type: PlaceType;
 }
 
 const kafka = new Kafka({
@@ -45,18 +46,21 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
    const body: RequestBody = await req.json();
-   const { name, id, click_location } = body;
+
+   const { name, id, click_location, place_type } = body;
    let resContent = {};
 
    try {
-      if (!name || !id || !click_location) {
+      if (!name || !id || !click_location || !place_type) {
          throw new Error("All fields are required");
       }
 
       await producer.connect();
       const res = await producer.send({
          topic: "click-events",
-         messages: [{ value: JSON.stringify({ name, id, click_location }) }],
+         messages: [
+            { value: JSON.stringify({ name, id, click_location, place_type }) },
+         ],
       });
 
       if (!res) {

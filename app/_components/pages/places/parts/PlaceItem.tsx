@@ -6,14 +6,18 @@ import { usePathname } from "next/navigation";
 import { getTranslatedTag } from "app/_utils/handlers";
 import { urls } from "../../../../_utils/urls";
 import { RatingLabel } from "@/components/common/Rating/RatingLabel";
-import { postServerData } from "app/_utils/handlersApi";
 
 interface PlaceItemProps {
    place: MapPlace;
    highlight: boolean;
+   handlePlaceLinkClick: (name: string, id: string) => void;
 }
 
-export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
+export const PlaceItem = ({
+   place,
+   highlight,
+   handlePlaceLinkClick,
+}: PlaceItemProps) => {
    const pathname = usePathname();
    const locale = pathname.split("/")[1];
    const itemRef = useRef<HTMLDivElement>(null);
@@ -26,8 +30,8 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
       user_ratings_total,
       types,
       icon,
-      opening_hours,
       place_id,
+      opening_hours,
    } = place;
    const { googleMaps } = urls();
 
@@ -40,14 +44,6 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
    const filteredTypes = types
       ?.filter((type) => type !== "establishment")
       .slice(0, 5);
-
-   const handlePlaceLinkClick = () => {
-      postServerData("click-tracking", {
-         name: name,
-         id: place_id,
-         click_location: "details",
-      });
-   };
 
    return (
       <div
@@ -101,7 +97,7 @@ export const PlaceItem = ({ place, highlight }: PlaceItemProps) => {
                   <Link
                      className="text-dark hover:underline text-[22px] leading-[1.3] decoration-4"
                      href={`/${locale}/place/${place.place_id}`}
-                     onClick={handlePlaceLinkClick}
+                     onClick={() => handlePlaceLinkClick(name, place_id)}
                   >
                      {name}
                   </Link>

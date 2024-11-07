@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { PlacesList } from "../../parts/PlacesList";
 import { Map } from "@/components/common/Map/Map";
 import { getPlacesCoords, iconToString } from "app/_utils/handlers";
-import { getServerData } from "app/_utils/handlersApi";
+import { getServerData, postServerData } from "app/_utils/handlersApi";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
 import { PlacesNearbyOptions } from "./parts/PlacesNearbyOptions";
 import { useTranslations } from "next-intl";
@@ -58,6 +58,18 @@ export const PlacesNearby = () => {
       }
    }, [userPosition?.lat, userPosition?.lng, categories]);
 
+   const handlePlaceClick = (place: PlaceCoords) => {
+      const { name, id } = place;
+      if (!id) return;
+      setClickedPlace(id);
+      postServerData("click-tracking", {
+         name,
+         id,
+         click_location: "map",
+         place_type: "nearby",
+      });
+   };
+
    const placesCoords = places && getPlacesCoords(places);
    const noUserLocalizationInfo = (
       <div className="h-full px-12 flex text-lg justify-center items-center text-center">
@@ -76,6 +88,7 @@ export const PlacesNearby = () => {
                clickedPlace={clickedPlace}
                loadingData={placesLoading}
                places={places}
+               placeType="nearby"
             />
          ) : (
             noUserLocalizationInfo
@@ -83,7 +96,7 @@ export const PlacesNearby = () => {
          <Map
             userLocalized
             places={placesCoords}
-            setClickedPlace={setClickedPlace}
+            placeClickHandler={handlePlaceClick}
             mapSettings={{
                center: userPosition || { lat: 52.4, lng: 16.9 },
                zoom: 12,
