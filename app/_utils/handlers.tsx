@@ -17,7 +17,7 @@ export const getPlacesCoords = (places: MapPlace[]) =>
 
 export const getTranslatedTag = (tag: string, key: string): string => {
    const translatedTag = (translations as Record<string, any>)[key].find(
-      (translation: any) => translation[tag],
+      (translation: Record<string, string>) => translation[tag],
    );
    return translatedTag?.[tag] || tag;
 };

@@ -21,6 +21,7 @@ export const PlaceItem = ({
    const pathname = usePathname();
    const locale = pathname.split("/")[1];
    const itemRef = useRef<HTMLDivElement>(null);
+   const isPolishLocale = locale === "pl";
    const {
       formatted_address,
       name,
@@ -139,12 +140,17 @@ export const PlaceItem = ({
                ) : null}
             </div>
             <div className="flex flex-wrap -mx-1">
-               {filteredTypes.map((tag) => (
-                  <Tag
-                     key={tag}
-                     data={getTranslatedTag(tag, "placeTypes")}
-                  />
-               ))}
+               {filteredTypes.map((tag) => {
+                  const translatedTag = isPolishLocale
+                     ? getTranslatedTag(tag, "placeTypes")
+                     : tag;
+                  return (
+                     <Tag
+                        key={tag}
+                        data={translatedTag.replaceAll("_", " ")}
+                     />
+                  );
+               })}
             </div>
          </div>
       </div>

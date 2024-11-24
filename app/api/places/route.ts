@@ -18,10 +18,15 @@ export async function GET(req: NextRequest) {
       }
 
       const response = await fetch(`
-         ${googleMaps}/place/textsearch/json?query=${category}&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} 
+         ${googleMaps}/place/textsearch/json?query=${category}&location=${location}&radius=${radius}&&key=${process.env.GOOGLE_PLACES_KEY} 
       `);
 
+      console.log(
+         ` ${googleMaps}/place/textsearch/json?query=${category}&location=${location}&radius=${radius}&key=${process.env.GOOGLE_PLACES_KEY} `,
+      );
+
       const resData = await response.json();
+      console.log(resData);
 
       if (resData?.error_message) {
          console.log(resData);
