@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
    try {
       const res = await fetch(
-         `${process.env.NODE_SERVER_URL}/api/place-most-clicks`,
+         `${process.env.NODE_SERVER_URL}/api/places-most-clicked`,
       );
 
       const data = await res.json();
