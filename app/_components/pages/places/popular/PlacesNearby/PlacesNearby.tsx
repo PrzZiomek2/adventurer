@@ -1,14 +1,15 @@
 "use client";
 import { UserLocationContext } from "@/components/context/UserLocationProvider";
 import { MdPersonPinCircle } from "react-icons/md";
-import { useContext, useEffect, useState } from "react";
-import { PlacesList } from "../../parts/PlacesList";
+import React, { useContext, useEffect, useState } from "react";
 import { Map } from "@/components/common/Map/Map";
 import { getPlacesCoords, iconToString } from "app/_utils/handlers";
 import { getServerData, postServerData } from "app/_utils/handlersApi";
 import { MapPlacesContainer } from "../../parts/MapPlacesContainer";
 import { PlacesNearbyOptions } from "./parts/PlacesNearbyOptions";
 import { useTranslations } from "next-intl";
+
+const PlacesNearbyList = React.lazy(() => import("./parts/PlacesNearbyList"));
 
 export const PlacesNearby = () => {
    const t = useTranslations("suggestions");
@@ -71,11 +72,6 @@ export const PlacesNearby = () => {
    };
 
    const placesCoords = places && getPlacesCoords(places);
-   const noUserLocalizationInfo = (
-      <div className="h-full px-12 flex text-lg justify-center items-center text-center">
-         {t("userLocation")}
-      </div>
-   );
 
    return (
       <MapPlacesContainer>
@@ -83,16 +79,13 @@ export const PlacesNearby = () => {
             setCategories={setCategories}
             categories={categories}
          />
-         {userPosition && !userLocationLoading ? (
-            <PlacesList
-               clickedPlace={clickedPlace}
-               loadingData={placesLoading}
-               places={places}
-               placeType="nearby"
-            />
-         ) : (
-            noUserLocalizationInfo
-         )}
+         <PlacesNearbyList
+            clickedPlace={clickedPlace}
+            loadingData={placesLoading}
+            places={places}
+            placeType="nearby"
+            loadList={userPosition && !userLocationLoading}
+         />
          <Map
             userLocalized
             places={placesCoords}

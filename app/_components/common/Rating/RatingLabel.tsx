@@ -6,17 +6,15 @@ interface RatingLabelProps {
 }
 
 export const RatingLabel = ({ rating, className }: RatingLabelProps) => {
-   return (
-      rating && (
-         <div
-            className={`
+   return rating ? (
+      <div
+         className={`
             flex gap-2 text-xl font-bold mr-2
             ${className}
          `}
-         >
-            <span className="text-darken">{rating}</span>
-            <IoStarSharp className="text-2xl text-yellow-50 mb-[4px]" />
-         </div>
-      )
-   );
+      >
+         <span className="text-darken">{rating}</span>
+         <IoStarSharp className="text-2xl text-yellow-50 mb-[4px]" />
+      </div>
+   ) : null;
 };

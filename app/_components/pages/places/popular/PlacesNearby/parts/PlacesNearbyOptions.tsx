@@ -33,7 +33,11 @@ export const PlacesNearbyOptions: FC<PlacesNearbyOptionsProps> = ({
 
    return (
       <div className="lg:col-start-1 lg:col-end-3 lg:mb-2">
-         <div className="flex gap-1 overflow-x-auto with-scroll pb-2 -mt-2 lg:mt-0">
+         <div
+            className="
+            flex gap-1 overflow-x-auto with-scroll pb-2 -mt-2 lg:mt-0 min-h-14
+         "
+         >
             {categories.map((tag) => {
                const translatedTag = isPolishLocale
                   ? getTranslatedTag(tag, "placeCategories")

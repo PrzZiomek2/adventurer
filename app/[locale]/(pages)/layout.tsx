@@ -6,6 +6,7 @@ import "../globals.css";
 import Header from "@/components/common/Header/Header";
 import Providers from "@/components/Providers";
 import { Container } from "@/components/ui/Container";
+import { Background } from "@/components/common/Background";
 
 const inter = Inter({
    subsets: ["latin"],
@@ -29,7 +30,8 @@ export default async function RootLayout({
 
    return (
       <html lang="pl">
-         <body className={`${inter.className}`}>
+         <body className={`${inter.className} relative`}>
+            <Background />
             <NextIntlClientProvider messages={messages}>
                <Providers>
                   <Header />
