@@ -126,27 +126,3 @@ select {
    cursor: inherit;
    line-height: inherit;
 }
-
-@media screen and (min-width: 576px) {
-   body::before {
-      background-image: url("../../public/background.webp");
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 0.4;
-      z-index: -10;
-   }
-}
-
-@media screen and (min-width: 1280px) {
-   body::before {
-      background-image: url("../../public/background.webp");
-   }
-}

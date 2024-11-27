@@ -112,7 +112,7 @@ export const Map: FC<MapProps> = ({
       <div
          className={`
             min-h-[300px] sm:min-h-[400px] max-h-[500px] max-w-[500px] 
-            desktop:max-h-[600px] desktop:max-w-[600px]
+            desktop:max-h-[600px] desktop:max-w-[600px] order-1 lg:order-2
             bg-200 w-full rounded-lg mx-auto 2md:ml-0 2md:mr-0 bg-emerald hd:max-w-none
          `}
       >
@@ -122,6 +122,7 @@ export const Map: FC<MapProps> = ({
                className="h-full rounded-lg"
                ref={mapRef}
             />
+            <div className="absolute -bottom-7 right-0 h-[3px] bg-dark rounded-sm w-full" />
          </div>
       </div>
    );

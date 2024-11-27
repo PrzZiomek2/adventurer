@@ -68,13 +68,13 @@ export const PlaceItem = ({
                sm:mb-2 sm:mt-4 my-0 mx-auto 
                w-[360px] h-[180px] sm:w-[300px] sm:h-[200px] lg:max-h-[240px]
                md:w-[200px] md:m-0 lg:max-desktop:w-[320px] lg:max-desktop:h-[180px] desktop:h-full
-                bg-emerald-200 lg:max-desktop:m-auto lg:max-desktop:mt-4 desktop2:max-h-[170px]
-                rounded-b-none sm:rounded-b-lg rounded-lg md:rounded-[8px_0_0_8px]
+                bg-emerald-200 lg:max-desktop:m-auto lg:max-desktop:mt-4 
+                rounded-b-none sm:rounded-b-lg rounded-lg md:rounded-[8px_0_0_8px] shrink-0
             `}
          >
             {photos?.length > 0 &&
                photos.map(({ photo_reference }) => (
-                  <img
+                  <Image
                      alt="zdjęcie miejsca"
                      key={photo_reference}
                      className={`
@@ -88,7 +88,8 @@ export const PlaceItem = ({
                      `}
                      width={400}
                      height={300}
-                     loading="lazy"
+                     style={{ maxWidth: "100%", height: "110%" }}
+                     loading="eager"
                   />
                ))}
          </div>
@@ -109,6 +110,7 @@ export const PlaceItem = ({
                         className="max-w-[20px] max-h-[25px]"
                         width={20}
                         height={25}
+                        loading="eager"
                      />
                   )}
                </div>
