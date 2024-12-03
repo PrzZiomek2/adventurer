@@ -58,6 +58,10 @@ const nextConfig = {
             protocol: "https",
             hostname: "maps.googleapis.com",
          },
+         {
+            protocol: "https",
+            hostname: "https://adventurer-pied.vercel.app",
+         },
       ],
    },
 };
