@@ -1,0 +1,85 @@
+{
+   "home": {
+      "heading": "Jak to działa?",
+      "paragraph": "Jeśli szukasz inspiracji podróżniczych to trafiłeś w dobre miejsce :) Z nami możesz odkrywać nowe miejsca na kilka sposobów:",
+      "list": {
+         "item1": {
+            "title": "Wchodząc w zakładkę",
+            "link1": "Mapa",
+            "description": "gdzie na mapie świata możesz zobaczyć ciekawe miejsca, które będą pojawiać się w czasie twojej podróży \"palcem po mapie\"."
+         },
+         "item2": {
+            "title": "Wchodząc w zakładkę",
+            "link2": "Propozycje",
+            "description": "tam czeka na Ciebie lista miejsc wybranych według najnowszych trendów, podzielona na kategorie."
+         },
+         "item3": {
+            "title": "Wpisując swoje preferencje w formularzu po prawej stronie",
+            "description": "dzięki podaniu informacji o miejscach lubianych, nielubianych oraz pożądanych cechach możemy dostarczyć propozycje dopasowane do Ciebie."
+         }
+      }
+   },
+   "mainMenu": {
+      "suggestions": "Propozycje",
+      "map": "Mapa",
+      "popular": "Popularne",
+      "yours": "Twoje",
+      "reports": "Relacje",
+      "about": "O projekcie",
+      "contact": "Kontakt",
+      "tooltip": "Available after login"
+   },
+   "userMenu": {
+      "login": "Zaloguj się",
+      "createAccount": "Założ konto",
+      "logout": "Wyloguj się"
+   },
+   "forms": {
+      "login": {
+         "login": "Zaloguj się",
+         "password": "Hasło",
+         "confirm": "Wyślij",
+         "question": "Nie masz jeszcze konta",
+         "register": "Zarejestruj się"
+      },
+      "register": {
+         "joinUs": "Dołącz do nas",
+         "name": "Imię",
+         "yourName": "Twoje imię",
+         "email": "Email",
+         "password": "Hasło",
+         "save": "Zapisz",
+         "login": "Zaloguj się",
+         "youHaveAccount": "Jeśli masz już konto"
+      },
+      "criteria": {
+         "yourPreferences": "Twoje preferencje",
+         "tags": {
+            "1": {
+               "label": "Ulubione miejsca",
+               "placeholder": "np. Meksyk"
+            },
+            "2": {
+               "label": "Nielubiane miejsca",
+               "placeholder": "np. Rosja"
+            },
+            "3": {
+               "label": "Tagi",
+               "placeholder": "np. zabytki, nigtlife, tanio, rodzina, city break"
+            }
+         },
+         "tooltip": "Szukanie według preferencji dostepne dla zalogowanych",
+         "add": "Dodaj"
+      }
+   },
+   "map": {
+      "loading": "Ładowanie mapy..."
+   },
+   "suggestions": {
+      "userLocation": " Bez udostępnionej lokalizacji nie można pokazać miejsc w pobliżu, sprawdź pozostałe sekcje",
+      "nearby": "W pobliżu",
+      "country": "W kraju",
+      "world": "Na świecie",
+      "you": "Jesteś tutaj"
+   }
+}

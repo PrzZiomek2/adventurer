@@ -14,11 +14,18 @@ const config: Config = {
             "gradient-conic":
                "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
          },
+         boxShadow: {
+            item: "0 0 5px #047857",
+            "item-bolder": "1px 1px 7px #047857",
+            highlight: "5px 7px 13px #047857",
+         },
          colors: {
             dim: "#043427",
-            dark: "#047857",
+            darken: "#064e3b",
+            dark: "#065f46", // "#047857",
             medium: "#34D399",
-            blend: "#64E4B2", // "#5BE0AD",
+            "blend-dark": "#34D399",
+            blend: "#64E4B2",
             light: "#6EE7B7",
             lighted: "#A7F3D0",
             alert: "#9b1717",
@@ -47,8 +54,9 @@ const config: Config = {
          "2md": "900px",
          lg: "1024px",
          desktop: "1200px",
+         desktop2: "1300px",
          hd: "1536px",
-         wide: "1800px",
+         wide: "1720px",
       },
       fontSize: {
          xs: "12px",

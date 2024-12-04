@@ -1,0 +1,82 @@
+[
+   {
+      "value": "Central Africa",
+      "label": "Afryka Centralna",
+      "coordinates": { "lat": -2, "lng": 20 }
+   },
+   {
+      "value": "Northern Africa",
+      "label": "Afryka Północna",
+      "coordinates": { "lat": 25, "lng": 10 }
+   },
+   {
+      "value": "Western Africa",
+      "label": "Afryka Zachodnia",
+      "coordinates": { "lat": 10, "lng": -10 }
+   },
+   {
+      "value": "Eastern Africa",
+      "label": "Afryka Wschodnia",
+      "coordinates": { "lat": 10, "lng": -10 }
+   },
+   {
+      "value": "Southern Africa",
+      "label": "Afryka Południowa",
+      "coordinates": { "lat": -23, "lng": 25 }
+   },
+   {
+      "value": "Horn of Africa",
+      "label": "Róg Afryki",
+      "coordinates": { "lat": 10, "lng": 43 }
+   },
+   {
+      "value": "Central Asia",
+      "label": "Azja Środkowa",
+      "coordinates": { "lat": 40, "lng": 70 }
+   },
+   {
+      "value": "South East Asia",
+      "label": "Azja Południowo-Wschodnia",
+      "coordinates": { "lat": 5, "lng": 120 }
+   },
+   {
+      "value": "Australia and Oceania",
+      "label": "Australia i Oceania",
+      "coordinates": { "lat": -25, "lng": 135 }
+   },
+   {
+      "value": "South America",
+      "label": "Ameryka Południowa",
+      "coordinates": { "lat": -10, "lng": -60 }
+   },
+   {
+      "value": "Northern America",
+      "label": "Ameryka Północna",
+      "coordinates": { "lat": 45, "lng": -100 }
+   },
+   {
+      "value": "Central America",
+      "label": "Ameryka Środkowa",
+      "coordinates": { "lat": 15, "lng": -90 }
+   },
+   {
+      "value": "Caribbean",
+      "label": "Karaiby",
+      "coordinates": { "lat": 15, "lng": -70 }
+   },
+   {
+      "value": "Eastern Europe",
+      "label": "Europa Wschodnia",
+      "coordinates": { "lat": 50, "lng": 50 }
+   },
+   {
+      "value": "Western Europe",
+      "label": "Europa Zachodnia",
+      "coordinates": { "lat": 48.5, "lng": 2.2 }
+   },
+   {
+      "value": "Middle East",
+      "label": "Bliski Wschód",
+      "coordinates": { "lat": 30, "lng": 45 }
+   }
+]

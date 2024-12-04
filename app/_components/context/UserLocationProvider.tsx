@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React, { FC, createContext, useEffect, useMemo, useState } from "react";
 
 interface UserLocationProviderProps {
@@ -23,6 +24,7 @@ export const UserLocationContext =
 export const UserLocationProvider: FC<UserLocationProviderProps> = ({
    children,
 }) => {
+   const pathname = usePathname();
    const [value, setValue] =
       useState<UserLocationContextValue>(userLocationInit);
 
@@ -31,7 +33,9 @@ export const UserLocationProvider: FC<UserLocationProviderProps> = ({
          try {
             const position = await new Promise<GeolocationPosition>(
                (resolve, reject) => {
-                  navigator.geolocation.getCurrentPosition(resolve, reject);
+                  navigator.geolocation.getCurrentPosition(resolve, reject, {
+                     enableHighAccuracy: true,
+                  });
                },
             );
             setValue((prev) => ({ ...prev, coords: position.coords }));
@@ -41,8 +45,11 @@ export const UserLocationProvider: FC<UserLocationProviderProps> = ({
             setValue((prev) => ({ ...prev, loading: false }));
          }
       };
-      getUserLocation();
-   }, []);
+
+      if (pathname.includes("/places")) {
+         getUserLocation();
+      }
+   }, [pathname]);
 
    const valueMemoized = useMemo(
       () => ({

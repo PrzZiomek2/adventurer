@@ -1,0 +1,86 @@
+{
+   "home": {
+      "heading": "How does it work?",
+      "paragraph": "If you're looking for travel inspiration, you are in the right place! With us, you can discover new places in several ways:",
+      "list": {
+         "item1": {
+            "title": "Visit the map section:",
+            "link1": "Map",
+            "description": "There you can see interesting places that will show up during your armchair travel."
+         },
+         "item2": {
+            "title": "Visit the suggestions section:",
+            "link2": "Suggestions",
+            "description": "There you'll find a list of places selected according to the latest trends, divided into categories."
+         },
+         "item3": {
+            "title": "Enter your preferences in the right-side form",
+            "description": "Here you can provide information about places you like, dislike, and desired features, so we can show suggestions tailored to you."
+         }
+      }
+   },
+   "mainMenu": {
+      "suggestions": "Suggestions",
+      "map": "Map",
+      "popular": "Popular",
+      "yours": "Yours",
+      "reports": "Trip reports",
+      "about": "About",
+      "contact": "Contact",
+      "tooltip": "Available after login"
+   },
+   "userMenu": {
+      "login": "Login",
+      "createAccount": "Create Account",
+      "logout": "Log out"
+   },
+   "forms": {
+      "login": {
+         "login": "Login",
+         "password": "Password",
+         "confirm": "Confirm",
+         "question": "Don't you have an account yet",
+         "register": "register"
+      },
+      "register": {
+         "joinUs": "Join us",
+         "name": "Name",
+         "yourName": "Your name",
+         "email": "Email",
+         "password": "Password",
+         "save": "Save",
+         "login": "Login",
+         "youHaveAccount": "If you have account already:",
+         "tooltip": "Not available yet"
+      },
+      "criteria": {
+         "yourPreferences": "Your preferences",
+         "tags": {
+            "1": {
+               "label": "Favourite places",
+               "placeholder": "e.g. Mexico"
+            },
+            "2": {
+               "label": "Disliked places",
+               "placeholder": "e.g. Russia"
+            },
+            "3": {
+               "label": "Tags",
+               "placeholder": "e.g. antiques, nigtlife, cheap, family, city break"
+            }
+         },
+         "tooltip": "Search by preferences available for signed users",
+         "add": "Add"
+      }
+   },
+   "map": {
+      "loading": "Loading map..."
+   },
+   "suggestions": {
+      "userLocation": "Share your location to see places nearby.",
+      "nearby": "Nearby",
+      "country": "Country",
+      "world": "World",
+      "you": "You are here"
+   }
+}
