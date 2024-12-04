@@ -57,13 +57,8 @@ const nextConfig = {
          {
             protocol: "https",
             hostname: "maps.googleapis.com",
+            pathname: "/maps/api/streetview",
          },
-      ],
-      domains: [
-         "res.cloudinary.com",
-         "maps.gstatic.com",
-         "maps.googleapis.com",
-         "adventurer-pied.vercel.app",
       ],
    },
 };
