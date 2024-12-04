@@ -1,5 +1,3 @@
-import Header from "@/components/common/Header/Header";
-import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
 
 export default function NotFound() {

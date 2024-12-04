@@ -83,9 +83,7 @@ export const PlaceItem = ({
                         rounded-b-none sm:rounded-b-lg rounded-lg md:rounded-[8px_0_0_8px] 
                         object-cover bg-emerald-200 max-w-none
                      `}
-                     src={`
-                        ${googleMaps}/streetview?size=400x300&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}
-                     `}
+                     src={`${googleMaps}/streetview?size=400x300&fov=50&heading=90&location=${formatted_address}&key=${process.env.NEXT_PUBLIC_GOOGLE_STREET_KEY}`}
                      width={400}
                      height={300}
                      style={{ maxWidth: "100%", height: "110%" }}
