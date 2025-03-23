@@ -24,28 +24,38 @@ export const useMapMarkers = (
          const { AdvancedMarkerElement } =
             await getMapLoader().importLibrary("marker");
          coordList?.forEach((coords, i) => {
-            setTimeout(() => {
-               const placeMarker = new AdvancedMarkerElement({
-                  map,
-                  position: coords,
-               });
+            const placeMarker = new AdvancedMarkerElement({
+               map,
+               position: coords,
+            });
 
-               const iconEl = new DOMParser().parseFromString(
-                  renderToStaticMarkup(<GiPositionMarker />),
-                  "image/svg+xml",
-               ).documentElement;
+            const iconEl = new DOMParser().parseFromString(
+               renderToStaticMarkup(<GiPositionMarker />),
+               "image/svg+xml",
+            ).documentElement;
+
+            iconEl.setAttribute("width", "0");
+            iconEl.setAttribute("height", "0");
+
+            iconEl.style.transition =
+               "width 0.3s ease-out, height 0.3s ease-out";
+
+            placeMarker.content = iconEl;
+
+            setTimeout(() => {
                iconEl.setAttribute("width", "35");
                iconEl.setAttribute("height", "35");
-               placeMarker.content = iconEl;
+            }, 100);
 
-               if (cb) {
-                  placeMarker.addListener("click", () => {
-                     cb(coordList[i]);
-                  });
-               }
+            placeMarker.content = iconEl;
 
-               prevMarkersRef.current.push(placeMarker);
-            }, i * 100);
+            if (cb) {
+               placeMarker.addListener("click", () => {
+                  cb(coordList[i]);
+               });
+            }
+
+            prevMarkersRef.current.push(placeMarker);
          });
       };
       if (map && coordList?.length) {
