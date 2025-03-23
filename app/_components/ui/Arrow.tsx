@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { RiArrowUpSLine, RiArrowDownSLine } from "react-icons/ri";
-import { Button } from "./Button";
 
 interface ArrowProps {
    className?: string;

@@ -1,18 +1,27 @@
-import { Button } from "@/components/ui/Button";
+import { FC, useState } from "react";
+import { useTranslations } from "next-intl";
+import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Tag } from "@/components/ui/Tag";
-import { FC, useState } from "react";
 
 interface InputTagsProps {
    tags: string[];
    setTags: (tags: string[]) => void;
    id: string;
    label?: string;
+   placeholder: string;
 }
 
-export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
+export const InputTags: FC<InputTagsProps> = ({
+   tags,
+   setTags,
+   id,
+   label,
+   placeholder,
+}) => {
    const [tagValue, setTagValue] = useState("");
+   const t = useTranslations("forms.criteria");
 
    const handleDelete = (value: string) => {
       const newTags = tags.filter((val) => val !== value);
@@ -28,7 +37,7 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
                type="text"
                id={id}
                name={id}
-               placeholder="Wpisz tutaj"
+               placeholder={placeholder}
                onChange={(e) => setTagValue(e.target.value)}
             />
          </div>
@@ -51,7 +60,7 @@ export const InputTags: FC<InputTagsProps> = ({ tags, setTags, id, label }) => {
                setTagValue("");
             }}
          >
-            Dodaj
+            {t("add")}
          </Button>
       </div>
    );

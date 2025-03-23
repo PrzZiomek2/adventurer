@@ -1,21 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export { default } from "next-auth/middleware";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 
-export function middleware(request: NextRequest) {
+const intlMiddleware = createMiddleware(routing);
+
+export async function middleware(request: NextRequest) {
+   let response = intlMiddleware(request);
+
    const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
    const cspHeader = `
       default-src 'self';
-      style-src 'self' 'unsafe-inline';
+      style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
       script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: 'unsafe-eval' blob:;
       img-src 'self' https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com data:;
       frame-src *.google.com;
-      connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com data: blob:;
+      connect-src 'self' https://*.googleapis.com *.google.com https://revgeocode.search.hereapi.com https://*.gstatic.com data: blob:;
       worker-src blob:;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
-      font-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com;
+      font-src 'self' 'nonce-${nonce}' https://fonts.gstatic.com https://fonts.googleapis.com;
       frame-ancestors 'none';
       block-all-mixed-content;
       upgrade-insecure-requests;
@@ -33,11 +38,10 @@ export function middleware(request: NextRequest) {
       contentSecurityPolicyHeaderValue,
    );
 
-   const response = NextResponse.next({
-      request: {
-         headers: requestHeaders,
-      },
-   });
+   if (!response) {
+      response = NextResponse.next({ request: { headers: requestHeaders } });
+   }
+
    response.headers.set(
       "Content-Security-Policy",
       contentSecurityPolicyHeaderValue,
@@ -47,5 +51,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-   matcher: ["/destinations"],
+   matcher: ["/", "/(pl|en)/:path*"],
 };

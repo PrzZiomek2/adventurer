@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 
+const createNextIntlPlugin = require("next-intl/plugin");
+
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig = {
    reactStrictMode: process.env.NODE_ENV === "development",
    swcMinify: true,
@@ -40,6 +44,28 @@ const nextConfig = {
          },
       ];
    },
+   images: {
+      remotePatterns: [
+         {
+            protocol: "https",
+            hostname: "res.cloudinary.com",
+         },
+         {
+            protocol: "https",
+            hostname: "maps.gstatic.com",
+         },
+         {
+            protocol: "https",
+            hostname: "maps.googleapis.com",
+            pathname: "/maps/api/streetview",
+         },
+         {
+            protocol: "https",
+            hostname: "maps.googleapis.com",
+            pathname: "/maps/api/place/photo",
+         },
+      ],
+   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

@@ -1,0 +1,76 @@
+{
+   "placeTypes": [
+      {
+         "cafe": "Kawa"
+      },
+      {
+         "food": "Jedzenie"
+      },
+      {
+         "restaurant": "Restauracja"
+      },
+      {
+         "bar": "Bar"
+      },
+      {
+         "nightlife": "Życie nocne"
+      },
+      {
+         "point_of_interest": "Ciekawe miejsce"
+      },
+      {
+         "museum": "Muzeum"
+      },
+      {
+         "tourist_attraction": "Atrakcja turystyczna"
+      },
+      {
+         "store": "Sklep"
+      },
+      {
+         "bakery": "Piekarnia"
+      },
+      {
+         "hotel": "Hotel"
+      },
+      {
+         "bank": "Bank"
+      },
+      {
+         "park": "Park"
+      },
+      {
+         "meal_takeaway": "Na wynos"
+      },
+      {
+         "colloquial_area": "Obszar wspólny"
+      },
+      {
+         "political": "Polityczny"
+      },
+      {
+         "locality": "Region"
+      },
+      { "neighborhood": "Dzielnica" },
+      { "sublocality": "sąsiedztwo" },
+      { "amusement_park": "Park rozrywki" },
+      { "travel_agency": "Biuro podróży" },
+      { "country": "Kraj" },
+      { "city": "Miasto" },
+      { "mosque": "Meczet" },
+      { "place_of_worship": "Miejsce kultu" },
+      { "aquarium": "Oceanarium" },
+      { "church": "Kościoł" },
+      { "shopping_mall": "Centrum handlowe" }
+   ],
+   "placeCategories": [
+      { "landmark": "Krajobraz" },
+      { "theater": "Teatr" },
+      { "night_club": "Klub" },
+      { "museum": "Muzeum" },
+      { "hiking_trail": "Wspinaczka" },
+      { "cafe": "Kawa" },
+      { "historical_site": "Zabytek" },
+      { "monument": "Pomnik" }
+   ]
+}

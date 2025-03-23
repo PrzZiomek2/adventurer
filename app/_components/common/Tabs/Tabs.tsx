@@ -1,32 +1,44 @@
 "use client";
-import { Button } from "@/components/ui/Button";
-import React, { ReactNode, useState, FC } from "react";
+import Button from "@/components/ui/Button";
+import React, { ReactNode, useState, FC, useRef } from "react";
 
 interface TabsProps {
    className?: string;
    items: {
       panel: ReactNode;
-      tab: { label: string };
+      tab: ReactNode;
    }[];
    ariaLabel: string;
 }
 
-export const Tabs: FC<TabsProps> = ({ items, ariaLabel, className }) => {
+export const Tabs: FC<TabsProps> = ({ items, ariaLabel }) => {
    const [value, setValue] = useState(0);
+   const refs = useRef<Record<string, HTMLElement | null>>({});
 
    const handleTabClick = (newValue: number) => {
       setValue(newValue);
+      refs.current[newValue]?.scrollIntoView({ behavior: "smooth" });
    };
 
-   const tabLabel = (text: string, i: number) => (
+   const tabLabel = (tab: ReactNode, i: number) => (
       <Button
-         variant="custom"
          key={i}
+         ref={(el) => (refs.current[i] = el)}
          onClick={() => handleTabClick(i)}
          className={`
-            cursor-pointer inline-block px-4 py-2 border-2 rounded-b-none rounded-xl border-dark border-b-0 bg-blend`}
+            cursor-pointer m-0 py-0 px-4 border-r-3 
+            bg-transparent rounded-none first:pl-0 first:border-l-0 last:border-r-0
+            ${i === value ? "text-dim text-shadow-1" : "text-emerald-700"}
+            ${i === value || i === value - 1 ? "border-emerald-900" : "border-emerald-600"}
+            hover:text-dim 
+         `}
+         role="tab"
+         id={`tab-${i}`}
+         aria-controls={`tabpanel-${i}`}
+         aria-selected={value === i}
+         variant="custom"
       >
-         {text}
+         {tab}
       </Button>
    );
 
@@ -35,23 +47,24 @@ export const Tabs: FC<TabsProps> = ({ items, ariaLabel, className }) => {
          key={i}
          role="tabpanel"
          hidden={value !== i}
-         id={`simple-tabpanel-${i}`}
-         aria-labelledby={`simple-tab-${i}`}
+         id={`tabpanel-${i}`}
+         aria-labelledby={`tab-${i}`}
       >
          {value === i && <div>{panel}</div>}
       </div>
    );
 
    return (
-      <div>
+      <>
          <div
+            role="tablist"
             aria-label={ariaLabel}
-            className="flex overflow-hidden sm:mt-12"
+            className="flex with-scroll py-2 pb-3 mb-3 overflow-x-auto"
          >
-            {items.map(({ tab }, i) => tabLabel(tab.label, i))}
+            {items.map(({ tab }, i) => tabLabel(tab, i))}
          </div>
-         <div>{items.map(({ panel }, i) => tabPanel(panel, i))}</div>
-      </div>
+         {items.map(({ panel }, i) => tabPanel(panel, i))}
+      </>
    );
 };
 
